@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Movie Check</string>
+    <string name="themoviedbapi_baseurl">http://api.themoviedb.org/3/</string>
+    <string name="themoviedbapi_key">b4537e21984eb259d2c2b093b7980570</string>
 </resources>
