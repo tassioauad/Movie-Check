@@ -17,12 +17,11 @@ public class HomePresenter {
         this.movieApi = movieApi;
     }
 
-
     public void init() {
-        listUpComingMovies();
+        listUpcomingMovies();
     }
 
-    public void listUpComingMovies() {
+    public void listUpcomingMovies() {
         view.showLoadingUpcomingMovies();
         movieApi.setApiResultListener(new ApiResultListener() {
             @Override
@@ -31,7 +30,7 @@ public class HomePresenter {
                 if (movieList == null || movieList.size() == 0) {
                     view.warnAnyUpcomingMovieFounded();
                 } else {
-                    view.showUpComingMovies(movieList);
+                    view.showUpcomingMovies(movieList);
                 }
                 view.hideLoadingUpcomingMovies();
             }
@@ -44,5 +43,29 @@ public class HomePresenter {
         });
 
         movieApi.listUpcomingMovies();
+    }
+
+    public void listPopularMovies() {
+        view.showLoadingPopularMovies();
+        movieApi.setApiResultListener(new ApiResultListener() {
+            @Override
+            public void onResult(Object object) {
+                List<Movie> movieList = (List<Movie>) object;
+                if (movieList == null || movieList.size() == 0) {
+                    view.warnAnyPopularMovieFounded();
+                } else {
+                    view.showPopularMovies(movieList);
+                }
+                view.hideLoadingPopularMovies();
+            }
+
+            @Override
+            public void onException(Exception exception) {
+                view.warnFailedOnLoadPopularMovies();
+                view.hideLoadingPopularMovies();
+            }
+        });
+
+        movieApi.listPopularMovies();
     }
 }

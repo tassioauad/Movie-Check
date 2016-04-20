@@ -82,7 +82,49 @@ public class MovieApiImplTest extends AndroidTestCase {
         signal.await();
     }
 
-    public void testCancelAllService() {
+    public void testListPopularMovies() throws Exception {
+        final CountDownLatch signal = new CountDownLatch(1);
+        movieApi.setApiResultListener(new ApiResultListener() {
+            @Override
+            public void onResult(Object object) {
+                assertNotNull(object);
+                assertTrue(((List<Movie>) object).size() > 0);
+                signal.countDown();
+            }
+
+            @Override
+            public void onException(Exception exception) {
+                fail("Exception has happened");
+                signal.countDown();
+            }
+        });
+
+        movieApi.listPopularMovies();
+        signal.await();
+    }
+
+    public void testListPopularMoviesWithPage() throws Exception {
+        final CountDownLatch signal = new CountDownLatch(1);
+        movieApi.setApiResultListener(new ApiResultListener() {
+            @Override
+            public void onResult(Object object) {
+                assertNotNull(object);
+                assertTrue(((List<Movie>) object).size() > 0);
+                signal.countDown();
+            }
+
+            @Override
+            public void onException(Exception exception) {
+                fail("Exception has happened");
+                signal.countDown();
+            }
+        });
+
+        movieApi.listPopularMovies(page);
+        signal.await();
+    }
+
+    public void testCancelAllService_ListUpcomingMovies() {
         movieApi.setApiResultListener(new ApiResultListener() {
             @Override
             public void onResult(Object object) {
@@ -98,4 +140,21 @@ public class MovieApiImplTest extends AndroidTestCase {
 
         movieApi.cancelAllService();
     }
+    public void testCancelAllService_ListPopularMovies() {
+        movieApi.setApiResultListener(new ApiResultListener() {
+            @Override
+            public void onResult(Object object) {
+                fail("Request not cancelled");
+            }
+
+            @Override
+            public void onException(Exception exception) {
+                fail("Exception has happened");
+            }
+        });
+        movieApi.listPopularMovies();
+
+        movieApi.cancelAllService();
+    }
+
 }

@@ -41,7 +41,7 @@ public class HomePresenterTest extends AndroidTestCase {
         presenter.init();
     }
 
-    public void testListUpComingMovies_Success() throws Exception {
+    public void testListUpcomingMovies_Success() throws Exception {
         final ArrayList<Movie> movieArrayList = new ArrayList<>();
         movieArrayList.add(MovieBuilder.aMovie().build());
         doAnswer(new Answer() {
@@ -58,16 +58,16 @@ public class HomePresenterTest extends AndroidTestCase {
             }
         }).when(movieApi).setApiResultListener(apiResultListenerArgumentCaptor.capture());
 
-        presenter.listUpComingMovies();
+        presenter.listUpcomingMovies();
 
         verify(view, times(1)).showLoadingUpcomingMovies();
         verify(view, times(1)).hideLoadingUpcomingMovies();
-        verify(view, times(1)).showUpComingMovies(movieArrayList);
+        verify(view, times(1)).showUpcomingMovies(movieArrayList);
         verify(view, never()).warnAnyUpcomingMovieFounded();
         verify(view, never()).warnFailedOnLoadUpcomingMovies();
     }
 
-    public void testListUpComingMovies_NotFound() throws Exception {
+    public void testListUpcomingMovies_NotFound() throws Exception {
         final ArrayList<Movie> movieArrayList = new ArrayList<>();
         doAnswer(new Answer() {
             @Override
@@ -83,7 +83,7 @@ public class HomePresenterTest extends AndroidTestCase {
             }
         }).when(movieApi).setApiResultListener(apiResultListenerArgumentCaptor.capture());
 
-        presenter.listUpComingMovies();
+        presenter.listUpcomingMovies();
 
         verify(view, times(1)).showLoadingUpcomingMovies();
         verify(view, times(1)).hideLoadingUpcomingMovies();
@@ -92,7 +92,7 @@ public class HomePresenterTest extends AndroidTestCase {
         verify(view, never()).warnFailedOnLoadUpcomingMovies();
     }
 
-    public void testListUpComingMovies_Failed() throws Exception {
+    public void testListUpcomingMovies_Failed() throws Exception {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
@@ -107,12 +107,87 @@ public class HomePresenterTest extends AndroidTestCase {
             }
         }).when(movieApi).setApiResultListener(apiResultListenerArgumentCaptor.capture());
 
-        presenter.listUpComingMovies();
+        presenter.listUpcomingMovies();
 
         verify(view, times(1)).showLoadingUpcomingMovies();
         verify(view, times(1)).hideLoadingUpcomingMovies();
         verify(view, times(1)).warnFailedOnLoadUpcomingMovies();
-        verify(view, never()).showUpComingMovies(anyListOf(Movie.class));
+        verify(view, never()).showUpcomingMovies(anyListOf(Movie.class));
         verify(view, never()).warnAnyUpcomingMovieFounded();
+    }
+
+    public void testListPopularMovies_Success() throws Exception {
+        final ArrayList<Movie> movieArrayList = new ArrayList<>();
+        movieArrayList.add(MovieBuilder.aMovie().build());
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                doAnswer(new Answer() {
+                    @Override
+                    public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                        apiResultListenerArgumentCaptor.getValue().onResult(movieArrayList);
+                        return null;
+                    }
+                }).when(movieApi).listPopularMovies();
+                return null;
+            }
+        }).when(movieApi).setApiResultListener(apiResultListenerArgumentCaptor.capture());
+
+        presenter.listPopularMovies();
+
+        verify(view, times(1)).showLoadingPopularMovies();
+        verify(view, times(1)).hideLoadingPopularMovies();
+        verify(view, times(1)).showPopularMovies(movieArrayList);
+        verify(view, never()).warnAnyPopularMovieFounded();
+        verify(view, never()).warnFailedOnLoadPopularMovies();
+    }
+
+    public void testListPopularMovies_NotFound() throws Exception {
+        final ArrayList<Movie> movieArrayList = new ArrayList<>();
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                doAnswer(new Answer() {
+                    @Override
+                    public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                        apiResultListenerArgumentCaptor.getValue().onResult(movieArrayList);
+                        return null;
+                    }
+                }).when(movieApi).listPopularMovies();
+                return null;
+            }
+        }).when(movieApi).setApiResultListener(apiResultListenerArgumentCaptor.capture());
+
+        presenter.listPopularMovies();
+
+        verify(view, times(1)).showLoadingPopularMovies();
+        verify(view, times(1)).hideLoadingPopularMovies();
+        verify(view, times(1)).warnAnyPopularMovieFounded();
+        verify(view, never()).warnFailedOnLoadPopularMovies();
+        verify(view, never()).warnFailedOnLoadPopularMovies();
+    }
+
+    public void testListPopularMovies_Failed() throws Exception {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                doAnswer(new Answer() {
+                    @Override
+                    public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                        apiResultListenerArgumentCaptor.getValue().onException(new BadRequestException());
+                        return null;
+                    }
+                }).when(movieApi).listPopularMovies();
+                return null;
+            }
+        }).when(movieApi).setApiResultListener(apiResultListenerArgumentCaptor.capture());
+
+        presenter.listPopularMovies();
+
+        verify(view, times(1)).showLoadingPopularMovies();
+        verify(view, times(1)).hideLoadingPopularMovies();
+        verify(view, times(1)).warnFailedOnLoadPopularMovies();
+        verify(view, never()).showPopularMovies(anyListOf(Movie.class));
+        verify(view, never()).warnAnyPopularMovieFounded();
     }
 }
