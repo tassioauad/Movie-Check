@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import com.tassioauad.moviecheck.model.api.GenericApi;
 import com.tassioauad.moviecheck.model.api.MovieApi;
+import com.tassioauad.moviecheck.model.api.asynctask.ListNowPlayingMoviesAsyncTask;
 import com.tassioauad.moviecheck.model.api.asynctask.ListPopularMoviesAsyncTask;
 import com.tassioauad.moviecheck.model.api.asynctask.ListTopRatedMoviesAsyncTask;
 import com.tassioauad.moviecheck.model.api.asynctask.ListUpComingMovieAsyncTask;
@@ -15,6 +16,7 @@ public class MovieApiImpl extends GenericApi implements MovieApi {
     private ListUpComingMovieAsyncTask listUpComingMovieAsyncTask;
     private ListPopularMoviesAsyncTask listPopularMoviesAsyncTask;
     private ListTopRatedMoviesAsyncTask listTopRatedMoviesAsyncTask;
+    private ListNowPlayingMoviesAsyncTask listNowPlayingMoviesAsyncTask;
     private MovieResource movieResource;
 
     public MovieApiImpl(Context context, MovieResource movieResource) {
@@ -71,6 +73,22 @@ public class MovieApiImpl extends GenericApi implements MovieApi {
     }
 
     @Override
+    public void listNowPlayingMovies() {
+        verifyServiceResultListener();
+        listNowPlayingMoviesAsyncTask = new ListNowPlayingMoviesAsyncTask(getContext(), movieResource, 1);
+        listNowPlayingMoviesAsyncTask.setApiResultListener(getApiResultListener());
+        listNowPlayingMoviesAsyncTask.execute();
+    }
+
+    @Override
+    public void listNowPlayingMovies(int page) {
+        verifyServiceResultListener();
+        listNowPlayingMoviesAsyncTask = new ListNowPlayingMoviesAsyncTask(getContext(), movieResource, page);
+        listNowPlayingMoviesAsyncTask.setApiResultListener(getApiResultListener());
+        listNowPlayingMoviesAsyncTask.execute();
+    }
+    
+    @Override
     public void cancelAllService() {
         if(listUpComingMovieAsyncTask != null && listUpComingMovieAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
             listUpComingMovieAsyncTask.cancel(true);
@@ -80,6 +98,9 @@ public class MovieApiImpl extends GenericApi implements MovieApi {
         }
         if(listTopRatedMoviesAsyncTask != null && listTopRatedMoviesAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
             listTopRatedMoviesAsyncTask.cancel(true);
+        }
+        if(listNowPlayingMoviesAsyncTask != null && listNowPlayingMoviesAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
+            listNowPlayingMoviesAsyncTask.cancel(true);
         }
     }
 }

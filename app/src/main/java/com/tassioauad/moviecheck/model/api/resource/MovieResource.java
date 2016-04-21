@@ -19,4 +19,7 @@ public interface MovieResource {
     @GET("movie/top_rated")
     Call<List<Movie>> listTopRated(@Query("api_key") String apiKey, @Query("page") Integer page);
 
+    @GET("movie/now_playing")
+    Call<List<Movie>> listNowPlaying(@Query("api_key") String apiKey, @Query("page") Integer page);
+
 }

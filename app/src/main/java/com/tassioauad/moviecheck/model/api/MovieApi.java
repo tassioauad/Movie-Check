@@ -12,4 +12,8 @@ public interface MovieApi extends AsyncService {
     void listTopRatedMovies();
 
     void listTopRatedMovies(int page);
+
+    void listNowPlayingMovies();
+
+    void listNowPlayingMovies(int page);
 }

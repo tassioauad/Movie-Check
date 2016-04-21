@@ -36,4 +36,14 @@ public interface HomeView {
     void hideLoadingTopRatedMovies();
 
     void warnFailedOnLoadTopRatedMovies();
+
+    void showLoadingNowPlayingMovies();
+
+    void warnAnyNowPlayingMovieFounded();
+
+    void showNowPlayingMovies(List<Movie> movieList);
+
+    void hideLoadingNowPlayingMovies();
+
+    void warnFailedOnLoadNowPlayingMovies();
 }

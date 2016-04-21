@@ -166,6 +166,65 @@ public class MovieApiImplTest extends AndroidTestCase {
         signal.await();
     }
 
+    public void testListNowPlayingMovies() throws Exception {
+        final CountDownLatch signal = new CountDownLatch(1);
+        movieApi.setApiResultListener(new ApiResultListener() {
+            @Override
+            public void onResult(Object object) {
+                assertNotNull(object);
+                assertTrue(((List<Movie>) object).size() > 0);
+                signal.countDown();
+            }
+
+            @Override
+            public void onException(Exception exception) {
+                fail("Exception has happened");
+                signal.countDown();
+            }
+        });
+
+        movieApi.listNowPlayingMovies();
+        signal.await();
+    }
+
+    public void testListNowPlayingMoviesWithPage() throws Exception {
+        final CountDownLatch signal = new CountDownLatch(1);
+        movieApi.setApiResultListener(new ApiResultListener() {
+            @Override
+            public void onResult(Object object) {
+                assertNotNull(object);
+                assertTrue(((List<Movie>) object).size() > 0);
+                signal.countDown();
+            }
+
+            @Override
+            public void onException(Exception exception) {
+                fail("Exception has happened");
+                signal.countDown();
+            }
+        });
+
+        movieApi.listNowPlayingMovies(page);
+        signal.await();
+    }
+
+    public void testCancelAllService_ListNowPlayingMovies() {
+        movieApi.setApiResultListener(new ApiResultListener() {
+            @Override
+            public void onResult(Object object) {
+                fail("Request not cancelled");
+            }
+
+            @Override
+            public void onException(Exception exception) {
+                fail("Exception has happened");
+            }
+        });
+        movieApi.listNowPlayingMovies();
+
+        movieApi.cancelAllService();
+    }
+    
     public void testCancelAllService_ListTopRatedMovies() {
         movieApi.setApiResultListener(new ApiResultListener() {
             @Override

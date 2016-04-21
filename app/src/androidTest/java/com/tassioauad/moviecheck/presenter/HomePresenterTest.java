@@ -265,4 +265,79 @@ public class HomePresenterTest extends AndroidTestCase {
         verify(view, never()).showTopRatedMovies(anyListOf(Movie.class));
         verify(view, never()).warnAnyTopRatedMovieFounded();
     }
+
+    public void testListNowPlayingMovies_Success() throws Exception {
+        final ArrayList<Movie> movieArrayList = new ArrayList<>();
+        movieArrayList.add(MovieBuilder.aMovie().build());
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                doAnswer(new Answer() {
+                    @Override
+                    public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                        apiResultListenerArgumentCaptor.getValue().onResult(movieArrayList);
+                        return null;
+                    }
+                }).when(movieApi).listNowPlayingMovies();
+                return null;
+            }
+        }).when(movieApi).setApiResultListener(apiResultListenerArgumentCaptor.capture());
+
+        presenter.listNowPlayingMovies();
+
+        verify(view, times(1)).showLoadingNowPlayingMovies();
+        verify(view, times(1)).hideLoadingNowPlayingMovies();
+        verify(view, times(1)).showNowPlayingMovies(movieArrayList);
+        verify(view, never()).warnAnyNowPlayingMovieFounded();
+        verify(view, never()).warnFailedOnLoadNowPlayingMovies();
+    }
+
+    public void testListNowPlayingMovies_NotFound() throws Exception {
+        final ArrayList<Movie> movieArrayList = new ArrayList<>();
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                doAnswer(new Answer() {
+                    @Override
+                    public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                        apiResultListenerArgumentCaptor.getValue().onResult(movieArrayList);
+                        return null;
+                    }
+                }).when(movieApi).listNowPlayingMovies();
+                return null;
+            }
+        }).when(movieApi).setApiResultListener(apiResultListenerArgumentCaptor.capture());
+
+        presenter.listNowPlayingMovies();
+
+        verify(view, times(1)).showLoadingNowPlayingMovies();
+        verify(view, times(1)).hideLoadingNowPlayingMovies();
+        verify(view, times(1)).warnAnyNowPlayingMovieFounded();
+        verify(view, never()).warnFailedOnLoadNowPlayingMovies();
+        verify(view, never()).warnFailedOnLoadNowPlayingMovies();
+    }
+
+    public void testListNowPlayingMovies_Failed() throws Exception {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                doAnswer(new Answer() {
+                    @Override
+                    public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                        apiResultListenerArgumentCaptor.getValue().onException(new BadRequestException());
+                        return null;
+                    }
+                }).when(movieApi).listNowPlayingMovies();
+                return null;
+            }
+        }).when(movieApi).setApiResultListener(apiResultListenerArgumentCaptor.capture());
+
+        presenter.listNowPlayingMovies();
+
+        verify(view, times(1)).showLoadingNowPlayingMovies();
+        verify(view, times(1)).hideLoadingNowPlayingMovies();
+        verify(view, times(1)).warnFailedOnLoadNowPlayingMovies();
+        verify(view, never()).showNowPlayingMovies(anyListOf(Movie.class));
+        verify(view, never()).warnAnyNowPlayingMovieFounded();
+    }
 }
