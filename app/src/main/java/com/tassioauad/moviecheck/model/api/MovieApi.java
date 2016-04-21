@@ -8,4 +8,8 @@ public interface MovieApi extends AsyncService {
     void listPopularMovies();
 
     void listPopularMovies(int page);
+
+    void listTopRatedMovies();
+
+    void listTopRatedMovies(int page);
 }

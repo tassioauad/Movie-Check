@@ -19,6 +19,8 @@ public class HomePresenter {
 
     public void init() {
         listUpcomingMovies();
+        listPopularMovies();
+        listTopRatedMovies();
     }
 
     public void listUpcomingMovies() {
@@ -67,5 +69,29 @@ public class HomePresenter {
         });
 
         movieApi.listPopularMovies();
+    }
+
+    public void listTopRatedMovies() {
+        view.showLoadingTopRatedMovies();
+        movieApi.setApiResultListener(new ApiResultListener() {
+            @Override
+            public void onResult(Object object) {
+                List<Movie> movieList = (List<Movie>) object;
+                if (movieList == null || movieList.size() == 0) {
+                    view.warnAnyTopRatedMovieFounded();
+                } else {
+                    view.showTopRatedMovies(movieList);
+                }
+                view.hideLoadingTopRatedMovies();
+            }
+
+            @Override
+            public void onException(Exception exception) {
+                view.warnFailedOnLoadTopRatedMovies();
+                view.hideLoadingTopRatedMovies();
+            }
+        });
+
+        movieApi.listTopRatedMovies();
     }
 }
