@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">Movie Check</string>
     <string name="themoviedbapi_baseurl">http://api.themoviedb.org/3/</string>
+    <string name="imagetmdb_baseurl">http://image.tmdb.org/t/p/w500</string>
     <string name="themoviedbapi_key">b4537e21984eb259d2c2b093b7980570</string>
+    <string name="general_nowplaying">Now Playing</string>
+    <string name="general_upcoming">Upcoming</string>
+    <string name="general_popular">Popular</string>
+    <string name="general_toprated">Top Rated</string>
+    <string name="general_more">more</string>
+    <string name="general_date">MM-dd-yyyy</string>
+    <string name="homeactivity_anymoviefounded">OPS! Any movie founded!</string>
+    <string name="homeactivity_failedtoloadmovie">OPS! Failed to Load!</string>
 </resources>

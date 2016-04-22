@@ -13,7 +13,7 @@ public interface HomeView {
 
     void showUpcomingMovies(List<Movie> movieList);
 
-    void warnFailedOnLoadUpcomingMovies();
+    void warnFailedToLoadUpcomingMovies();
 
     void warnAnyUpcomingMovieFounded();
 
@@ -23,7 +23,7 @@ public interface HomeView {
 
     void warnAnyPopularMovieFounded();
 
-    void warnFailedOnLoadPopularMovies();
+    void warnFailedToLoadPopularMovies();
 
     void showPopularMovies(List<Movie> movieList);
 
@@ -35,7 +35,7 @@ public interface HomeView {
 
     void hideLoadingTopRatedMovies();
 
-    void warnFailedOnLoadTopRatedMovies();
+    void warnFailedToLoadTopRatedMovies();
 
     void showLoadingNowPlayingMovies();
 
@@ -45,5 +45,5 @@ public interface HomeView {
 
     void hideLoadingNowPlayingMovies();
 
-    void warnFailedOnLoadNowPlayingMovies();
+    void warnFailedToLoadNowPlayingMovies();
 }

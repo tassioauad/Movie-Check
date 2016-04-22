@@ -64,7 +64,7 @@ public class HomePresenterTest extends AndroidTestCase {
         verify(view, times(1)).hideLoadingUpcomingMovies();
         verify(view, times(1)).showUpcomingMovies(movieArrayList);
         verify(view, never()).warnAnyUpcomingMovieFounded();
-        verify(view, never()).warnFailedOnLoadUpcomingMovies();
+        verify(view, never()).warnFailedToLoadUpcomingMovies();
     }
 
     public void testListUpcomingMovies_NotFound() throws Exception {
@@ -88,8 +88,8 @@ public class HomePresenterTest extends AndroidTestCase {
         verify(view, times(1)).showLoadingUpcomingMovies();
         verify(view, times(1)).hideLoadingUpcomingMovies();
         verify(view, times(1)).warnAnyUpcomingMovieFounded();
-        verify(view, never()).warnFailedOnLoadUpcomingMovies();
-        verify(view, never()).warnFailedOnLoadUpcomingMovies();
+        verify(view, never()).warnFailedToLoadUpcomingMovies();
+        verify(view, never()).warnFailedToLoadUpcomingMovies();
     }
 
     public void testListUpcomingMovies_Failed() throws Exception {
@@ -111,7 +111,7 @@ public class HomePresenterTest extends AndroidTestCase {
 
         verify(view, times(1)).showLoadingUpcomingMovies();
         verify(view, times(1)).hideLoadingUpcomingMovies();
-        verify(view, times(1)).warnFailedOnLoadUpcomingMovies();
+        verify(view, times(1)).warnFailedToLoadUpcomingMovies();
         verify(view, never()).showUpcomingMovies(anyListOf(Movie.class));
         verify(view, never()).warnAnyUpcomingMovieFounded();
     }
@@ -139,7 +139,7 @@ public class HomePresenterTest extends AndroidTestCase {
         verify(view, times(1)).hideLoadingPopularMovies();
         verify(view, times(1)).showPopularMovies(movieArrayList);
         verify(view, never()).warnAnyPopularMovieFounded();
-        verify(view, never()).warnFailedOnLoadPopularMovies();
+        verify(view, never()).warnFailedToLoadPopularMovies();
     }
 
     public void testListPopularMovies_NotFound() throws Exception {
@@ -163,8 +163,8 @@ public class HomePresenterTest extends AndroidTestCase {
         verify(view, times(1)).showLoadingPopularMovies();
         verify(view, times(1)).hideLoadingPopularMovies();
         verify(view, times(1)).warnAnyPopularMovieFounded();
-        verify(view, never()).warnFailedOnLoadPopularMovies();
-        verify(view, never()).warnFailedOnLoadPopularMovies();
+        verify(view, never()).warnFailedToLoadPopularMovies();
+        verify(view, never()).warnFailedToLoadPopularMovies();
     }
 
     public void testListPopularMovies_Failed() throws Exception {
@@ -186,7 +186,7 @@ public class HomePresenterTest extends AndroidTestCase {
 
         verify(view, times(1)).showLoadingPopularMovies();
         verify(view, times(1)).hideLoadingPopularMovies();
-        verify(view, times(1)).warnFailedOnLoadPopularMovies();
+        verify(view, times(1)).warnFailedToLoadPopularMovies();
         verify(view, never()).showPopularMovies(anyListOf(Movie.class));
         verify(view, never()).warnAnyPopularMovieFounded();
     }
@@ -214,7 +214,7 @@ public class HomePresenterTest extends AndroidTestCase {
         verify(view, times(1)).hideLoadingTopRatedMovies();
         verify(view, times(1)).showTopRatedMovies(movieArrayList);
         verify(view, never()).warnAnyTopRatedMovieFounded();
-        verify(view, never()).warnFailedOnLoadTopRatedMovies();
+        verify(view, never()).warnFailedToLoadTopRatedMovies();
     }
 
     public void testListTopRatedMovies_NotFound() throws Exception {
@@ -238,8 +238,8 @@ public class HomePresenterTest extends AndroidTestCase {
         verify(view, times(1)).showLoadingTopRatedMovies();
         verify(view, times(1)).hideLoadingTopRatedMovies();
         verify(view, times(1)).warnAnyTopRatedMovieFounded();
-        verify(view, never()).warnFailedOnLoadTopRatedMovies();
-        verify(view, never()).warnFailedOnLoadTopRatedMovies();
+        verify(view, never()).warnFailedToLoadTopRatedMovies();
+        verify(view, never()).warnFailedToLoadTopRatedMovies();
     }
 
     public void testListTopRatedMovies_Failed() throws Exception {
@@ -261,7 +261,7 @@ public class HomePresenterTest extends AndroidTestCase {
 
         verify(view, times(1)).showLoadingTopRatedMovies();
         verify(view, times(1)).hideLoadingTopRatedMovies();
-        verify(view, times(1)).warnFailedOnLoadTopRatedMovies();
+        verify(view, times(1)).warnFailedToLoadTopRatedMovies();
         verify(view, never()).showTopRatedMovies(anyListOf(Movie.class));
         verify(view, never()).warnAnyTopRatedMovieFounded();
     }
@@ -289,7 +289,7 @@ public class HomePresenterTest extends AndroidTestCase {
         verify(view, times(1)).hideLoadingNowPlayingMovies();
         verify(view, times(1)).showNowPlayingMovies(movieArrayList);
         verify(view, never()).warnAnyNowPlayingMovieFounded();
-        verify(view, never()).warnFailedOnLoadNowPlayingMovies();
+        verify(view, never()).warnFailedToLoadNowPlayingMovies();
     }
 
     public void testListNowPlayingMovies_NotFound() throws Exception {
@@ -313,8 +313,8 @@ public class HomePresenterTest extends AndroidTestCase {
         verify(view, times(1)).showLoadingNowPlayingMovies();
         verify(view, times(1)).hideLoadingNowPlayingMovies();
         verify(view, times(1)).warnAnyNowPlayingMovieFounded();
-        verify(view, never()).warnFailedOnLoadNowPlayingMovies();
-        verify(view, never()).warnFailedOnLoadNowPlayingMovies();
+        verify(view, never()).warnFailedToLoadNowPlayingMovies();
+        verify(view, never()).warnFailedToLoadNowPlayingMovies();
     }
 
     public void testListNowPlayingMovies_Failed() throws Exception {
@@ -336,7 +336,7 @@ public class HomePresenterTest extends AndroidTestCase {
 
         verify(view, times(1)).showLoadingNowPlayingMovies();
         verify(view, times(1)).hideLoadingNowPlayingMovies();
-        verify(view, times(1)).warnFailedOnLoadNowPlayingMovies();
+        verify(view, times(1)).warnFailedToLoadNowPlayingMovies();
         verify(view, never()).showNowPlayingMovies(anyListOf(Movie.class));
         verify(view, never()).warnAnyNowPlayingMovieFounded();
     }

@@ -40,7 +40,7 @@ public class HomePresenter {
 
             @Override
             public void onException(Exception exception) {
-                view.warnFailedOnLoadUpcomingMovies();
+                view.warnFailedToLoadUpcomingMovies();
                 view.hideLoadingUpcomingMovies();
             }
         });
@@ -64,7 +64,7 @@ public class HomePresenter {
 
             @Override
             public void onException(Exception exception) {
-                view.warnFailedOnLoadPopularMovies();
+                view.warnFailedToLoadPopularMovies();
                 view.hideLoadingPopularMovies();
             }
         });
@@ -88,7 +88,7 @@ public class HomePresenter {
 
             @Override
             public void onException(Exception exception) {
-                view.warnFailedOnLoadTopRatedMovies();
+                view.warnFailedToLoadTopRatedMovies();
                 view.hideLoadingTopRatedMovies();
             }
         });
@@ -112,7 +112,7 @@ public class HomePresenter {
 
             @Override
             public void onException(Exception exception) {
-                view.warnFailedOnLoadNowPlayingMovies();
+                view.warnFailedToLoadNowPlayingMovies();
                 view.hideLoadingNowPlayingMovies();
             }
         });
