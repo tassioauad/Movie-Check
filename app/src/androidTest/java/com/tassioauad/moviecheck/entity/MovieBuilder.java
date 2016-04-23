@@ -4,7 +4,10 @@ import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.util.DateParser;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class MovieBuilder {
 
@@ -13,7 +16,7 @@ public class MovieBuilder {
     private static final String POSTERURL_VALID = "/5N20rQURev5CNDcMjHVUZhpoCNC.jpg";
     private static final String OVERVIEW_VALID = "Following the events of Age of Ultron, the collective governments of the world pass an act designed to regulate all superhuman activity. This polarizes opinion amongst the Avengers, causing two factions to side with Iron Man or Captain America, which causes an epic battle between former allies.";
     private static final String RELEASEDATE_VALID = "2016-04-27";
-    private static final Long[] GENREID_VALID = {28l, 878l, 53l};
+    private static final List<Long> GENREID_VALID = new ArrayList<>(Arrays.asList(28l, 878l, 53l));
     private static final String LANGUAGE_VALID = "en";
     private static final String BACKDROPURL_VALID = "/rqAHkvXldb9tHlnbQDwOzRi0yVD.jpg";
     private static final Double POPULARITY_VALID = 18.102569d;
@@ -31,7 +34,7 @@ public class MovieBuilder {
     private double popularity;
     private float voteAverage;
     private long voteCount;
-    private Long[] genreId;
+    private List<Long> genreIdList = new ArrayList<>();
 
     public static MovieBuilder aMovie() throws ParseException {
         return new MovieBuilder().withIdValid().withTitleValid(). withReleaseDateValid().withBackdropUrlValid()
@@ -134,13 +137,13 @@ public class MovieBuilder {
         return this;
     }
 
-    public MovieBuilder withGenreId(Long[] genreId) {
-        this.genreId = genreId;
+    public MovieBuilder withGenreIdList(List<Long> genreIdList) {
+        this.genreIdList = genreIdList;
         return this;
     }
 
     public MovieBuilder withGenreIdValid() {
-        genreId = GENREID_VALID;
+        genreIdList = GENREID_VALID;
         return this;
     }
 
@@ -166,7 +169,7 @@ public class MovieBuilder {
 
     public Movie build() {
         return new Movie(id, title, releaseDate, backdropUrl, posterUrl, overview, adult,
-                voteAverage, voteCount, genreId, language);
+                voteAverage, voteCount, genreIdList, language, popularity);
     }
 
 }

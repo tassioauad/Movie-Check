@@ -6,6 +6,8 @@
     android:paddingStart="3dp"
     android:paddingRight="3dp"
     android:paddingEnd="3dp"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp"
     android:background="@drawable/selector_row"
     android:orientation="vertical">
 

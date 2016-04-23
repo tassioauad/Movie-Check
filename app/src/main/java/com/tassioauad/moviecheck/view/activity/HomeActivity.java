@@ -240,7 +240,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     }
 
     public void morePopularMovies(View view) {
-
+        startActivity(ListPopularMoviesActivity.newIntent(this));
     }
 
     public void moreNowPlayingMovies(View view) {
