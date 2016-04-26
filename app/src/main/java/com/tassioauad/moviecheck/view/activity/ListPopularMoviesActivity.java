@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,12 +20,12 @@ import com.tassioauad.moviecheck.dagger.ListPopularMoviesViewModule;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.presenter.ListPopularMoviesPresenter;
 import com.tassioauad.moviecheck.view.ListPopularMoviesView;
-import com.tassioauad.moviecheck.view.adapter.MovieListAdapter;
+import com.tassioauad.moviecheck.view.adapter.ListViewAdapterWithPagination;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 import com.tassioauad.moviecheck.view.adapter.OnShowMoreListener;
+import com.tassioauad.moviecheck.view.adapter.PopularMovieListAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -131,17 +130,23 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
         recyclerViewMovies.setLayoutManager(layoutManager);
         recyclerViewMovies.setItemAnimator(new DefaultItemAnimator());
 
-        recyclerViewMovies.setAdapter(new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
-            @Override
-            public void onClick(Movie movie) {
+        recyclerViewMovies.setAdapter(
+                new ListViewAdapterWithPagination(
+                        new PopularMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
+                            @Override
+                            public void onClick(Movie movie) {
 
-            }
-        }, new OnShowMoreListener() {
-            @Override
-            public void showMore() {
-                presenter.loadMovies(++page);
-            }
-        }));
+                            }
+                        }
+                        ),
+                        new OnShowMoreListener() {
+                            @Override
+                            public void showMore() {
+                                presenter.loadMovies(++page);
+                            }
+                        }
+                )
+        );
         recyclerViewMovies.scrollToPosition(scrollToItem);
     }
 
