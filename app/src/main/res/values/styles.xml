@@ -21,6 +21,13 @@
         <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
 
+    <style name="TextButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_h2</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
     <style name="TextNormal">
         <item name="android:textColor">@color/primary_text</item>
         <item name="android:textSize">@dimen/text_normal</item>

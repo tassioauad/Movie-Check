@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +23,7 @@ import com.tassioauad.moviecheck.presenter.ListPopularMoviesPresenter;
 import com.tassioauad.moviecheck.view.ListPopularMoviesView;
 import com.tassioauad.moviecheck.view.adapter.MovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
+import com.tassioauad.moviecheck.view.adapter.OnShowMoreListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -119,8 +121,14 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
         linearLayoutAnyFounded.setVisibility(View.GONE);
         linearLayoutLoadFailed.setVisibility(View.GONE);
         recyclerViewMovies.setVisibility(View.VISIBLE);
-        final StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(columns, StaggeredGridLayoutManager.VERTICAL);
-        recyclerViewMovies.setLayoutManager(staggeredGridLayoutManager);
+        final GridLayoutManager layoutManager = new GridLayoutManager(this, columns, GridLayoutManager.VERTICAL, false);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return position >= movieList.size() ? 3 : 1;
+            }
+        });
+        recyclerViewMovies.setLayoutManager(layoutManager);
         recyclerViewMovies.setItemAnimator(new DefaultItemAnimator());
 
         recyclerViewMovies.setAdapter(new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
@@ -128,28 +136,13 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
             public void onClick(Movie movie) {
 
             }
+        }, new OnShowMoreListener() {
+            @Override
+            public void showMore() {
+                presenter.loadMovies(++page);
+            }
         }));
         recyclerViewMovies.scrollToPosition(scrollToItem);
-        recyclerViewMovies.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                int count = movieList.size() - 1;
-
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    int[] lastVisibleItemPositions = staggeredGridLayoutManager.findLastVisibleItemPositions(null);
-                    Arrays.sort(lastVisibleItemPositions);
-                    if (lastVisibleItemPositions[lastVisibleItemPositions.length - 1] >= count) {
-                        presenter.loadMovies(++page);
-                    }
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
     }
 
     @Override
