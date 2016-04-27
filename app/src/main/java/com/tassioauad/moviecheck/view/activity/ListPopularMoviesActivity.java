@@ -26,6 +26,7 @@ import com.tassioauad.moviecheck.view.adapter.OnShowMoreListener;
 import com.tassioauad.moviecheck.view.adapter.PopularMovieListAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -51,6 +52,7 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
     private List<Movie> movieList;
     private Integer page = 1;
     private Integer columns = 3;
+    private int scrollToItem;
     private static final String BUNDLE_KEY_MOVIELIST = "bundle_key_movielist";
     private static final String BUNDLE_KEY_PAGE = "bundle_key_page";
 
@@ -110,11 +112,9 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
 
     @Override
     public void showMovies(final List<Movie> newMovieList) {
-        int scrollToItem = 0;
         if (movieList == null) {
             movieList = newMovieList;
         } else {
-            scrollToItem = movieList.size() - columns;
             movieList.addAll(newMovieList);
         }
         linearLayoutAnyFounded.setVisibility(View.GONE);
@@ -129,7 +129,6 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
         });
         recyclerViewMovies.setLayoutManager(layoutManager);
         recyclerViewMovies.setItemAnimator(new DefaultItemAnimator());
-
         recyclerViewMovies.setAdapter(
                 new ListViewAdapterWithPagination(
                         new PopularMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
@@ -142,6 +141,7 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
                         new OnShowMoreListener() {
                             @Override
                             public void showMore() {
+                                scrollToItem = layoutManager.findFirstVisibleItemPosition();
                                 presenter.loadMovies(++page);
                             }
                         }
