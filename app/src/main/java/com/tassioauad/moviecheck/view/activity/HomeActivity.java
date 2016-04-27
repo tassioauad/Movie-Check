@@ -248,7 +248,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     }
 
     public void moreUpcomingMovies(View view) {
-
+        startActivity(ListUpcomingMoviesActivity.newIntent(this));
     }
 
     public void moreTopRatedMovies(View view) {
