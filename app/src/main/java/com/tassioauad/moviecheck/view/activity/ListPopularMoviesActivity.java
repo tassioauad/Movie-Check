@@ -124,7 +124,7 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return position >= movieList.size() ? 3 : 1;
+                return position >= movieList.size() ? columns : 1;
             }
         });
         recyclerViewMovies.setLayoutManager(layoutManager);

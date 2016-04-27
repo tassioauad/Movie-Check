@@ -20,4 +20,7 @@
     <string name="listpopularmoviesactivity_anymoviefounded">OPS! Any movie founded!</string>
     <string name="listpopularmoviesactivity_failedtoloadmovie">OPS! Failed to Load!</string>
     <string name="listpopularmoviesactivity_title">Popular Movies</string>
+    <string name="activity_listtopratedmovies">Top Rated Movies</string>
+    <string name="activity_listupcomingmovies">Upcoming Movies</string>
+    <string name="activity_nowplayingmovies">Now Playing Movies</string>
 </resources>

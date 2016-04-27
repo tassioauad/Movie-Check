@@ -3,6 +3,7 @@ package com.tassioauad.moviecheck.view.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -244,7 +245,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     }
 
     public void moreNowPlayingMovies(View view) {
-
+        startActivity(ListNowPlayingMoviesActivity.newIntent(this));
     }
 
     public void moreUpcomingMovies(View view) {

@@ -63,7 +63,7 @@ public class ListTopRatedMoviesActivity extends AppCompatActivity implements Lis
         ((MovieCheckApplication) getApplication()).getObjectGraph().plus(new ListTopRatedMoviesViewModule(this)).inject(this);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.listpopularmoviesactivity_title);
+        getSupportActionBar().setTitle(R.string.activity_listtopratedmovies);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
@@ -123,7 +123,7 @@ public class ListTopRatedMoviesActivity extends AppCompatActivity implements Lis
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return position >= movieList.size() ? 3 : 1;
+                return position >= movieList.size() ? columns : 1;
             }
         });
         recyclerViewMovies.setLayoutManager(layoutManager);

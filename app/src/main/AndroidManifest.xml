@@ -20,6 +20,7 @@
         <activity android:name=".view.activity.ListPopularMoviesActivity"/>
         <activity android:name=".view.activity.ListTopRatedMoviesActivity"/>
         <activity android:name=".view.activity.ListUpcomingMoviesActivity"/>
+        <activity android:name=".view.activity.ListNowPlayingMoviesActivity"/>
     </application>
 
 </manifest>

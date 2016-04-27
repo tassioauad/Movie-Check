@@ -16,14 +16,14 @@ import android.widget.Toast;
 
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
-import com.tassioauad.moviecheck.dagger.ListUpcomingMoviesViewModule;
+import com.tassioauad.moviecheck.dagger.ListNowPlayingMoviesViewModule;
 import com.tassioauad.moviecheck.model.entity.Movie;
-import com.tassioauad.moviecheck.presenter.ListUpcomingMoviesPresenter;
-import com.tassioauad.moviecheck.view.ListUpcomingMoviesView;
+import com.tassioauad.moviecheck.presenter.ListNowPlayingMoviesPresenter;
+import com.tassioauad.moviecheck.view.ListNowPlayingMoviesView;
 import com.tassioauad.moviecheck.view.adapter.ListViewAdapterWithPagination;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 import com.tassioauad.moviecheck.view.adapter.OnShowMoreListener;
-import com.tassioauad.moviecheck.view.adapter.UpcomingMovieListAdapter;
+import com.tassioauad.moviecheck.view.adapter.NowPlayingMovieListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ListUpcomingMoviesActivity extends AppCompatActivity implements ListUpcomingMoviesView {
+public class ListNowPlayingMoviesActivity extends AppCompatActivity implements ListNowPlayingMoviesView {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -47,10 +47,10 @@ public class ListUpcomingMoviesActivity extends AppCompatActivity implements Lis
     LinearLayout linearLayoutLoadFailed;
 
     @Inject
-    ListUpcomingMoviesPresenter presenter;
+    ListNowPlayingMoviesPresenter presenter;
     private List<Movie> movieList;
     private Integer page = 1;
-    private Integer columns = 3;
+    private Integer columns = 1;
     private int scrollToItem;
     private static final String BUNDLE_KEY_MOVIELIST = "bundle_key_movielist";
     private static final String BUNDLE_KEY_PAGE = "bundle_key_page";
@@ -60,10 +60,10 @@ public class ListUpcomingMoviesActivity extends AppCompatActivity implements Lis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listpopularmovies);
         ButterKnife.bind(this);
-        ((MovieCheckApplication) getApplication()).getObjectGraph().plus(new ListUpcomingMoviesViewModule(this)).inject(this);
+        ((MovieCheckApplication) getApplication()).getObjectGraph().plus(new ListNowPlayingMoviesViewModule(this)).inject(this);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.activity_listupcomingmovies);
+        getSupportActionBar().setTitle(R.string.activity_nowplayingmovies);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
@@ -120,17 +120,11 @@ public class ListUpcomingMoviesActivity extends AppCompatActivity implements Lis
         linearLayoutLoadFailed.setVisibility(View.GONE);
         recyclerViewMovies.setVisibility(View.VISIBLE);
         final GridLayoutManager layoutManager = new GridLayoutManager(this, columns, GridLayoutManager.VERTICAL, false);
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return position >= movieList.size() ? columns : 1;
-            }
-        });
         recyclerViewMovies.setLayoutManager(layoutManager);
         recyclerViewMovies.setItemAnimator(new DefaultItemAnimator());
         recyclerViewMovies.setAdapter(
                 new ListViewAdapterWithPagination(
-                        new UpcomingMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
+                        new NowPlayingMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
                             @Override
                             public void onClick(Movie movie) {
 
@@ -166,6 +160,6 @@ public class ListUpcomingMoviesActivity extends AppCompatActivity implements Lis
     }
 
     public static Intent newIntent(Context context) {
-        return new Intent(context, ListUpcomingMoviesActivity.class);
+        return new Intent(context, ListNowPlayingMoviesActivity.class);
     }
 }
