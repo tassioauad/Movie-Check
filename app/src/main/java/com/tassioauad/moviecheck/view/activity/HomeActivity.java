@@ -252,6 +252,6 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     }
 
     public void moreTopRatedMovies(View view) {
-
+        startActivity(ListTopRatedMoviesActivity.newIntent(this));
     }
 }

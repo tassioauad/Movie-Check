@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activity.ListPopularMoviesActivity"/>
+        <activity android:name=".view.activity.ListTopRatedMoviesActivity"/>
     </application>
 
 </manifest>
