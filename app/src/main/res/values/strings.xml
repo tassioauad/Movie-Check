@@ -12,7 +12,7 @@
     <string name="general_more">more</string>
     <string name="general_date">MM-dd-yyyy</string>
     <string name="general_failedtoload">OPS! Failed to Load!</string>
-    <string name="general_anyfounded">OPS! Any movie founded!</string>
+    <string name="general_anyfounded">OPS! Any founded!</string>
 
     <!--ListPopularMoviesActivity -->
     <string name="listpopularmoviesactivity_title">Popular Movies</string>

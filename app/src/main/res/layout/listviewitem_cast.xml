@@ -17,6 +17,7 @@
         android:layout_height="@dimen/poster_height"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
+        android:background="@drawable/scrim"
         android:src="@drawable/noimage" />
 
     <LinearLayout

@@ -18,7 +18,7 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/TextH3"
+                style="@style/TextH2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/castcrewfragment_cast"
@@ -62,7 +62,7 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/TextH3"
+                style="@style/TextH2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/castcrewfragment_crew"

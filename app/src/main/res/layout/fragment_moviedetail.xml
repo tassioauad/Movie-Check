@@ -1,115 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
-    android:weightSum="1">
-
-    <ImageView
-        android:id="@+id/imageview_backdrop"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/poster_height"
-        android:adjustViewBounds="true"
-        android:background="@drawable/scrim"
-        android:scaleType="fitXY"/>
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="-60dp"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <ImageView
-            android:id="@+id/imageview_poster"
-            android:layout_width="@dimen/poster_width"
+            android:id="@+id/imageview_backdrop"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/poster_height"
             android:adjustViewBounds="true"
+            android:background="@drawable/scrim"
             android:scaleType="fitXY" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="-60dp"
+            android:orientation="horizontal">
 
-            <RatingBar
-                android:id="@+id/ratingbar_vote"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end" />
-
-            <TextView
-                android:id="@+id/textview_votecount"
-                style="@style/TextNormal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="@string/moviedetailfragment_votecount" />
+            <ImageView
+                android:id="@+id/imageview_poster"
+                android:layout_width="@dimen/poster_width"
+                android:layout_height="@dimen/poster_height"
+                android:adjustViewBounds="true"
+                android:background="@drawable/scrim"
+                android:scaleType="fitXY" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RatingBar
+                    android:id="@+id/ratingbar_vote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"/>
 
                 <TextView
-                    style="@style/TextH3"
+                    android:id="@+id/textview_votecount"
+                    style="@style/TextNormal"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="@string/moviedetailfragment_releasedate"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="@string/moviedetailfragment_votecount" />
 
-                <TextView
-                    android:id="@+id/textview_releasedate"
-                    style="@style/TextH3"
-                    android:textStyle="normal"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextH3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/moviedetailfragment_releasedate" />
+
+                    <TextView
+                        android:id="@+id/textview_releasedate"
+                        style="@style/TextH3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center_vertical"
+                        android:textStyle="normal" />
+
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_categories"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:gravity="center_vertical" />
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp" />
 
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerview_categories"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginStart="10dp" />
-
         </LinearLayout>
 
-    </LinearLayout>
-
-    <TextView
-        style="@style/TextH3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/moviedetailfragment_overview" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <TextView
+            style="@style/TextH3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/moviedetailfragment_overview" />
 
         <TextView
             android:id="@+id/textview_overview"
             style="@style/TextNormal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginStart="10dp" />
+            android:layout_margin="10dp" />
 
-    </ScrollView>
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
