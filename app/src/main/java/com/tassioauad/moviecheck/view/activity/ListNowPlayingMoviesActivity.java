@@ -127,7 +127,7 @@ public class ListNowPlayingMoviesActivity extends AppCompatActivity implements L
                         new NowPlayingMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
                             @Override
                             public void onClick(Movie movie) {
-
+                                startActivity(MovieProfileActivity.newIntent(ListNowPlayingMoviesActivity.this, movie));
                             }
                         }
                         ),

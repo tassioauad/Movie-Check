@@ -133,7 +133,7 @@ public class ListTopRatedMoviesActivity extends AppCompatActivity implements Lis
                         new TopRatedMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
                             @Override
                             public void onClick(Movie movie) {
-
+                                startActivity(MovieProfileActivity.newIntent(ListTopRatedMoviesActivity.this, movie));
                             }
                         }
                         ),

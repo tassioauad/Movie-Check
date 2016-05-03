@@ -134,7 +134,7 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
                         new PopularMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
                             @Override
                             public void onClick(Movie movie) {
-
+                                startActivity(MovieProfileActivity.newIntent(ListPopularMoviesActivity.this, movie));
                             }
                         }
                         ),

@@ -133,7 +133,7 @@ public class ListUpcomingMoviesActivity extends AppCompatActivity implements Lis
                         new UpcomingMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
                             @Override
                             public void onClick(Movie movie) {
-
+                                startActivity(MovieProfileActivity.newIntent(ListUpcomingMoviesActivity.this, movie));
                             }
                         }
                         ),
