@@ -11,22 +11,34 @@
     <string name="general_toprated">Top Rated</string>
     <string name="general_more">more</string>
     <string name="general_date">MM-dd-yyyy</string>
-
-    <!--HomeActivity-->
-    <string name="homeactivity_anymoviefounded">OPS! Any movie founded!</string>
-    <string name="homeactivity_failedtoloadmovie">OPS! Failed to Load!</string>
+    <string name="general_failedtoload">OPS! Failed to Load!</string>
+    <string name="general_anyfounded">OPS! Any movie founded!</string>
 
     <!--ListPopularMoviesActivity -->
-    <string name="listpopularmoviesactivity_anymoviefounded">OPS! Any movie founded!</string>
-    <string name="listpopularmoviesactivity_failedtoloadmovie">OPS! Failed to Load!</string>
     <string name="listpopularmoviesactivity_title">Popular Movies</string>
-    <string name="activity_listtopratedmovies">Top Rated Movies</string>
-    <string name="activity_listupcomingmovies">Upcoming Movies</string>
-    <string name="activity_nowplayingmovies">Now Playing Movies</string>
+
+    <!--ListTopRatedMoviesActivity -->
+    <string name="listtopratedmoviesactivity_title">Top Rated Movies</string>
+
+    <!--ListUpcomingMoviesActivity -->
+    <string name="listupcomingmoviesactivity_title">Upcoming Movies</string>
+
+    <!--ListNowPlayingMoviesActivity -->
+    <string name="nowplayingmoviesactivity_title">Now Playing Movies</string>
+
+    <!--MovieProdileActivity-->
     <string name="movieprofileactivity_general">General</string>
+    <string name="movieprofileactivity_castcrew">Cast &amp; Crew</string>
 
     <!--MovieDetailFragment-->
     <string name="moviedetailfragment_overview">Overview</string>
     <string name="moviedetailfragment_releasedate">Release Date:</string>
     <string name="moviedetailfragment_votecount">%1$d votes</string>
+
+    <!--CastCrewFragment-->
+    <string name="castcrewfragment_cast">Cast</string>
+    <string name="castcrewfragment_crew">Crew</string>
+    <string name="castcrewfragment_anycastfounded">OPS! Any founded!</string>
+    <string name="castcrewfragment_failedtoloadcast">OPS! Failed to Load!</string>
+
 </resources>

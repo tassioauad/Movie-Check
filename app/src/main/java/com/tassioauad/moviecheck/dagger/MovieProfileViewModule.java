@@ -18,6 +18,6 @@ public class MovieProfileViewModule {
 
     @Provides
     public MovieProfilePresenter provideProfilePresenter() {
-        return new MovieProfilePresenter();
+        return new MovieProfilePresenter(view);
     }
 }

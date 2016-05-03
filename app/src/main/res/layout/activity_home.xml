@@ -54,7 +54,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/poster_height">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview_nowplaying"
@@ -62,49 +62,14 @@
                     android:layout_height="wrap_content"
                     android:visibility="visible" />
 
-                <LinearLayout
+                <include
                     android:id="@+id/linearlayout_nowplaying_anyfounded"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:gravity="center"
-                    android:visibility="gone">
+                    layout="@layout/anyfounded"/>
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/sadface"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/homeactivity_anymoviefounded"
-                        style="@style/TextBigWarn"/>
-
-                </LinearLayout>
-
-                <LinearLayout
+                <include
                     android:id="@+id/linearlayout_nowplaying_loadfailed"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:gravity="center"
-                    android:visibility="gone">
+                    layout="@layout/failedtoload"/>
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/sadface"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/homeactivity_failedtoloadmovie"
-                        style="@style/TextBigWarn"/>
-
-                </LinearLayout>
 
                 <ProgressBar
                     android:id="@+id/progressbar_nowplaying"
@@ -154,57 +119,21 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/poster_height"
                 android:gravity="center">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview_upcoming"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp" />
+                    android:layout_height="wrap_content" />
 
-                <LinearLayout
+                <include
                     android:id="@+id/linearlayout_upcoming_anyfounded"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:gravity="center"
-                    android:visibility="gone">
+                    layout="@layout/anyfounded"/>
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/sadface"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/homeactivity_anymoviefounded"
-                        style="@style/TextBigWarn"/>
-
-                </LinearLayout>
-
-                <LinearLayout
+                <include
                     android:id="@+id/linearlayout_upcoming_loadfailed"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:gravity="center"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/sadface"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/homeactivity_failedtoloadmovie"
-                        style="@style/TextBigWarn"/>
-
-                </LinearLayout>
+                    layout="@layout/failedtoload"/>
 
                 <ProgressBar
                     android:id="@+id/progressbar_upcoming"
@@ -253,57 +182,21 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/poster_height"
                 android:gravity="center">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview_toprated"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp" />
+                    android:layout_height="wrap_content" />
 
-                <LinearLayout
+                <include
                     android:id="@+id/linearlayout_toprated_anyfounded"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:gravity="center"
-                    android:visibility="gone">
+                    layout="@layout/anyfounded"/>
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/sadface"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/homeactivity_anymoviefounded"
-                        style="@style/TextBigWarn"/>
-
-                </LinearLayout>
-
-                <LinearLayout
+                <include
                     android:id="@+id/linearlayout_toprated_loadfailed"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:gravity="center"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/sadface"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/homeactivity_failedtoloadmovie"
-                        style="@style/TextBigWarn"/>
-
-                </LinearLayout>
+                    layout="@layout/failedtoload"/>
 
                 <ProgressBar
                     android:id="@+id/progressbar_toprated"
@@ -352,57 +245,21 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/poster_height"
                 android:gravity="center">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview_popular"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp" />
+                    android:layout_height="wrap_content" />
 
-                <LinearLayout
+                <include
                     android:id="@+id/linearlayout_popular_anyfounded"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:gravity="center"
-                    android:visibility="gone">
+                    layout="@layout/anyfounded"/>
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/sadface"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/homeactivity_anymoviefounded"
-                        style="@style/TextBigWarn"/>
-
-                </LinearLayout>
-
-                <LinearLayout
+                <include
                     android:id="@+id/linearlayout_popular_loadfailed"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:gravity="center"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/sadface"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/homeactivity_failedtoloadmovie"
-                        style="@style/TextBigWarn"/>
-
-                </LinearLayout>
+                    layout="@layout/failedtoload"/>
 
                 <ProgressBar
                     android:id="@+id/progressbar_popular"

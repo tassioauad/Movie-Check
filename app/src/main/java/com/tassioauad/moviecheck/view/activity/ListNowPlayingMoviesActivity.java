@@ -58,12 +58,12 @@ public class ListNowPlayingMoviesActivity extends AppCompatActivity implements L
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listpopularmovies);
+        setContentView(R.layout.activity_listnowplayingmovies);
         ButterKnife.bind(this);
         ((MovieCheckApplication) getApplication()).getObjectGraph().plus(new ListNowPlayingMoviesViewModule(this)).inject(this);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.activity_nowplayingmovies);
+        getSupportActionBar().setTitle(R.string.nowplayingmoviesactivity_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
@@ -105,7 +105,7 @@ public class ListNowPlayingMoviesActivity extends AppCompatActivity implements L
             linearLayoutLoadFailed.setVisibility(View.GONE);
             recyclerViewMovies.setVisibility(View.GONE);
         } else {
-            Toast.makeText(this, R.string.listpopularmoviesactivity_anymoviefounded, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.general_anyfounded, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -155,7 +155,7 @@ public class ListNowPlayingMoviesActivity extends AppCompatActivity implements L
             linearLayoutLoadFailed.setVisibility(View.VISIBLE);
             recyclerViewMovies.setVisibility(View.GONE);
         } else {
-            Toast.makeText(this, R.string.listpopularmoviesactivity_failedtoloadmovie, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.general_failedtoload, Toast.LENGTH_SHORT).show();
         }
     }
 

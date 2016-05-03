@@ -106,7 +106,7 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
             linearLayoutLoadFailed.setVisibility(View.GONE);
             recyclerViewMovies.setVisibility(View.GONE);
         } else {
-            Toast.makeText(this, R.string.listpopularmoviesactivity_anymoviefounded, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.general_anyfounded, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -162,7 +162,7 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
             linearLayoutLoadFailed.setVisibility(View.VISIBLE);
             recyclerViewMovies.setVisibility(View.GONE);
         } else {
-            Toast.makeText(this, R.string.listpopularmoviesactivity_failedtoloadmovie, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.general_failedtoload, Toast.LENGTH_SHORT).show();
         }
     }
 
