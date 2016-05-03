@@ -13,6 +13,15 @@ import java.io.IOException;
 
 public class ItemTypeAdapterFactory implements TypeAdapterFactory {
 
+    private String rootName = "results";
+
+    public ItemTypeAdapterFactory() {
+    }
+
+    public ItemTypeAdapterFactory(String rootName) {
+        this.rootName = rootName;
+    }
+
     public <T> TypeAdapter<T> create(Gson gson, final TypeToken<T> type) {
 
         final TypeAdapter<T> delegate = gson.getDelegateAdapter(this, type);
@@ -29,8 +38,8 @@ public class ItemTypeAdapterFactory implements TypeAdapterFactory {
                 JsonElement jsonElement = elementAdapter.read(in);
                 if (jsonElement.isJsonObject()) {
                     JsonObject jsonObject = jsonElement.getAsJsonObject();
-                    if (jsonObject.has("results")) {
-                        jsonElement = jsonObject.get("results");
+                    if (jsonObject.has(rootName)) {
+                        jsonElement = jsonObject.get(rootName);
                     }
                 }
 

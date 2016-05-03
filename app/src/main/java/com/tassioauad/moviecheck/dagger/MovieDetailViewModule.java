@@ -1,5 +1,6 @@
 package com.tassioauad.moviecheck.dagger;
 
+import com.tassioauad.moviecheck.model.api.GenreApi;
 import com.tassioauad.moviecheck.presenter.MovieDetailPresenter;
 import com.tassioauad.moviecheck.view.fragment.MovieDetailFragment;
 import com.tassioauad.moviecheck.view.MovieDetailView;
@@ -17,7 +18,7 @@ public class MovieDetailViewModule {
     }
 
     @Provides
-    public MovieDetailPresenter provideMovieDetailPresenter() {
-        return new MovieDetailPresenter(view);
+    public MovieDetailPresenter provideMovieDetailPresenter(GenreApi genreApi) {
+        return new MovieDetailPresenter(view, genreApi);
     }
 }

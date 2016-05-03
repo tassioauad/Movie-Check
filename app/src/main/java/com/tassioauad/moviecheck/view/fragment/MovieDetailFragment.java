@@ -3,23 +3,31 @@ package com.tassioauad.moviecheck.view.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.MovieDetailViewModule;
+import com.tassioauad.moviecheck.model.entity.Genre;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.presenter.MovieDetailPresenter;
 import com.tassioauad.moviecheck.view.MovieDetailView;
+import com.tassioauad.moviecheck.view.adapter.GenreListAdapter;
+import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -44,6 +52,10 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     ImageView imageViewPoster;
     @Bind(R.id.textview_overview)
     TextView textViewOverview;
+    @Bind(R.id.recyclerview_genres)
+    RecyclerView recyclerViewGenres;
+    @Bind(R.id.progressbar_genre)
+    ProgressBar progressBarGenre;
 
     private static final String KEY_MOVIE = "MOVIE";
 
@@ -104,5 +116,37 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     public void showBackdrop(String backdropUrl) {
         backdropUrl = getString(R.string.imagetmdb_baseurl) + backdropUrl;
         Picasso.with(getActivity()).load(backdropUrl).into(imageViewBackdrop);
+    }
+
+    @Override
+    public void showLoadingGenres() {
+        progressBarGenre.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void warnFailedOnLoadGenres() {
+        Toast.makeText(getActivity(), getActivity().getString(R.string.moviedetailfragment_failedtoloadgenre), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showGenres(List<Genre> genreList) {
+        recyclerViewGenres.setVisibility(View.VISIBLE);
+        recyclerViewGenres.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
+        recyclerViewGenres.setAdapter(new GenreListAdapter(genreList, new OnItemClickListener<Genre>() {
+            @Override
+            public void onClick(Genre genre) {
+
+            }
+        }));
+    }
+
+    @Override
+    public void warnAnyGenreFounded() {
+        Toast.makeText(getActivity(), getActivity().getString(R.string.moviedetailfragment_failedtoloadgenre), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void hideLoadingGenres() {
+        progressBarGenre.setVisibility(View.GONE);
     }
 }

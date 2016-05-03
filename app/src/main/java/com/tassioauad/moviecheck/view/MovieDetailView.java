@@ -1,6 +1,9 @@
 package com.tassioauad.moviecheck.view;
 
+import com.tassioauad.moviecheck.model.entity.Genre;
+
 import java.util.Date;
+import java.util.List;
 
 public interface MovieDetailView {
     void showVoteCount(long voteCount);
@@ -14,4 +17,14 @@ public interface MovieDetailView {
     void showPoster(String posterUrl);
 
     void showBackdrop(String backdropUrl);
+
+    void showLoadingGenres();
+
+    void warnFailedOnLoadGenres();
+
+    void showGenres(List<Genre> genreList);
+
+    void warnAnyGenreFounded();
+
+    void hideLoadingGenres();
 }

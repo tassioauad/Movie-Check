@@ -23,7 +23,7 @@ public class ListNowPlayingMoviesAsyncTaskTest extends AndroidTestCase {
     public void setUp() throws Exception {
         super.setUp();
         Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(new ItemTypeAdapterFactory())
+                .registerTypeAdapterFactory(new ItemTypeAdapterFactory(rootName))
                 .setDateFormat("yyyy'-'MM'-'dd")
                 .create();
 
