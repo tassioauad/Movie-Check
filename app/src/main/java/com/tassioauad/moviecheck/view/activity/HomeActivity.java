@@ -103,7 +103,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewUpcoming.setAdapter(new UpcomingMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
             public void onClick(Movie movie) {
-
+                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie));
             }
         }));
     }
@@ -157,7 +157,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewPopular.setAdapter(new PopularMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
             public void onClick(Movie movie) {
-
+                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie));
             }
         }));
     }
@@ -184,7 +184,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewTopRated.setAdapter(new TopRatedMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
             public void onClick(Movie movie) {
-
+                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie));
             }
         }));
     }
@@ -223,7 +223,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewNowPlaying.setAdapter(new NowPlayingMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
             public void onClick(Movie movie) {
-
+                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie));
             }
         }));
     }

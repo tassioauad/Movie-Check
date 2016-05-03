@@ -23,4 +23,10 @@
     <string name="activity_listtopratedmovies">Top Rated Movies</string>
     <string name="activity_listupcomingmovies">Upcoming Movies</string>
     <string name="activity_nowplayingmovies">Now Playing Movies</string>
+    <string name="movieprofileactivity_general">General</string>
+
+    <!--MovieDetailFragment-->
+    <string name="moviedetailfragment_overview">Overview</string>
+    <string name="moviedetailfragment_releasedate">Release Date:</string>
+    <string name="moviedetailfragment_votecount">%1$d votes</string>
 </resources>
