@@ -25,8 +25,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/scrim"
+        android:background="@color/accent_alpha"
         android:drawableLeft="@drawable/white_star"
+        android:drawableStart="@drawable/white_star"
+        android:layout_alignLeft="@id/imageview_poster"
+        android:layout_alignStart="@id/imageview_poster"
+        android:layout_alignRight="@id/imageview_poster"
+        android:layout_alignEnd="@id/imageview_poster"
         android:gravity="center" />
 
 </RelativeLayout>

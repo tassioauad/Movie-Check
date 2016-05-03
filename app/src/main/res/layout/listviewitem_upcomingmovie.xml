@@ -23,9 +23,14 @@
         style="@style/TextImageLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/scrim"
+        android:background="@color/accent_alpha"
+        android:layout_alignLeft="@id/imageview_poster"
+        android:layout_alignStart="@id/imageview_poster"
+        android:layout_alignRight="@id/imageview_poster"
+        android:layout_alignEnd="@id/imageview_poster"
         android:gravity="center" />
 
 </RelativeLayout>
