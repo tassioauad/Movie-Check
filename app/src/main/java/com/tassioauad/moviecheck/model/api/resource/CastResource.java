@@ -14,6 +14,6 @@ import retrofit.http.Query;
 public interface CastResource {
 
     @GET("movie/{id}/credits")
-    Call<List<Cast>> listAllByMovie(@Query("api_key") String apiKey, @Path("id") Long id);
+    Call<List<Cast>> listAllByMovie(@Path("id") Long id, @Query("api_key") String apiKey);
 
 }

@@ -13,6 +13,6 @@ import retrofit.http.Query;
 public interface CrewResource {
 
     @GET("movie/{id}/credits")
-    Call<List<Crew>> listAllByMovie(@Query("api_key") String apiKey, @Path("id") Long id);
+    Call<List<Crew>> listAllByMovie(@Path("id") Long id, @Query("api_key") String apiKey);
 
 }

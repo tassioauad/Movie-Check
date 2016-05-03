@@ -23,6 +23,7 @@ public class CastApiImpl extends GenericApi implements CastApi {
     public void listAllByMovie(Movie movie) {
         verifyServiceResultListener();
         listCastByMovieAsyncTask = new ListCastByMovieAsyncTask(getContext(), castResource, movie);
+        listCastByMovieAsyncTask.setApiResultListener(getApiResultListener());
         listCastByMovieAsyncTask.execute();
     }
 

@@ -23,6 +23,7 @@ public class CrewApiImpl extends GenericApi implements CrewApi {
     public void listAllByMovie(Movie movie) {
         verifyServiceResultListener();
         listCrewByMovieAsyncTask = new ListCrewByMovieAsyncTask(getContext(), crewResource, movie);
+        listCrewByMovieAsyncTask.setApiResultListener(getApiResultListener());
         listCrewByMovieAsyncTask.execute();
     }
 

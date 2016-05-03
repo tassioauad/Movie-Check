@@ -28,7 +28,7 @@ public class ListCastByMovieAsyncTask extends GenericAsyncTask<Void, Void, List<
     protected AsyncTaskResult<List<Cast>> doInBackground(Void... params) {
 
         try {
-            Response<List<Cast>> response = castResource.listAllByMovie(getApiKey(), movie.getId()).execute();
+            Response<List<Cast>> response = castResource.listAllByMovie(movie.getId(), getApiKey()).execute();
             switch (response.code()) {
                 case HTTP_OK:
                     return new AsyncTaskResult<>(response.body());

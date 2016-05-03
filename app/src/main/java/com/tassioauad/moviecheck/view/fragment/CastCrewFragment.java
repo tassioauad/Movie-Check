@@ -95,8 +95,8 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
         linearLayoutCrewLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCrewFounded.setVisibility(View.GONE);
         recyclerViewCrew.setVisibility(View.VISIBLE);
-        recyclerViewCast.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
-        recyclerViewCast.setAdapter(new CrewListAdapter(crewList, new OnItemClickListener<Crew>() {
+        recyclerViewCrew.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
+        recyclerViewCrew.setAdapter(new CrewListAdapter(crewList, new OnItemClickListener<Crew>() {
             @Override
             public void onClick(Crew crew) {
 

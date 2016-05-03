@@ -12,7 +12,7 @@
     android:paddingTop="3dp">
 
     <ImageView
-        android:id="@+id/imageview_poster"
+        android:id="@+id/imageview_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"

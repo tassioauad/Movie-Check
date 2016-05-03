@@ -38,7 +38,7 @@ public class CrewListAdapter extends RecyclerView.Adapter<CrewListAdapter.ViewHo
         holder.textViewName.setText(crew.getName());
         holder.textViewJob.setText(crew.getJob());
         String posterUrl = holder.itemView.getContext().getString(R.string.imagetmdb_baseurl) + crew.getProfilePath();
-        Picasso.with(holder.itemView.getContext()).load(posterUrl).placeholder(R.drawable.noimage).into(holder.imageViewPoster);
+        Picasso.with(holder.itemView.getContext()).load(posterUrl).placeholder(R.drawable.noimage).into(holder.imageViewProfile);
     }
 
     @Override
@@ -54,13 +54,13 @@ public class CrewListAdapter extends RecyclerView.Adapter<CrewListAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imageViewPoster;
+        private ImageView imageViewProfile;
         private TextView textViewName;
         private TextView textViewJob;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imageViewPoster = (ImageView) itemView.findViewById(R.id.imageview_poster);
+            imageViewProfile = (ImageView) itemView.findViewById(R.id.imageview_profile);
             textViewName = (TextView) itemView.findViewById(R.id.textview_name);
             textViewJob = (TextView) itemView.findViewById(R.id.textview_job);
         }
