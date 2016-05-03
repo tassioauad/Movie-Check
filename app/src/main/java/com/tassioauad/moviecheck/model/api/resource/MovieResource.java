@@ -23,4 +23,7 @@ public interface MovieResource {
     @GET("movie/now_playing")
     Call<List<Movie>> listNowPlaying(@Query("api_key") String apiKey, @Query("page") Integer page);
 
+    @GET("genre/{id}/movies")
+    Call<List<Movie>> listByGenre(@Path("id") Long genreId, @Query("api_key") String apiKey, @Query("page") Integer page);
+
 }

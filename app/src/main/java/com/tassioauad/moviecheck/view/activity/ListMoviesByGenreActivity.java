@@ -16,10 +16,11 @@ import android.widget.Toast;
 
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
-import com.tassioauad.moviecheck.dagger.ListPopularMoviesViewModule;
+import com.tassioauad.moviecheck.dagger.ListMoviesByGenreViewModule;
+import com.tassioauad.moviecheck.model.entity.Genre;
 import com.tassioauad.moviecheck.model.entity.Movie;
-import com.tassioauad.moviecheck.presenter.ListPopularMoviesPresenter;
-import com.tassioauad.moviecheck.view.ListPopularMoviesView;
+import com.tassioauad.moviecheck.presenter.ListMoviesByGenrePresenter;
+import com.tassioauad.moviecheck.view.ListMoviesByGenreView;
 import com.tassioauad.moviecheck.view.adapter.ListViewAdapterWithPagination;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 import com.tassioauad.moviecheck.view.adapter.OnShowMoreListener;
@@ -33,7 +34,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ListPopularMoviesActivity extends AppCompatActivity implements ListPopularMoviesView {
+public class ListMoviesByGenreActivity extends AppCompatActivity implements ListMoviesByGenreView {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -47,32 +48,36 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
     LinearLayout linearLayoutLoadFailed;
 
     @Inject
-    ListPopularMoviesPresenter presenter;
+    ListMoviesByGenrePresenter presenter;
     private List<Movie> movieList;
-    private Integer page = 1;
     private Integer columns = 3;
     private int scrollToItem;
+    private int page = 1;
+    private Genre genre;
     private static final String BUNDLE_KEY_MOVIELIST = "bundle_key_movielist";
     private static final String BUNDLE_KEY_PAGE = "bundle_key_page";
+    private static final String KEY_GENRE = "GENRE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listpopularmovies);
+        setContentView(R.layout.activity_listmoviebygenre);
         ButterKnife.bind(this);
-        ((MovieCheckApplication) getApplication()).getObjectGraph().plus(new ListPopularMoviesViewModule(this)).inject(this);
+        ((MovieCheckApplication) getApplication()).getObjectGraph().plus(new ListMoviesByGenreViewModule(this)).inject(this);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.listpopularmoviesactivity_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
-            presenter.loadMovies(page);
+            genre = getIntent().getParcelableExtra(KEY_GENRE);
+            presenter.loadMovies(genre, page);
         } else {
             List<Movie> movieList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MOVIELIST);
             page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
             showMovies(movieList);
         }
+
+        getSupportActionBar().setTitle(genre.getName());
     }
 
     @Override
@@ -133,7 +138,7 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
                         new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
                             @Override
                             public void onClick(Movie movie) {
-                                startActivity(MovieProfileActivity.newIntent(ListPopularMoviesActivity.this, movie));
+                                startActivity(MovieProfileActivity.newIntent(ListMoviesByGenreActivity.this, movie));
                             }
                         }
                         ),
@@ -141,7 +146,7 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
                             @Override
                             public void showMore() {
                                 scrollToItem = layoutManager.findFirstVisibleItemPosition();
-                                presenter.loadMovies(++page);
+                                presenter.loadMovies(genre, ++page);
                             }
                         }
                 )
@@ -165,7 +170,10 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
         }
     }
 
-    public static Intent newIntent(Context context) {
-        return new Intent(context, ListPopularMoviesActivity.class);
+    public static Intent newIntent(Context context, Genre genre) {
+        Intent intent = new Intent(context, ListMoviesByGenreActivity.class);
+        intent.putExtra(KEY_GENRE, genre);
+
+        return intent;
     }
 }

@@ -5,11 +5,13 @@ import android.os.AsyncTask;
 
 import com.tassioauad.moviecheck.model.api.GenericApi;
 import com.tassioauad.moviecheck.model.api.MovieApi;
+import com.tassioauad.moviecheck.model.api.asynctask.ListMovieByGenreAsyncTask;
 import com.tassioauad.moviecheck.model.api.asynctask.ListNowPlayingMoviesAsyncTask;
 import com.tassioauad.moviecheck.model.api.asynctask.ListPopularMoviesAsyncTask;
 import com.tassioauad.moviecheck.model.api.asynctask.ListTopRatedMoviesAsyncTask;
 import com.tassioauad.moviecheck.model.api.asynctask.ListUpComingMovieAsyncTask;
 import com.tassioauad.moviecheck.model.api.resource.MovieResource;
+import com.tassioauad.moviecheck.model.entity.Genre;
 
 public class MovieApiImpl extends GenericApi implements MovieApi {
 
@@ -17,6 +19,7 @@ public class MovieApiImpl extends GenericApi implements MovieApi {
     private ListPopularMoviesAsyncTask listPopularMoviesAsyncTask;
     private ListTopRatedMoviesAsyncTask listTopRatedMoviesAsyncTask;
     private ListNowPlayingMoviesAsyncTask listNowPlayingMoviesAsyncTask;
+    private ListMovieByGenreAsyncTask listMovieByGenreAsyncTask;
     private MovieResource movieResource;
 
     public MovieApiImpl(Context context, MovieResource movieResource) {
@@ -87,6 +90,14 @@ public class MovieApiImpl extends GenericApi implements MovieApi {
         listNowPlayingMoviesAsyncTask.setApiResultListener(getApiResultListener());
         listNowPlayingMoviesAsyncTask.execute();
     }
+
+    @Override
+    public void listByGenre(Genre genre, int page) {
+        verifyServiceResultListener();
+        listMovieByGenreAsyncTask = new ListMovieByGenreAsyncTask(getContext(), movieResource, genre, page);
+        listMovieByGenreAsyncTask.setApiResultListener(getApiResultListener());
+        listMovieByGenreAsyncTask.execute();
+    }
     
     @Override
     public void cancelAllService() {
@@ -101,6 +112,9 @@ public class MovieApiImpl extends GenericApi implements MovieApi {
         }
         if(listNowPlayingMoviesAsyncTask != null && listNowPlayingMoviesAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
             listNowPlayingMoviesAsyncTask.cancel(true);
+        }
+        if(listMovieByGenreAsyncTask != null && listMovieByGenreAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
+            listMovieByGenreAsyncTask.cancel(true);
         }
     }
 }

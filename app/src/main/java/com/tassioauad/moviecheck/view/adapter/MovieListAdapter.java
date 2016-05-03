@@ -12,19 +12,19 @@ import com.tassioauad.moviecheck.model.entity.Movie;
 
 import java.util.List;
 
-public class PopularMovieListAdapter extends RecyclerView.Adapter<PopularMovieListAdapter.ViewHolder> implements View.OnClickListener {
+public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.ViewHolder> implements View.OnClickListener {
 
     private List<Movie> movieList;
     private OnItemClickListener<Movie> movieOnItemClickListener;
 
-    public PopularMovieListAdapter(List<Movie> movieList, OnItemClickListener<Movie> movieOnItemClickListener) {
+    public MovieListAdapter(List<Movie> movieList, OnItemClickListener<Movie> movieOnItemClickListener) {
         this.movieList = movieList;
         this.movieOnItemClickListener = movieOnItemClickListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listviewitem_popularmovie, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listviewitem_movie, parent, false);
         view.setOnClickListener(this);
         return new ViewHolder(view);
     }

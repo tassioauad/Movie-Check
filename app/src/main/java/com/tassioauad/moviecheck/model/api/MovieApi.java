@@ -1,5 +1,7 @@
 package com.tassioauad.moviecheck.model.api;
 
+import com.tassioauad.moviecheck.model.entity.Genre;
+
 public interface MovieApi extends AsyncService {
     void listUpcomingMovies();
 
@@ -16,4 +18,6 @@ public interface MovieApi extends AsyncService {
     void listNowPlayingMovies();
 
     void listNowPlayingMovies(int page);
+
+    void listByGenre(Genre genre, int page);
 }

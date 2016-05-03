@@ -3,14 +3,12 @@ package com.tassioauad.moviecheck.view.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
@@ -20,7 +18,7 @@ import com.tassioauad.moviecheck.presenter.HomePresenter;
 import com.tassioauad.moviecheck.view.HomeView;
 import com.tassioauad.moviecheck.view.adapter.NowPlayingMovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
-import com.tassioauad.moviecheck.view.adapter.PopularMovieListAdapter;
+import com.tassioauad.moviecheck.view.adapter.MovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.TopRatedMovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.UpcomingMovieListAdapter;
 
@@ -154,7 +152,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         linearLayoutPopularLoadFailed.setVisibility(View.GONE);
         recyclerViewPopular.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerViewPopular.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewPopular.setAdapter(new PopularMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
+        recyclerViewPopular.setAdapter(new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
             public void onClick(Movie movie) {
                 startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie));

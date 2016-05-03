@@ -22,6 +22,7 @@ import com.tassioauad.moviecheck.model.entity.Genre;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.presenter.MovieDetailPresenter;
 import com.tassioauad.moviecheck.view.MovieDetailView;
+import com.tassioauad.moviecheck.view.activity.ListMoviesByGenreActivity;
 import com.tassioauad.moviecheck.view.adapter.GenreListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 
@@ -135,7 +136,7 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         recyclerViewGenres.setAdapter(new GenreListAdapter(genreList, new OnItemClickListener<Genre>() {
             @Override
             public void onClick(Genre genre) {
-
+                startActivity(ListMoviesByGenreActivity.newIntent(getActivity(), genre));
             }
         }));
     }
