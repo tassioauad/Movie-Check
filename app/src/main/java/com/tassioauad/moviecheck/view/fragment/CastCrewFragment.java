@@ -134,6 +134,7 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
         linearLayoutAnyCastFounded.setVisibility(View.GONE);
         recyclerViewCast.setVisibility(View.VISIBLE);
         recyclerViewCast.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
+        //.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewCast.setAdapter(new CastListAdapter(castList, new OnItemClickListener<Cast>() {
             @Override
             public void onClick(Cast cast) {
