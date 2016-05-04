@@ -104,6 +104,8 @@ public class ListUpcomingMoviesActivity extends AppCompatActivity implements Lis
     @Override
     public void showLoadingMovies() {
         progressBar.setVisibility(View.VISIBLE);
+        linearLayoutAnyFounded.setVisibility(View.GONE);
+        linearLayoutLoadFailed.setVisibility(View.GONE);
     }
 
     @Override
@@ -168,6 +170,12 @@ public class ListUpcomingMoviesActivity extends AppCompatActivity implements Lis
         if(movieList == null) {
             linearLayoutAnyFounded.setVisibility(View.GONE);
             linearLayoutLoadFailed.setVisibility(View.VISIBLE);
+            linearLayoutLoadFailed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    presenter.loadMovies(page);
+                }
+            });
             recyclerViewMovies.setVisibility(View.GONE);
         } else {
             Toast.makeText(this, getString(R.string.general_failedtoload), Toast.LENGTH_SHORT).show();

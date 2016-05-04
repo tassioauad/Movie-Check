@@ -38,6 +38,7 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
     private List<Cast> castList;
     private List<Crew> crewList;
+    private Movie movie;
     private static final String KEY_CREWLIST = "CREWLIST";
     private static final String KEY_CASTLIST = "CASTLIST";
     private static final String KEY_MOVIE = "MOVIE";
@@ -72,13 +73,15 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
         View view = inflater.inflate(R.layout.fragment_castcrew, container, false);
         ButterKnife.bind(this, view);
 
-        if(savedInstanceState != null) {
+        movie = getArguments().getParcelable(KEY_MOVIE);
+
+        if (savedInstanceState != null) {
             crewList = savedInstanceState.getParcelableArrayList(KEY_CREWLIST);
             castList = savedInstanceState.getParcelableArrayList(KEY_CASTLIST);
-            if(castList != null) {
+            if (castList != null) {
                 showCasts(castList);
             }
-            if(crewList != null) {
+            if (crewList != null) {
                 showCrews(crewList);
             }
         }
@@ -88,11 +91,11 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
     @Override
     public void onResume() {
-        if(castList == null) {
-            presenter.loadCast((Movie) getArguments().getParcelable(KEY_MOVIE));
+        if (castList == null) {
+            presenter.loadCast(movie);
         }
-        if(crewList == null) {
-            presenter.loadCrew((Movie) getArguments().getParcelable(KEY_MOVIE));
+        if (crewList == null) {
+            presenter.loadCrew(movie);
         }
         super.onResume();
     }
@@ -105,10 +108,10 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        if(crewList != null) {
+        if (crewList != null) {
             outState.putParcelableArrayList(KEY_CREWLIST, new ArrayList<>(crewList));
         }
-        if(castList != null) {
+        if (castList != null) {
             outState.putParcelableArrayList(KEY_CASTLIST, new ArrayList<>(castList));
         }
     }
@@ -129,6 +132,8 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
     @Override
     public void showLoadingCrew() {
         progressBarCrew.setVisibility(View.VISIBLE);
+        linearLayoutCrewLoadFailed.setVisibility(View.GONE);
+        linearLayoutAnyCrewFounded.setVisibility(View.GONE);
     }
 
     @Override
@@ -156,6 +161,12 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
     @Override
     public void warnFailedToLoadCrews() {
         linearLayoutCrewLoadFailed.setVisibility(View.VISIBLE);
+        linearLayoutCrewLoadFailed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.loadCrew(movie);
+            }
+        });
         linearLayoutAnyCrewFounded.setVisibility(View.GONE);
         recyclerViewCrew.setVisibility(View.GONE);
     }
@@ -168,6 +179,8 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
     @Override
     public void showLoadingCast() {
         progressBarCast.setVisibility(View.VISIBLE);
+        linearLayoutCastLoadFailed.setVisibility(View.GONE);
+        linearLayoutAnyCastFounded.setVisibility(View.GONE);
     }
 
     @Override
@@ -195,6 +208,12 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
     @Override
     public void warnFailedToLoadCasts() {
         linearLayoutCastLoadFailed.setVisibility(View.VISIBLE);
+        linearLayoutCastLoadFailed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.loadCast(movie);
+            }
+        });
         linearLayoutAnyCastFounded.setVisibility(View.GONE);
         recyclerViewCast.setVisibility(View.GONE);
     }

@@ -11,7 +11,7 @@
     <string name="general_toprated">Top Rated</string>
     <string name="general_more">more</string>
     <string name="general_date">MM-dd-yyyy</string>
-    <string name="general_failedtoload">Ops! Failed to Load! :´(</string>
+    <string name="general_failedtoload">Ops! Failed to Load! :´( \n Touch to try again</string>
     <string name="general_anyfounded">Ops! Any founded! :´(</string>
 
     <!--ListPopularMoviesActivity -->

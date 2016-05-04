@@ -107,6 +107,8 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
     @Override
     public void showLoadingReview() {
         progressBar.setVisibility(View.VISIBLE);
+        linearLayoutAnyFounded.setVisibility(View.GONE);
+        linearLayoutLoadFailed.setVisibility(View.GONE);
     }
 
     @Override
@@ -164,6 +166,12 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
         if(reviewList == null) {
             linearLayoutAnyFounded.setVisibility(View.GONE);
             linearLayoutLoadFailed.setVisibility(View.VISIBLE);
+            linearLayoutLoadFailed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    presenter.loadReviews(movie, page);
+                }
+            });
             recyclerViewReviews.setVisibility(View.GONE);
         } else {
             Toast.makeText(getActivity(), getActivity().getString(R.string.general_failedtoload), Toast.LENGTH_SHORT).show();

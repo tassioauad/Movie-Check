@@ -150,6 +150,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     @Override
     public void showLoadingUpcomingMovies() {
         progressBarUpcoming.setVisibility(View.VISIBLE);
+        linearLayoutUpcomingAnyFounded.setVisibility(View.GONE);
+        linearLayoutUpcomingLoadFailed.setVisibility(View.GONE);
     }
 
     @Override
@@ -178,6 +180,12 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewUpcoming.setVisibility(View.GONE);
         linearLayoutUpcomingAnyFounded.setVisibility(View.GONE);
         linearLayoutUpcomingLoadFailed.setVisibility(View.VISIBLE);
+        linearLayoutUpcomingLoadFailed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.listUpcomingMovies();
+            }
+        });
     }
 
     @Override
@@ -190,6 +198,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     @Override
     public void showLoadingPopularMovies() {
         progressBarPopular.setVisibility(View.VISIBLE);
+        linearLayoutPopularAnyFounded.setVisibility(View.GONE);
+        linearLayoutPopularLoadFailed.setVisibility(View.GONE);
     }
 
     @Override
@@ -209,6 +219,12 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewPopular.setVisibility(View.GONE);
         linearLayoutPopularAnyFounded.setVisibility(View.GONE);
         linearLayoutPopularLoadFailed.setVisibility(View.VISIBLE);
+        linearLayoutPopularLoadFailed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.listPopularMovies();
+            }
+        });
     }
 
     @Override
@@ -230,6 +246,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     @Override
     public void showLoadingTopRatedMovies() {
         progressBarTopRated.setVisibility(View.VISIBLE);
+        linearLayoutTopRatedAnyFounded.setVisibility(View.GONE);
+        linearLayoutTopRatedLoadFailed.setVisibility(View.GONE);
     }
 
     @Override
@@ -265,11 +283,19 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewTopRated.setVisibility(View.GONE);
         linearLayoutTopRatedAnyFounded.setVisibility(View.GONE);
         linearLayoutTopRatedLoadFailed.setVisibility(View.VISIBLE);
+        linearLayoutTopRatedLoadFailed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.listTopRatedMovies();
+            }
+        });
     }
 
     @Override
     public void showLoadingNowPlayingMovies() {
         progressBarNowPlaying.setVisibility(View.VISIBLE);
+        linearLayoutNowPlayingAnyFounded.setVisibility(View.GONE);
+        linearLayoutNowPlayingLoadFailed.setVisibility(View.GONE);
     }
 
     @Override
@@ -305,6 +331,12 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewNowPlaying.setVisibility(View.GONE);
         linearLayoutNowPlayingAnyFounded.setVisibility(View.GONE);
         linearLayoutNowPlayingLoadFailed.setVisibility(View.VISIBLE);
+        linearLayoutNowPlayingLoadFailed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.listNowPlayingMovies();
+            }
+        });
     }
 
     public void morePopularMovies(View view) {
