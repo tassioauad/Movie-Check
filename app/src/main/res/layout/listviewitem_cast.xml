@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/selector_row"
@@ -25,17 +25,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@color/accent"
+        android:layout_alignLeft="@id/imageview_poster"
+        android:layout_alignStart="@id/imageview_poster"
+        android:layout_alignRight="@id/imageview_poster"
+        android:layout_alignEnd="@id/imageview_poster"
+        android:background="@color/accent_alpha"
         android:gravity="center"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textview_name"
-            style="@style/TextImageLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:singleLine="false" />
 
         <TextView
             android:id="@+id/textview_character"
@@ -45,7 +41,15 @@
             android:gravity="center"
             android:singleLine="false" />
 
+        <TextView
+            android:id="@+id/textview_name"
+            style="@style/TextImageLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="false" />
+
     </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>
