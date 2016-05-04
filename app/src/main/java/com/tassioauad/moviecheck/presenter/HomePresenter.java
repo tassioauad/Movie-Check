@@ -17,13 +17,6 @@ public class HomePresenter {
         this.movieApi = movieApi;
     }
 
-    public void init() {
-        listUpcomingMovies();
-        listPopularMovies();
-        listTopRatedMovies();
-        listNowPlayingMovies();
-    }
-
     public void listUpcomingMovies() {
         view.showLoadingUpcomingMovies();
         movieApi.setApiResultListener(new ApiResultListener() {
@@ -118,5 +111,9 @@ public class HomePresenter {
         });
 
         movieApi.listNowPlayingMovies();
+    }
+
+    public void stop() {
+        movieApi.cancelAllServices();
     }
 }

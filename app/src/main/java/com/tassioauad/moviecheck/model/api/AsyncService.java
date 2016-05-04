@@ -8,5 +8,5 @@ public interface AsyncService {
 
     void setApiResultListener(ApiResultListener listener);
 
-    void cancelAllService();
+    void cancelAllServices();
 }

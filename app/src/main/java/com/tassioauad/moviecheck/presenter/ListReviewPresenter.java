@@ -41,5 +41,7 @@ public class ListReviewPresenter {
         reviewApi.listByMovies(movie, page);
     }
 
-
+    public void stop() {
+        reviewApi.cancelAllServices();
+    }
 }

@@ -28,7 +28,7 @@ public class CastApiImpl extends GenericApi implements CastApi {
     }
 
     @Override
-    public void cancelAllService() {
+    public void cancelAllServices() {
         if (listCastByMovieAsyncTask != null && listCastByMovieAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
             listCastByMovieAsyncTask.cancel(true);
         }

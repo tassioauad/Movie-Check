@@ -1,6 +1,7 @@
 package com.tassioauad.moviecheck.view.fragment;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +28,7 @@ import com.tassioauad.moviecheck.view.adapter.GenreListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -40,6 +42,9 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
 
     @Inject
     MovieDetailPresenter presenter;
+    private static final String KEY_MOVIE = "MOVIE";
+    private static final String KEY_GENRELIST = "GENRELIST";
+    private List<Genre> genreList;
 
     @Bind(R.id.textview_votecount)
     TextView textViewVoteCount;
@@ -58,8 +63,6 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     @Bind(R.id.progressbar_genre)
     ProgressBar progressBarGenre;
 
-    private static final String KEY_MOVIE = "MOVIE";
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +77,34 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         ButterKnife.bind(this, view);
 
         presenter.init((Movie) getArguments().getParcelable(KEY_MOVIE));
+        if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(KEY_GENRELIST) != null) {
+            genreList = savedInstanceState.getParcelableArrayList(KEY_GENRELIST);
+            showGenres(genreList);
+        }
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        if (genreList == null) {
+            presenter.loadGenres();
+        }
+        super.onResume();
+    }
+
+    @Override
+    public void onStop() {
+        presenter.stop();
+        super.onStop();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (genreList != null) {
+            outState.putParcelableArrayList(KEY_GENRELIST, new ArrayList<>(genreList));
+        }
+        super.onSaveInstanceState(outState);
     }
 
     public static MovieDetailFragment newInstance(Movie movie) {
@@ -93,7 +122,7 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
 
     @Override
     public void showVoteAverage(float voteAverage) {
-        ratingBarVoteAverage.setRating(voteAverage/2);
+        ratingBarVoteAverage.setRating(voteAverage / 2);
     }
 
     @Override
@@ -131,6 +160,7 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
 
     @Override
     public void showGenres(List<Genre> genreList) {
+        this.genreList = genreList;
         recyclerViewGenres.setVisibility(View.VISIBLE);
         recyclerViewGenres.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerViewGenres.setAdapter(new GenreListAdapter(genreList, new OnItemClickListener<Genre>() {

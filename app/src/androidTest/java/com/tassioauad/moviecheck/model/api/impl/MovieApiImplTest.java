@@ -220,7 +220,7 @@ public class MovieApiImplTest extends AndroidTestCase {
         });
         movieApi.listNowPlayingMovies();
 
-        movieApi.cancelAllService();
+        movieApi.cancelAllServices();
     }
     
     public void testCancelAllService_ListTopRatedMovies() {
@@ -237,7 +237,7 @@ public class MovieApiImplTest extends AndroidTestCase {
         });
         movieApi.listTopRatedMovies();
 
-        movieApi.cancelAllService();
+        movieApi.cancelAllServices();
     }
     
     public void testCancelAllService_ListUpcomingMovies() {
@@ -254,7 +254,7 @@ public class MovieApiImplTest extends AndroidTestCase {
         });
         movieApi.listUpcomingMovies();
 
-        movieApi.cancelAllService();
+        movieApi.cancelAllServices();
     }
     
     public void testCancelAllService_ListPopularMovies() {
@@ -271,7 +271,7 @@ public class MovieApiImplTest extends AndroidTestCase {
         });
         movieApi.listPopularMovies();
 
-        movieApi.cancelAllService();
+        movieApi.cancelAllServices();
     }
 
 }

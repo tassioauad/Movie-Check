@@ -22,6 +22,7 @@ import com.tassioauad.moviecheck.view.adapter.MovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.TopRatedMovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.UpcomingMovieListAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,6 +34,14 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     @Inject
     HomePresenter presenter;
+    private List<Movie> popularMovieList;
+    private List<Movie> topRatedMovieList;
+    private List<Movie> upcomingMovieList;
+    private List<Movie> nowPlayingMovieList;
+    private static final String KEY_POPULARMOVIELIST = "POPULARMOVIELIST";
+    private static final String KEY_TOPRATEMOVIELIST = "TOPRATEMOVIELIST";
+    private static final String KEY_UPCOMINGMOVIELIST = "UPCOMINGMOVIELIST";
+    private static final String KEY_NOWPLAYINGMOVIELIST = "NOWPLAYINGMOVIELIST";
 
     @Bind(R.id.recyclerview_nowplaying)
     RecyclerView recyclerViewNowPlaying;
@@ -78,7 +87,64 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
         setSupportActionBar(toolbar);
 
-        presenter.init();
+        if(savedInstanceState != null) {
+            popularMovieList = savedInstanceState.getParcelableArrayList(KEY_POPULARMOVIELIST);
+            topRatedMovieList = savedInstanceState.getParcelableArrayList(KEY_TOPRATEMOVIELIST);
+            upcomingMovieList = savedInstanceState.getParcelableArrayList(KEY_UPCOMINGMOVIELIST);
+            nowPlayingMovieList = savedInstanceState.getParcelableArrayList(KEY_NOWPLAYINGMOVIELIST);
+            if(popularMovieList != null) {
+                showPopularMovies(popularMovieList);
+            }
+            if(topRatedMovieList != null) {
+                showTopRatedMovies(topRatedMovieList);
+            }
+            if(upcomingMovieList != null) {
+                showUpcomingMovies(upcomingMovieList);
+            }
+            if(nowPlayingMovieList != null) {
+                showNowPlayingMovies(nowPlayingMovieList);
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        if(popularMovieList == null) {
+            presenter.listPopularMovies();
+        }
+        if(topRatedMovieList == null) {
+            presenter.listTopRatedMovies();
+        }
+        if(upcomingMovieList == null) {
+            presenter.listUpcomingMovies();
+        }
+        if(nowPlayingMovieList == null) {
+            presenter.listNowPlayingMovies();
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        presenter.stop();
+        super.onStop();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if(popularMovieList != null) {
+            outState.putParcelableArrayList(KEY_POPULARMOVIELIST, new ArrayList<>(popularMovieList));
+        }
+        if(topRatedMovieList != null) {
+            outState.putParcelableArrayList(KEY_TOPRATEMOVIELIST, new ArrayList<>(topRatedMovieList));
+        }
+        if(upcomingMovieList != null) {
+            outState.putParcelableArrayList(KEY_UPCOMINGMOVIELIST, new ArrayList<>(upcomingMovieList));
+        }
+        if(nowPlayingMovieList != null) {
+            outState.putParcelableArrayList(KEY_NOWPLAYINGMOVIELIST, new ArrayList<>(nowPlayingMovieList));
+        }
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -93,6 +159,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     @Override
     public void showUpcomingMovies(List<Movie> movieList) {
+        upcomingMovieList = movieList;
         recyclerViewUpcoming.setVisibility(View.VISIBLE);
         linearLayoutUpcomingAnyFounded.setVisibility(View.GONE);
         linearLayoutUpcomingLoadFailed.setVisibility(View.GONE);
@@ -128,7 +195,6 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     @Override
     public void hideLoadingPopularMovies() {
         progressBarPopular.setVisibility(View.GONE);
-
     }
 
     @Override
@@ -147,6 +213,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     @Override
     public void showPopularMovies(List<Movie> movieList) {
+        this.popularMovieList = movieList;
         recyclerViewPopular.setVisibility(View.VISIBLE);
         linearLayoutPopularAnyFounded.setVisibility(View.GONE);
         linearLayoutPopularLoadFailed.setVisibility(View.GONE);
@@ -174,6 +241,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     @Override
     public void showTopRatedMovies(List<Movie> movieList) {
+        topRatedMovieList = movieList;
         recyclerViewTopRated.setVisibility(View.VISIBLE);
         linearLayoutTopRatedAnyFounded.setVisibility(View.GONE);
         linearLayoutTopRatedLoadFailed.setVisibility(View.GONE);
@@ -213,6 +281,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     @Override
     public void showNowPlayingMovies(List<Movie> movieList) {
+        nowPlayingMovieList = movieList;
         linearLayoutNowPlayingAnyFounded.setVisibility(View.GONE);
         linearLayoutNowPlayingLoadFailed.setVisibility(View.GONE);
         recyclerViewNowPlaying.setVisibility(View.VISIBLE);

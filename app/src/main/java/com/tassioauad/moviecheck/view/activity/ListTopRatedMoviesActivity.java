@@ -76,6 +76,12 @@ public class ListTopRatedMoviesActivity extends AppCompatActivity implements Lis
     }
 
     @Override
+    protected void onStop() {
+        presenter.stop();
+        super.onStop();
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (movieList != null) {
             outState.putParcelableArrayList(BUNDLE_KEY_MOVIELIST, new ArrayList<>(movieList));
@@ -100,13 +106,9 @@ public class ListTopRatedMoviesActivity extends AppCompatActivity implements Lis
 
     @Override
     public void warnAnyMovieFounded() {
-        if (movieList == null) {
-            linearLayoutAnyFounded.setVisibility(View.VISIBLE);
-            linearLayoutLoadFailed.setVisibility(View.GONE);
-            recyclerViewMovies.setVisibility(View.GONE);
-        } else {
-            Toast.makeText(this, R.string.general_anyfounded, Toast.LENGTH_SHORT).show();
-        }
+        linearLayoutAnyFounded.setVisibility(View.VISIBLE);
+        linearLayoutLoadFailed.setVisibility(View.GONE);
+        recyclerViewMovies.setVisibility(View.GONE);
     }
 
     @Override
@@ -156,13 +158,9 @@ public class ListTopRatedMoviesActivity extends AppCompatActivity implements Lis
 
     @Override
     public void warnFailedToLoadMovies() {
-        if (movieList == null) {
-            linearLayoutAnyFounded.setVisibility(View.GONE);
-            linearLayoutLoadFailed.setVisibility(View.VISIBLE);
-            recyclerViewMovies.setVisibility(View.GONE);
-        } else {
-            Toast.makeText(this, R.string.general_failedtoload, Toast.LENGTH_SHORT).show();
-        }
+        linearLayoutAnyFounded.setVisibility(View.GONE);
+        linearLayoutLoadFailed.setVisibility(View.VISIBLE);
+        recyclerViewMovies.setVisibility(View.GONE);
     }
 
     public static Intent newIntent(Context context) {

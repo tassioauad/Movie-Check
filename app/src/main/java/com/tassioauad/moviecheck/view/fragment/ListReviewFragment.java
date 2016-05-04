@@ -48,7 +48,7 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
     @Inject
     ListReviewPresenter presenter;
     private List<Review> reviewList;
-    private Integer columns = 3;
+    private Integer columns = 1;
     private int scrollToItem;
     private int page = 1;
     private Movie movie;
@@ -69,16 +69,29 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
         View view = inflater.inflate(R.layout.fragment_listreview, container, false);
         ButterKnife.bind(this, view);
 
-        if (savedInstanceState == null) {
-            movie = getArguments().getParcelable(KEY_MOVIE);
-            presenter.loadReviews(movie, page);
-        } else {
+        if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(BUNDLE_KEY_REVIEWLIST) != null
+                && savedInstanceState.getInt(BUNDLE_KEY_PAGE) != 0) {
             List<Review> reviewList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_REVIEWLIST);
             page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
             showReviews(reviewList);
         }
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        if (reviewList == null) {
+            movie = getArguments().getParcelable(KEY_MOVIE);
+            presenter.loadReviews(movie, page);
+        }
+        super.onResume();
+    }
+
+    @Override
+    public void onStop() {
+        presenter.stop();
+        super.onStop();
     }
 
     @Override
@@ -97,13 +110,9 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
 
     @Override
     public void warnAnyReviewFounded() {
-        if (reviewList == null) {
-            linearLayoutAnyFounded.setVisibility(View.VISIBLE);
-            linearLayoutLoadFailed.setVisibility(View.GONE);
-            recyclerViewReviews.setVisibility(View.GONE);
-        } else {
-            Toast.makeText(getActivity(), R.string.general_anyfounded, Toast.LENGTH_SHORT).show();
-        }
+        linearLayoutAnyFounded.setVisibility(View.VISIBLE);
+        linearLayoutLoadFailed.setVisibility(View.GONE);
+        recyclerViewReviews.setVisibility(View.GONE);
     }
 
     @Override
@@ -146,13 +155,9 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
 
     @Override
     public void warnFailedToLoadReviews() {
-        if (reviewList == null) {
-            linearLayoutAnyFounded.setVisibility(View.GONE);
-            linearLayoutLoadFailed.setVisibility(View.VISIBLE);
-            recyclerViewReviews.setVisibility(View.GONE);
-        } else {
-            Toast.makeText(getActivity(), R.string.general_failedtoload, Toast.LENGTH_SHORT).show();
-        }
+        linearLayoutAnyFounded.setVisibility(View.GONE);
+        linearLayoutLoadFailed.setVisibility(View.VISIBLE);
+        recyclerViewReviews.setVisibility(View.GONE);
     }
 
     public static ListReviewFragment newInstance(Movie movie) {

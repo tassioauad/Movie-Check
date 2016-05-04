@@ -23,6 +23,7 @@ import com.tassioauad.moviecheck.view.adapter.CastListAdapter;
 import com.tassioauad.moviecheck.view.adapter.CrewListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,6 +35,12 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
     @Inject
     CastCrewPresenter presenter;
+
+    private List<Cast> castList;
+    private List<Crew> crewList;
+    private static final String KEY_CREWLIST = "CREWLIST";
+    private static final String KEY_CASTLIST = "CASTLIST";
+    private static final String KEY_MOVIE = "MOVIE";
 
     @Bind(R.id.recyclerview_cast)
     RecyclerView recyclerViewCast;
@@ -52,8 +59,6 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
     @Bind(R.id.progressbar_crew)
     ProgressBar progressBarCrew;
 
-    private static final String KEY_MOVIE = "MOVIE";
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +72,45 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
         View view = inflater.inflate(R.layout.fragment_castcrew, container, false);
         ButterKnife.bind(this, view);
 
-        presenter.init((Movie) getArguments().getParcelable(KEY_MOVIE));
+        if(savedInstanceState != null) {
+            crewList = savedInstanceState.getParcelableArrayList(KEY_CREWLIST);
+            castList = savedInstanceState.getParcelableArrayList(KEY_CASTLIST);
+            if(castList != null) {
+                showCasts(castList);
+            }
+            if(crewList != null) {
+                showCrews(crewList);
+            }
+        }
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        if(castList == null) {
+            presenter.loadCast((Movie) getArguments().getParcelable(KEY_MOVIE));
+        }
+        if(crewList == null) {
+            presenter.loadCrew((Movie) getArguments().getParcelable(KEY_MOVIE));
+        }
+        super.onResume();
+    }
+
+    @Override
+    public void onStop() {
+        presenter.stop();
+        super.onStop();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if(crewList != null) {
+            outState.putParcelableArrayList(KEY_CREWLIST, new ArrayList<>(crewList));
+        }
+        if(castList != null) {
+            outState.putParcelableArrayList(KEY_CASTLIST, new ArrayList<>(castList));
+        }
     }
 
     public static CastCrewFragment newInstance(Movie movie) {
@@ -92,6 +133,7 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
     @Override
     public void showCrews(List<Crew> crewList) {
+        this.crewList = crewList;
         linearLayoutCrewLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCrewFounded.setVisibility(View.GONE);
         recyclerViewCrew.setVisibility(View.VISIBLE);
@@ -130,11 +172,11 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
     @Override
     public void showCasts(List<Cast> castList) {
+        this.castList = castList;
         linearLayoutCastLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCastFounded.setVisibility(View.GONE);
         recyclerViewCast.setVisibility(View.VISIBLE);
         recyclerViewCast.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
-        //.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewCast.setAdapter(new CastListAdapter(castList, new OnItemClickListener<Cast>() {
             @Override
             public void onClick(Cast cast) {

@@ -27,7 +27,7 @@ public class GenreApiImpl extends GenericApi implements GenreApi {
     }
 
     @Override
-    public void cancelAllService() {
+    public void cancelAllServices() {
         if(listAllMovieGenreAsyncTask != null && listAllMovieGenreAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
             listAllMovieGenreAsyncTask.cancel(true);
         }

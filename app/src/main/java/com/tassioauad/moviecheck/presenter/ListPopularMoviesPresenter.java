@@ -42,4 +42,7 @@ public class ListPopularMoviesPresenter {
     }
 
 
+    public void stop() {
+        movieApi.cancelAllServices();
+    }
 }

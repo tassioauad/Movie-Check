@@ -100,7 +100,7 @@ public class MovieApiImpl extends GenericApi implements MovieApi {
     }
     
     @Override
-    public void cancelAllService() {
+    public void cancelAllServices() {
         if(listUpComingMovieAsyncTask != null && listUpComingMovieAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
             listUpComingMovieAsyncTask.cancel(true);
         }

@@ -44,4 +44,7 @@ public class ListMoviesByGenrePresenter {
     }
 
 
+    public void stop() {
+        movieApi.cancelAllServices();
+    }
 }

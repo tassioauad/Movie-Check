@@ -28,7 +28,7 @@ public class ReviewApiImpl extends GenericApi implements ReviewApi {
     }
 
     @Override
-    public void cancelAllService() {
+    public void cancelAllServices() {
         if(listReviewByMovieAsyncTask != null && listReviewByMovieAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
             listReviewByMovieAsyncTask.cancel(true);
         }

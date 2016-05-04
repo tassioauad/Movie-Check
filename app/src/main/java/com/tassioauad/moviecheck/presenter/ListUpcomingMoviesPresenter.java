@@ -42,4 +42,7 @@ public class ListUpcomingMoviesPresenter {
     }
 
 
+    public void stop() {
+        movieApi.cancelAllServices();
+    }
 }

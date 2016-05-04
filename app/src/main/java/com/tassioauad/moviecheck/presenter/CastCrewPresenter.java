@@ -15,7 +15,6 @@ public class CastCrewPresenter {
     private CastCrewView view;
     private CastApi castApi;
     private CrewApi crewApi;
-    private Movie movie;
 
     public CastCrewPresenter(CastCrewView view, CastApi castApi, CrewApi crewApi) {
         this.view = view;
@@ -23,13 +22,7 @@ public class CastCrewPresenter {
         this.crewApi = crewApi;
     }
 
-    public void init(Movie movie) {
-        this.movie = movie;
-        loadCrew();
-        loadCast();
-    }
-
-    private void loadCrew() {
+    public void loadCrew(Movie movie) {
         view.showLoadingCrew();
         crewApi.setApiResultListener(new ApiResultListener() {
             @Override
@@ -52,7 +45,7 @@ public class CastCrewPresenter {
         crewApi.listAllByMovie(movie);
     }
 
-    private void loadCast() {
+    public void loadCast(Movie movie) {
         view.showLoadingCast();
         castApi.setApiResultListener(new ApiResultListener() {
             @Override
@@ -73,5 +66,10 @@ public class CastCrewPresenter {
             }
         });
         castApi.listAllByMovie(movie);
+    }
+
+    public void stop() {
+        castApi.cancelAllServices();
+        crewApi.cancelAllServices();
     }
 }

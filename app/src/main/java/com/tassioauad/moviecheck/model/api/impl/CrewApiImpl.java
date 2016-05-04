@@ -28,7 +28,7 @@ public class CrewApiImpl extends GenericApi implements CrewApi {
     }
 
     @Override
-    public void cancelAllService() {
+    public void cancelAllServices() {
         if (listCrewByMovieAsyncTask != null && listCrewByMovieAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
             listCrewByMovieAsyncTask.cancel(true);
         }

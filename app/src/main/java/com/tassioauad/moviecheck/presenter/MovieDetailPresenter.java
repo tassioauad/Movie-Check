@@ -29,10 +29,9 @@ public class MovieDetailPresenter {
         view.showReleaseDate(movie.getReleaseDate());
         view.showPoster(movie.getPosterUrl());
         view.showBackdrop(movie.getBackdropUrl());
-        loadGenres();
     }
 
-    private void loadGenres() {
+    public void loadGenres() {
         view.showLoadingGenres();
         genreApi.setApiResultListener(new ApiResultListener() {
             @Override
@@ -61,4 +60,7 @@ public class MovieDetailPresenter {
         genreApi.listAllOfMovie();
     }
 
+    public void stop() {
+        genreApi.cancelAllServices();
+    }
 }
