@@ -17,6 +17,7 @@ import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.presenter.MovieProfilePresenter;
 import com.tassioauad.moviecheck.view.MovieProfileView;
 import com.tassioauad.moviecheck.view.fragment.CastCrewFragment;
+import com.tassioauad.moviecheck.view.fragment.ListReviewFragment;
 import com.tassioauad.moviecheck.view.fragment.MovieDetailFragment;
 
 import javax.inject.Inject;
@@ -59,6 +60,8 @@ public class MovieProfileActivity extends AppCompatActivity implements MovieProf
                         return MovieDetailFragment.newInstance(movie);
                     case 1:
                         return CastCrewFragment.newInstance(movie);
+                    case 2:
+                        return ListReviewFragment.newInstance(movie);
                     default:
                         return null;
                 }
@@ -66,7 +69,7 @@ public class MovieProfileActivity extends AppCompatActivity implements MovieProf
 
             @Override
             public int getCount() {
-                return 2;
+                return 3;
             }
 
             @Override
@@ -76,6 +79,8 @@ public class MovieProfileActivity extends AppCompatActivity implements MovieProf
                         return getString(R.string.movieprofileactivity_general);
                     case 1:
                         return getString(R.string.movieprofileactivity_castcrew);
+                    case 2:
+                        return getString(R.string.movieprofileactivity_reviews);
                     default:
                         return null;
                 }

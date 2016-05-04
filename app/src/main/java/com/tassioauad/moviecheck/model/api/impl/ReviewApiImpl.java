@@ -24,6 +24,7 @@ public class ReviewApiImpl extends GenericApi implements ReviewApi {
         verifyServiceResultListener();
         listReviewByMovieAsyncTask = new ListReviewByMovieAsyncTask(getContext(), reviewResource, movie, page);
         listReviewByMovieAsyncTask.setApiResultListener(getApiResultListener());
+        listReviewByMovieAsyncTask.execute();
     }
 
     @Override

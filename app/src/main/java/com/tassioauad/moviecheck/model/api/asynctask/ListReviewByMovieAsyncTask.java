@@ -29,7 +29,6 @@ public class ListReviewByMovieAsyncTask extends GenericAsyncTask<Void, Void, Lis
 
     @Override
     protected AsyncTaskResult<List<Review>> doInBackground(Void... params) {
-
         try {
             Response<List<Review>> response = reviewResource.listByMovie(movie.getId(), getApiKey(), page).execute();
             switch (response.code()) {
