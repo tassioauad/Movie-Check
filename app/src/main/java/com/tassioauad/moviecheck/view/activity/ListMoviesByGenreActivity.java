@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
@@ -57,6 +56,7 @@ public class ListMoviesByGenreActivity extends AppCompatActivity implements List
     private static final String BUNDLE_KEY_MOVIELIST = "bundle_key_movielist";
     private static final String BUNDLE_KEY_PAGE = "bundle_key_page";
     private static final String KEY_GENRE = "GENRE";
+    private final int itensPerPage = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,8 +150,8 @@ public class ListMoviesByGenreActivity extends AppCompatActivity implements List
                                 scrollToItem = layoutManager.findFirstVisibleItemPosition();
                                 presenter.loadMovies(genre, ++page);
                             }
-                        }
-                )
+                        },
+                        itensPerPage)
         );
         recyclerViewMovies.scrollToPosition(scrollToItem);
     }

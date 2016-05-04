@@ -48,13 +48,14 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
     @Inject
     ListReviewPresenter presenter;
     private List<Review> reviewList;
-    private Integer columns = 1;
     private int scrollToItem;
     private int page = 1;
     private Movie movie;
+    private ListViewAdapterWithPagination listViewAdapter;
     private static final String BUNDLE_KEY_REVIEWLIST = "bundle_key_reviewlist";
     private static final String BUNDLE_KEY_PAGE = "bundle_key_page";
     private static final String KEY_MOVIE = "MOVIE";
+    private final int itensPerPage = 20;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -110,9 +111,15 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
 
     @Override
     public void warnAnyReviewFounded() {
-        linearLayoutAnyFounded.setVisibility(View.VISIBLE);
-        linearLayoutLoadFailed.setVisibility(View.GONE);
-        recyclerViewReviews.setVisibility(View.GONE);
+        if(reviewList == null) {
+            linearLayoutAnyFounded.setVisibility(View.VISIBLE);
+            linearLayoutLoadFailed.setVisibility(View.GONE);
+            recyclerViewReviews.setVisibility(View.GONE);
+        } else {
+            Toast.makeText(getActivity(), getActivity().getString(R.string.general_anyfounded), Toast.LENGTH_SHORT).show();
+            listViewAdapter.withShowMoreButton(false);
+            recyclerViewReviews.setAdapter(listViewAdapter);
+        }
     }
 
     @Override
@@ -128,23 +135,22 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
         final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
         recyclerViewReviews.setLayoutManager(layoutManager);
         recyclerViewReviews.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewReviews.setAdapter(
-                new ListViewAdapterWithPagination(
-                        new ReviewListAdapter(this.reviewList, new OnItemClickListener<Review>() {
-                            @Override
-                            public void onClick(Review review) {
+        listViewAdapter = new ListViewAdapterWithPagination(
+                new ReviewListAdapter(this.reviewList, new OnItemClickListener<Review>() {
+                    @Override
+                    public void onClick(Review review) {
 
-                            }
-                        }),
-                        new OnShowMoreListener() {
-                            @Override
-                            public void showMore() {
-                                scrollToItem = layoutManager.findFirstVisibleItemPosition();
-                                presenter.loadReviews(movie, ++page);
-                            }
-                        }
-                )
-        );
+                    }
+                }),
+                new OnShowMoreListener() {
+                    @Override
+                    public void showMore() {
+                        scrollToItem = layoutManager.findFirstVisibleItemPosition();
+                        presenter.loadReviews(movie, ++page);
+                    }
+                },
+                itensPerPage);
+        recyclerViewReviews.setAdapter(listViewAdapter);
         recyclerViewReviews.scrollToPosition(scrollToItem);
     }
 
@@ -155,9 +161,13 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
 
     @Override
     public void warnFailedToLoadReviews() {
-        linearLayoutAnyFounded.setVisibility(View.GONE);
-        linearLayoutLoadFailed.setVisibility(View.VISIBLE);
-        recyclerViewReviews.setVisibility(View.GONE);
+        if(reviewList == null) {
+            linearLayoutAnyFounded.setVisibility(View.GONE);
+            linearLayoutLoadFailed.setVisibility(View.VISIBLE);
+            recyclerViewReviews.setVisibility(View.GONE);
+        } else {
+            Toast.makeText(getActivity(), getActivity().getString(R.string.general_failedtoload), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static ListReviewFragment newInstance(Movie movie) {

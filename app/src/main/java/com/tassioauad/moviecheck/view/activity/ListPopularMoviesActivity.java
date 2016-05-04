@@ -49,11 +49,13 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
     @Inject
     ListPopularMoviesPresenter presenter;
     private List<Movie> movieList;
+    private ListViewAdapterWithPagination listViewAdapter;
     private Integer page = 1;
     private Integer columns = 3;
     private int scrollToItem;
     private static final String BUNDLE_KEY_MOVIELIST = "bundle_key_movielist";
     private static final String BUNDLE_KEY_PAGE = "bundle_key_page";
+    private final int itensPerPage = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,9 +108,15 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
 
     @Override
     public void warnAnyMovieFounded() {
-        linearLayoutAnyFounded.setVisibility(View.VISIBLE);
-        linearLayoutLoadFailed.setVisibility(View.GONE);
-        recyclerViewMovies.setVisibility(View.GONE);
+        if(movieList == null) {
+            linearLayoutAnyFounded.setVisibility(View.VISIBLE);
+            linearLayoutLoadFailed.setVisibility(View.GONE);
+            recyclerViewMovies.setVisibility(View.GONE);
+        } else {
+            Toast.makeText(this, getString(R.string.general_anyfounded), Toast.LENGTH_SHORT).show();
+            listViewAdapter.withShowMoreButton(false);
+            recyclerViewMovies.setAdapter(listViewAdapter);
+        }
     }
 
     @Override
@@ -130,24 +138,23 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
         });
         recyclerViewMovies.setLayoutManager(layoutManager);
         recyclerViewMovies.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewMovies.setAdapter(
-                new ListViewAdapterWithPagination(
-                        new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
-                            @Override
-                            public void onClick(Movie movie) {
-                                startActivity(MovieProfileActivity.newIntent(ListPopularMoviesActivity.this, movie));
-                            }
-                        }
-                        ),
-                        new OnShowMoreListener() {
-                            @Override
-                            public void showMore() {
-                                scrollToItem = layoutManager.findFirstVisibleItemPosition();
-                                presenter.loadMovies(++page);
-                            }
-                        }
-                )
-        );
+        listViewAdapter = new ListViewAdapterWithPagination(
+                new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
+                    @Override
+                    public void onClick(Movie movie) {
+                        startActivity(MovieProfileActivity.newIntent(ListPopularMoviesActivity.this, movie));
+                    }
+                }
+                ),
+                new OnShowMoreListener() {
+                    @Override
+                    public void showMore() {
+                        scrollToItem = layoutManager.findFirstVisibleItemPosition();
+                        presenter.loadMovies(++page);
+                    }
+                },
+                itensPerPage);
+        recyclerViewMovies.setAdapter(listViewAdapter);
         recyclerViewMovies.scrollToPosition(scrollToItem);
     }
 
@@ -158,9 +165,13 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
 
     @Override
     public void warnFailedToLoadMovies() {
-        linearLayoutAnyFounded.setVisibility(View.GONE);
-        linearLayoutLoadFailed.setVisibility(View.VISIBLE);
-        recyclerViewMovies.setVisibility(View.GONE);
+        if(movieList == null) {
+            linearLayoutAnyFounded.setVisibility(View.GONE);
+            linearLayoutLoadFailed.setVisibility(View.VISIBLE);
+            recyclerViewMovies.setVisibility(View.GONE);
+        } else {
+            Toast.makeText(this, getString(R.string.general_failedtoload), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static Intent newIntent(Context context) {
