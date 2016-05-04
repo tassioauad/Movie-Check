@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_reviews"
@@ -29,10 +29,11 @@
 
     <include
         android:id="@+id/linearlayout_anyfounded"
-        layout="@layout/anyfounded" />
+        layout="@layout/anyfounded"/>
 
     <include
         android:id="@+id/linearlayout_loadfailed"
-        layout="@layout/failedtoload" />
+        layout="@layout/failedtoload"
+        android:gravity="center"/>
 
 </LinearLayout>
