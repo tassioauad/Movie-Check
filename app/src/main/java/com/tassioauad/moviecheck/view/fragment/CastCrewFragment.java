@@ -93,9 +93,13 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
     public void onResume() {
         if (castList == null) {
             presenter.loadCast(movie);
+        } else {
+            showCasts(castList);
         }
         if (crewList == null) {
             presenter.loadCrew(movie);
+        } else {
+            showCrews(crewList);
         }
         super.onResume();
     }

@@ -85,6 +85,8 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
         if (reviewList == null) {
             movie = getArguments().getParcelable(KEY_MOVIE);
             presenter.loadReviews(movie, page);
+        } else {
+            showReviews(reviewList);
         }
         super.onResume();
     }

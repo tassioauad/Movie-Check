@@ -89,6 +89,8 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     public void onResume() {
         if (genreList == null) {
             presenter.loadGenres();
+        } else {
+            showGenres(genreList);
         }
         super.onResume();
     }
