@@ -78,6 +78,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/VideoApi.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/asynctask/ListAllMovieGenreAsyncTask.java">
           <value>
             <set />
@@ -94,6 +99,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/asynctask/ListMovieByGenreAsyncTask.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/asynctask/ListVideoByMovieAsyncTask.java">
           <value>
             <set />
           </value>
@@ -118,6 +128,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/impl/VideoApiImpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/resource/CastResource.java">
           <value>
             <set />
@@ -138,7 +153,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/resource/VideoResource.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/entity/Genre.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/entity/Video.java">
           <value>
             <set />
           </value>
@@ -258,6 +283,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/adapter/VideoListAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/fragment/CastCrewFragment.java">
           <value>
             <set />
@@ -369,6 +399,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/listviewitem_upcomingmovie.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/listviewitem_video.xml">
           <value>
             <set />
           </value>

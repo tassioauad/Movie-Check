@@ -11,16 +11,19 @@ import com.tassioauad.moviecheck.model.api.GenreApi;
 import com.tassioauad.moviecheck.model.api.ItemTypeAdapterFactory;
 import com.tassioauad.moviecheck.model.api.MovieApi;
 import com.tassioauad.moviecheck.model.api.ReviewApi;
+import com.tassioauad.moviecheck.model.api.VideoApi;
 import com.tassioauad.moviecheck.model.api.impl.CastApiImpl;
 import com.tassioauad.moviecheck.model.api.impl.CrewApiImpl;
 import com.tassioauad.moviecheck.model.api.impl.GenreApiImpl;
 import com.tassioauad.moviecheck.model.api.impl.MovieApiImpl;
 import com.tassioauad.moviecheck.model.api.impl.ReviewApiImpl;
+import com.tassioauad.moviecheck.model.api.impl.VideoApiImpl;
 import com.tassioauad.moviecheck.model.api.resource.CastResource;
 import com.tassioauad.moviecheck.model.api.resource.CrewResource;
 import com.tassioauad.moviecheck.model.api.resource.GenreResource;
 import com.tassioauad.moviecheck.model.api.resource.MovieResource;
 import com.tassioauad.moviecheck.model.api.resource.ReviewResource;
+import com.tassioauad.moviecheck.model.api.resource.VideoResource;
 
 import dagger.Module;
 import dagger.Provides;
@@ -46,6 +49,11 @@ public class ApiModule {
     @Provides
     public MovieResource provideMovieResource(Context context) {
         return provideRetrofit(context).create(MovieResource.class);
+    }
+
+    @Provides
+    public VideoResource provideVideoResource(Context context) {
+        return provideRetrofit(context).create(VideoResource.class);
     }
 
     @Provides
@@ -120,5 +128,10 @@ public class ApiModule {
     @Provides
     public ReviewApi provideReviewApi(Context context) {
         return new ReviewApiImpl(context, provideReviewResource(context));
+    }
+
+    @Provides
+    public VideoApi provideVideoApi(Context context) {
+        return new VideoApiImpl(context, provideVideoResource(context));
     }
 }
