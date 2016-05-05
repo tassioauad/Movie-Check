@@ -7,5 +7,5 @@
     <!-- pressed -->
     <item android:state_pressed="true" android:drawable="@color/accent" />
     <!-- default -->
-    <item android:drawable="@android:color/transparent" />
+    <item android:drawable="@color/white" />
 </selector>

@@ -2,12 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingLeft="3dp"
-    android:paddingStart="3dp"
-    android:paddingRight="3dp"
-    android:paddingEnd="3dp"
-    android:paddingTop="3dp"
-    android:paddingBottom="3dp"
+    android:padding="3dp"
     android:background="@drawable/selector_row"
     android:orientation="vertical">
 
@@ -25,8 +20,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/scrim"
+        android:background="@color/accent_alpha"
         android:drawableLeft="@drawable/white_star"
+        android:drawableStart="@drawable/white_star"
+        android:layout_alignLeft="@id/imageview_poster"
+        android:layout_alignStart="@id/imageview_poster"
+        android:layout_alignRight="@id/imageview_poster"
+        android:layout_alignEnd="@id/imageview_poster"
         android:gravity="center" />
 
 </RelativeLayout>

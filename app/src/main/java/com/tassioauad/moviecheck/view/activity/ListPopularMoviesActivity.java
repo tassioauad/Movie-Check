@@ -23,10 +23,9 @@ import com.tassioauad.moviecheck.view.ListPopularMoviesView;
 import com.tassioauad.moviecheck.view.adapter.ListViewAdapterWithPagination;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 import com.tassioauad.moviecheck.view.adapter.OnShowMoreListener;
-import com.tassioauad.moviecheck.view.adapter.PopularMovieListAdapter;
+import com.tassioauad.moviecheck.view.adapter.MovieListAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -50,11 +49,13 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
     @Inject
     ListPopularMoviesPresenter presenter;
     private List<Movie> movieList;
+    private ListViewAdapterWithPagination listViewAdapter;
     private Integer page = 1;
     private Integer columns = 3;
     private int scrollToItem;
     private static final String BUNDLE_KEY_MOVIELIST = "bundle_key_movielist";
     private static final String BUNDLE_KEY_PAGE = "bundle_key_page";
+    private final int itensPerPage = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,12 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
             page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
             showMovies(movieList);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        presenter.stop();
+        super.onStop();
     }
 
     @Override
@@ -97,16 +104,20 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
     @Override
     public void showLoadingMovies() {
         progressBar.setVisibility(View.VISIBLE);
+        linearLayoutAnyFounded.setVisibility(View.GONE);
+        linearLayoutLoadFailed.setVisibility(View.GONE);
     }
 
     @Override
     public void warnAnyMovieFounded() {
-        if (movieList == null) {
+        if(movieList == null) {
             linearLayoutAnyFounded.setVisibility(View.VISIBLE);
             linearLayoutLoadFailed.setVisibility(View.GONE);
             recyclerViewMovies.setVisibility(View.GONE);
         } else {
-            Toast.makeText(this, R.string.listpopularmoviesactivity_anymoviefounded, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.general_anyfounded), Toast.LENGTH_SHORT).show();
+            listViewAdapter.withShowMoreButton(false);
+            recyclerViewMovies.setAdapter(listViewAdapter);
         }
     }
 
@@ -129,24 +140,23 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
         });
         recyclerViewMovies.setLayoutManager(layoutManager);
         recyclerViewMovies.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewMovies.setAdapter(
-                new ListViewAdapterWithPagination(
-                        new PopularMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
-                            @Override
-                            public void onClick(Movie movie) {
-
-                            }
-                        }
-                        ),
-                        new OnShowMoreListener() {
-                            @Override
-                            public void showMore() {
-                                scrollToItem = layoutManager.findFirstVisibleItemPosition();
-                                presenter.loadMovies(++page);
-                            }
-                        }
-                )
-        );
+        listViewAdapter = new ListViewAdapterWithPagination(
+                new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
+                    @Override
+                    public void onClick(Movie movie) {
+                        startActivity(MovieProfileActivity.newIntent(ListPopularMoviesActivity.this, movie));
+                    }
+                }
+                ),
+                new OnShowMoreListener() {
+                    @Override
+                    public void showMore() {
+                        scrollToItem = layoutManager.findFirstVisibleItemPosition();
+                        presenter.loadMovies(++page);
+                    }
+                },
+                itensPerPage);
+        recyclerViewMovies.setAdapter(listViewAdapter);
         recyclerViewMovies.scrollToPosition(scrollToItem);
     }
 
@@ -157,12 +167,18 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
 
     @Override
     public void warnFailedToLoadMovies() {
-        if (movieList == null) {
+        if(movieList == null) {
             linearLayoutAnyFounded.setVisibility(View.GONE);
             linearLayoutLoadFailed.setVisibility(View.VISIBLE);
+            linearLayoutLoadFailed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    presenter.loadMovies(page);
+                }
+            });
             recyclerViewMovies.setVisibility(View.GONE);
         } else {
-            Toast.makeText(this, R.string.listpopularmoviesactivity_failedtoloadmovie, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.general_failedtoload), Toast.LENGTH_SHORT).show();
         }
     }
 

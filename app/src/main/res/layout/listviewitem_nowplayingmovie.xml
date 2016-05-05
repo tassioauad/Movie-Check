@@ -10,17 +10,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:src="@drawable/noimage" />
 
     <TextView
         android:id="@+id/textview_name"
         style="@style/TextImageLabel"
+        android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/scrim"
+        android:background="@color/accent_alpha"
         android:gravity="center" />
 
 </RelativeLayout>

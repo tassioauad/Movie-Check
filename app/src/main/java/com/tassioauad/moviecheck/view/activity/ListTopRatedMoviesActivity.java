@@ -2,6 +2,7 @@ package com.tassioauad.moviecheck.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.ListTopRatedMoviesViewModule;
@@ -52,18 +52,20 @@ public class ListTopRatedMoviesActivity extends AppCompatActivity implements Lis
     private Integer page = 1;
     private Integer columns = 3;
     private int scrollToItem;
+    private ListViewAdapterWithPagination listViewAdapter;
     private static final String BUNDLE_KEY_MOVIELIST = "bundle_key_movielist";
     private static final String BUNDLE_KEY_PAGE = "bundle_key_page";
+    private final int itensPerPage = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listpopularmovies);
+        setContentView(R.layout.activity_listtopratedmovies);
         ButterKnife.bind(this);
         ((MovieCheckApplication) getApplication()).getObjectGraph().plus(new ListTopRatedMoviesViewModule(this)).inject(this);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.activity_listtopratedmovies);
+        getSupportActionBar().setTitle(R.string.listtopratedmoviesactivity_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
@@ -73,6 +75,13 @@ public class ListTopRatedMoviesActivity extends AppCompatActivity implements Lis
             page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
             showMovies(movieList);
         }
+
+    }
+
+    @Override
+    protected void onStop() {
+        presenter.stop();
+        super.onStop();
     }
 
     @Override
@@ -96,6 +105,8 @@ public class ListTopRatedMoviesActivity extends AppCompatActivity implements Lis
     @Override
     public void showLoadingMovies() {
         progressBar.setVisibility(View.VISIBLE);
+        linearLayoutAnyFounded.setVisibility(View.GONE);
+        linearLayoutLoadFailed.setVisibility(View.GONE);
     }
 
     @Override
@@ -105,7 +116,9 @@ public class ListTopRatedMoviesActivity extends AppCompatActivity implements Lis
             linearLayoutLoadFailed.setVisibility(View.GONE);
             recyclerViewMovies.setVisibility(View.GONE);
         } else {
-            Toast.makeText(this, R.string.listpopularmoviesactivity_anymoviefounded, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.general_anyfounded), Toast.LENGTH_SHORT).show();
+            listViewAdapter.withShowMoreButton(false);
+            recyclerViewMovies.setAdapter(listViewAdapter);
         }
     }
 
@@ -128,24 +141,23 @@ public class ListTopRatedMoviesActivity extends AppCompatActivity implements Lis
         });
         recyclerViewMovies.setLayoutManager(layoutManager);
         recyclerViewMovies.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewMovies.setAdapter(
-                new ListViewAdapterWithPagination(
-                        new TopRatedMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
-                            @Override
-                            public void onClick(Movie movie) {
-
-                            }
-                        }
-                        ),
-                        new OnShowMoreListener() {
-                            @Override
-                            public void showMore() {
-                                scrollToItem = layoutManager.findFirstVisibleItemPosition();
-                                presenter.loadMovies(++page);
-                            }
-                        }
-                )
-        );
+        listViewAdapter = new ListViewAdapterWithPagination(
+                new TopRatedMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
+                    @Override
+                    public void onClick(Movie movie) {
+                        startActivity(MovieProfileActivity.newIntent(ListTopRatedMoviesActivity.this, movie));
+                    }
+                }
+                ),
+                new OnShowMoreListener() {
+                    @Override
+                    public void showMore() {
+                        scrollToItem = layoutManager.findFirstVisibleItemPosition();
+                        presenter.loadMovies(++page);
+                    }
+                },
+                itensPerPage);
+        recyclerViewMovies.setAdapter(listViewAdapter);
         recyclerViewMovies.scrollToPosition(scrollToItem);
     }
 
@@ -156,16 +168,23 @@ public class ListTopRatedMoviesActivity extends AppCompatActivity implements Lis
 
     @Override
     public void warnFailedToLoadMovies() {
-        if (movieList == null) {
+        if(movieList == null) {
             linearLayoutAnyFounded.setVisibility(View.GONE);
             linearLayoutLoadFailed.setVisibility(View.VISIBLE);
+            linearLayoutLoadFailed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    presenter.loadMovies(page);
+                }
+            });
             recyclerViewMovies.setVisibility(View.GONE);
         } else {
-            Toast.makeText(this, R.string.listpopularmoviesactivity_failedtoloadmovie, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.general_failedtoload), Toast.LENGTH_SHORT).show();
         }
     }
 
     public static Intent newIntent(Context context) {
         return new Intent(context, ListTopRatedMoviesActivity.class);
     }
+
 }

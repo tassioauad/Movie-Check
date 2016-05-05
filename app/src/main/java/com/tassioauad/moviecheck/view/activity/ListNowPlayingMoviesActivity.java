@@ -49,21 +49,23 @@ public class ListNowPlayingMoviesActivity extends AppCompatActivity implements L
     @Inject
     ListNowPlayingMoviesPresenter presenter;
     private List<Movie> movieList;
+    private ListViewAdapterWithPagination listViewAdapter;
     private Integer page = 1;
     private Integer columns = 1;
     private int scrollToItem;
     private static final String BUNDLE_KEY_MOVIELIST = "bundle_key_movielist";
     private static final String BUNDLE_KEY_PAGE = "bundle_key_page";
+    private final int itensPerPage = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listpopularmovies);
+        setContentView(R.layout.activity_listnowplayingmovies);
         ButterKnife.bind(this);
         ((MovieCheckApplication) getApplication()).getObjectGraph().plus(new ListNowPlayingMoviesViewModule(this)).inject(this);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.activity_nowplayingmovies);
+        getSupportActionBar().setTitle(R.string.nowplayingmoviesactivity_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
@@ -85,6 +87,12 @@ public class ListNowPlayingMoviesActivity extends AppCompatActivity implements L
     }
 
     @Override
+    protected void onStop() {
+        presenter.stop();
+        super.onStop();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -96,16 +104,20 @@ public class ListNowPlayingMoviesActivity extends AppCompatActivity implements L
     @Override
     public void showLoadingMovies() {
         progressBar.setVisibility(View.VISIBLE);
+        linearLayoutAnyFounded.setVisibility(View.GONE);
+        linearLayoutLoadFailed.setVisibility(View.GONE);
     }
 
     @Override
     public void warnAnyMovieFounded() {
-        if (movieList == null) {
+        if(movieList == null) {
             linearLayoutAnyFounded.setVisibility(View.VISIBLE);
             linearLayoutLoadFailed.setVisibility(View.GONE);
             recyclerViewMovies.setVisibility(View.GONE);
         } else {
-            Toast.makeText(this, R.string.listpopularmoviesactivity_anymoviefounded, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.general_anyfounded), Toast.LENGTH_SHORT).show();
+            listViewAdapter.withShowMoreButton(false);
+            recyclerViewMovies.setAdapter(listViewAdapter);
         }
     }
 
@@ -122,24 +134,23 @@ public class ListNowPlayingMoviesActivity extends AppCompatActivity implements L
         final GridLayoutManager layoutManager = new GridLayoutManager(this, columns, GridLayoutManager.VERTICAL, false);
         recyclerViewMovies.setLayoutManager(layoutManager);
         recyclerViewMovies.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewMovies.setAdapter(
-                new ListViewAdapterWithPagination(
-                        new NowPlayingMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
-                            @Override
-                            public void onClick(Movie movie) {
-
-                            }
-                        }
-                        ),
-                        new OnShowMoreListener() {
-                            @Override
-                            public void showMore() {
-                                scrollToItem = layoutManager.findFirstVisibleItemPosition();
-                                presenter.loadMovies(++page);
-                            }
-                        }
-                )
-        );
+        listViewAdapter = new ListViewAdapterWithPagination(
+                new NowPlayingMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
+                    @Override
+                    public void onClick(Movie movie) {
+                        startActivity(MovieProfileActivity.newIntent(ListNowPlayingMoviesActivity.this, movie));
+                    }
+                }
+                ),
+                new OnShowMoreListener() {
+                    @Override
+                    public void showMore() {
+                        scrollToItem = layoutManager.findFirstVisibleItemPosition();
+                        presenter.loadMovies(++page);
+                    }
+                },
+                itensPerPage);
+        recyclerViewMovies.setAdapter(listViewAdapter);
         recyclerViewMovies.scrollToPosition(scrollToItem);
     }
 
@@ -150,12 +161,18 @@ public class ListNowPlayingMoviesActivity extends AppCompatActivity implements L
 
     @Override
     public void warnFailedToLoadMovies() {
-        if (movieList == null) {
+        if(movieList == null) {
             linearLayoutAnyFounded.setVisibility(View.GONE);
             linearLayoutLoadFailed.setVisibility(View.VISIBLE);
+            linearLayoutLoadFailed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    presenter.loadMovies(page);
+                }
+            });
             recyclerViewMovies.setVisibility(View.GONE);
         } else {
-            Toast.makeText(this, R.string.listpopularmoviesactivity_failedtoloadmovie, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.general_failedtoload), Toast.LENGTH_SHORT).show();
         }
     }
 

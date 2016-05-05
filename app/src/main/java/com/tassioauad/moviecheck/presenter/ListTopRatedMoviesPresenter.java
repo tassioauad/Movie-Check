@@ -43,4 +43,7 @@ public class ListTopRatedMoviesPresenter {
     }
 
 
+    public void stop() {
+        movieApi.cancelAllServices();
+    }
 }

@@ -21,6 +21,8 @@
         <activity android:name=".view.activity.ListTopRatedMoviesActivity"/>
         <activity android:name=".view.activity.ListUpcomingMoviesActivity"/>
         <activity android:name=".view.activity.ListNowPlayingMoviesActivity"/>
+        <activity android:name=".view.activity.MovieProfileActivity"/>
+        <activity android:name=".view.activity.ListMoviesByGenreActivity"/>
     </application>
 
 </manifest>

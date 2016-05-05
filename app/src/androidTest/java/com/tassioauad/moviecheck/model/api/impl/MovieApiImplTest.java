@@ -10,8 +10,6 @@ import com.tassioauad.moviecheck.model.api.asynctask.ApiResultListener;
 import com.tassioauad.moviecheck.model.api.resource.MovieResource;
 import com.tassioauad.moviecheck.model.entity.Movie;
 
-import junit.framework.TestCase;
-
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -26,7 +24,7 @@ public class MovieApiImplTest extends AndroidTestCase {
     public void setUp() throws Exception {
         super.setUp();
         Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(new ItemTypeAdapterFactory())
+                .registerTypeAdapterFactory(new ItemTypeAdapterFactory(rootName))
                 .setDateFormat("yyyy'-'MM'-'dd")
                 .create();
 
@@ -222,7 +220,7 @@ public class MovieApiImplTest extends AndroidTestCase {
         });
         movieApi.listNowPlayingMovies();
 
-        movieApi.cancelAllService();
+        movieApi.cancelAllServices();
     }
     
     public void testCancelAllService_ListTopRatedMovies() {
@@ -239,7 +237,7 @@ public class MovieApiImplTest extends AndroidTestCase {
         });
         movieApi.listTopRatedMovies();
 
-        movieApi.cancelAllService();
+        movieApi.cancelAllServices();
     }
     
     public void testCancelAllService_ListUpcomingMovies() {
@@ -256,7 +254,7 @@ public class MovieApiImplTest extends AndroidTestCase {
         });
         movieApi.listUpcomingMovies();
 
-        movieApi.cancelAllService();
+        movieApi.cancelAllServices();
     }
     
     public void testCancelAllService_ListPopularMovies() {
@@ -273,7 +271,7 @@ public class MovieApiImplTest extends AndroidTestCase {
         });
         movieApi.listPopularMovies();
 
-        movieApi.cancelAllService();
+        movieApi.cancelAllServices();
     }
 
 }

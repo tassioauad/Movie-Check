@@ -6,6 +6,7 @@ import java.util.List;
 
 import retrofit.Call;
 import retrofit.http.GET;
+import retrofit.http.Path;
 import retrofit.http.Query;
 
 public interface MovieResource {
@@ -21,5 +22,8 @@ public interface MovieResource {
 
     @GET("movie/now_playing")
     Call<List<Movie>> listNowPlaying(@Query("api_key") String apiKey, @Query("page") Integer page);
+
+    @GET("genre/{id}/movies")
+    Call<List<Movie>> listByGenre(@Path("id") Long genreId, @Query("api_key") String apiKey, @Query("page") Integer page);
 
 }

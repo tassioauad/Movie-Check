@@ -11,10 +11,13 @@ public class ListViewAdapterWithPagination extends RecyclerView.Adapter<Recycler
 
     private RecyclerView.Adapter adapter;
     private OnShowMoreListener onShowMoreListener;
+    private int itensPerPage;
+    private boolean withShowMoreButton = true;
 
-    public ListViewAdapterWithPagination(RecyclerView.Adapter adapter, OnShowMoreListener onShowMoreListener) {
+    public ListViewAdapterWithPagination(RecyclerView.Adapter adapter, OnShowMoreListener onShowMoreListener, int itensPerPage) {
         this.adapter = adapter;
         this.onShowMoreListener = onShowMoreListener;
+        this.itensPerPage = itensPerPage;
     }
 
     @Override
@@ -46,7 +49,15 @@ public class ListViewAdapterWithPagination extends RecyclerView.Adapter<Recycler
 
     @Override
     public int getItemCount() {
-        return adapter.getItemCount() + 1;
+        if(withShowMoreButton && adapter.getItemCount() % itensPerPage == 0) {
+            return adapter.getItemCount() + 1;
+        } else {
+            return adapter.getItemCount();
+        }
+    }
+
+    public void withShowMoreButton(boolean withShowMoreButton) {
+        this.withShowMoreButton = withShowMoreButton;
     }
 
     @Override

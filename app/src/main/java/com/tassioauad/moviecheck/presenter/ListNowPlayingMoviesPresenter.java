@@ -42,4 +42,7 @@ public class ListNowPlayingMoviesPresenter {
     }
 
 
+    public void stop() {
+        movieApi.cancelAllServices();
+    }
 }
