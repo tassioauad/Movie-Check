@@ -3,7 +3,7 @@ package com.tassioauad.moviecheck.model.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Video implements Parcelable {
+public class Video implements Media {
 
     private String id;
 
