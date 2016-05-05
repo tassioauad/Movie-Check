@@ -154,6 +154,9 @@ public class ListMediaFragment extends Fragment implements ListMediaView {
                 if (media instanceof Video) {
                     Intent intent = YouTubeStandalonePlayer.createVideoIntent(getActivity(), getString(R.string.youtube_credential), ((Video) media).getKey());
                     startActivity(intent);
+                } else if (media instanceof Image) {
+                    String photoUrl = getActivity().getString(R.string.imagetmdb_baseurl) + ((Image) media).getFilePath();
+                    FullImageDialogFragment.newInstance(photoUrl).show(getActivity().getSupportFragmentManager(), "fullimage");
                 }
             }
         }));

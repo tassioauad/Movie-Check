@@ -368,6 +368,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/fragment/FullImageDialogFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/fragment/ListMediaFragment.java">
           <value>
             <set />
@@ -434,6 +439,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/anyfounded.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/dialogfragment_fullimage.xml">
           <value>
             <set />
           </value>

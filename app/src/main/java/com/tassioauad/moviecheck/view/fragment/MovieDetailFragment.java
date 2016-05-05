@@ -20,6 +20,7 @@ import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.MovieDetailViewModule;
 import com.tassioauad.moviecheck.model.entity.Genre;
+import com.tassioauad.moviecheck.model.entity.Image;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.presenter.MovieDetailPresenter;
 import com.tassioauad.moviecheck.view.MovieDetailView;
@@ -142,12 +143,26 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     public void showPoster(String posterUrl) {
         posterUrl = getString(R.string.imagetmdb_baseurl) + posterUrl;
         Picasso.with(getActivity()).load(posterUrl).into(imageViewPoster);
+        final String finalPosterUrl = posterUrl;
+        imageViewPoster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FullImageDialogFragment.newInstance(finalPosterUrl).show(getActivity().getSupportFragmentManager(), "fullimage");
+            }
+        });
     }
 
     @Override
     public void showBackdrop(String backdropUrl) {
         backdropUrl = getString(R.string.imagetmdb_baseurl) + backdropUrl;
         Picasso.with(getActivity()).load(backdropUrl).into(imageViewBackdrop);
+        final String finalBackdropUrl = backdropUrl;
+        imageViewBackdrop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FullImageDialogFragment.newInstance(finalBackdropUrl).show(getActivity().getSupportFragmentManager(), "fullimage");
+            }
+        });
     }
 
     @Override
