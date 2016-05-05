@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class Crew implements Parcelable {
+public class Crew implements Person {
 
     private Long id;
 
@@ -48,6 +48,7 @@ public class Crew implements Parcelable {
     public Crew() {
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -56,6 +57,7 @@ public class Crew implements Parcelable {
         this.id = id;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -72,6 +74,7 @@ public class Crew implements Parcelable {
         this.job = job;
     }
 
+    @Override
     public String getBiography() {
         return biography;
     }
@@ -80,6 +83,7 @@ public class Crew implements Parcelable {
         this.biography = biography;
     }
 
+    @Override
     public String getProfilePath() {
         return profilePath;
     }
@@ -104,6 +108,7 @@ public class Crew implements Parcelable {
         this.homepage = homepage;
     }
 
+    @Override
     public String getPlaceOfBith() {
         return placeOfBith;
     }
@@ -112,6 +117,7 @@ public class Crew implements Parcelable {
         this.placeOfBith = placeOfBith;
     }
 
+    @Override
     public Date getBirthday() {
         return birthday;
     }
@@ -120,6 +126,7 @@ public class Crew implements Parcelable {
         this.birthday = birthday;
     }
 
+    @Override
     public Date getDeathday() {
         return deathday;
     }

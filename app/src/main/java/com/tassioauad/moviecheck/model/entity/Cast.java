@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class Cast implements Parcelable {
+public class Cast implements Person {
 
     private Long id;
 
@@ -45,6 +45,7 @@ public class Cast implements Parcelable {
         this.deathday = deathday;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -53,6 +54,7 @@ public class Cast implements Parcelable {
         this.id = id;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -61,6 +63,7 @@ public class Cast implements Parcelable {
         this.name = name;
     }
 
+    @Override
     public String getPlaceOfBith() {
         return placeOfBith;
     }
@@ -85,6 +88,7 @@ public class Cast implements Parcelable {
         this.homepage = homepage;
     }
 
+    @Override
     public String getProfilePath() {
         return profilePath;
     }
@@ -93,6 +97,7 @@ public class Cast implements Parcelable {
         this.profilePath = profilePath;
     }
 
+    @Override
     public Date getBirthday() {
         return birthday;
     }
@@ -101,6 +106,7 @@ public class Cast implements Parcelable {
         this.birthday = birthday;
     }
 
+    @Override
     public String getBiography() {
         return biography;
     }
@@ -109,6 +115,7 @@ public class Cast implements Parcelable {
         this.biography = biography;
     }
 
+    @Override
     public Date getDeathday() {
         return deathday;
     }
