@@ -1,5 +1,6 @@
 package com.tassioauad.moviecheck.dagger;
 
+import com.tassioauad.moviecheck.model.api.ImageApi;
 import com.tassioauad.moviecheck.model.api.VideoApi;
 import com.tassioauad.moviecheck.presenter.ListMediaPresenter;
 import com.tassioauad.moviecheck.view.ListMediaView;
@@ -18,7 +19,7 @@ public class ListMediaViewModule {
     }
 
     @Provides
-    public ListMediaPresenter provideListVideoPresenter(VideoApi videoApi) {
-        return new ListMediaPresenter(view, videoApi);
+    public ListMediaPresenter provideListVideoPresenter(VideoApi videoApi, ImageApi imageApi) {
+        return new ListMediaPresenter(view, videoApi, imageApi);
     }
 }

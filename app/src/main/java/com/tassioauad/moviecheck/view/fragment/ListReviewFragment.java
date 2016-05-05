@@ -1,6 +1,8 @@
 package com.tassioauad.moviecheck.view.fragment;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -143,7 +145,8 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
                 new ReviewListAdapter(this.reviewList, new OnItemClickListener<Review>() {
                     @Override
                     public void onClick(Review review) {
-
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(review.getUrl()));
+                        startActivity(browserIntent);
                     }
                 }),
                 new OnShowMoreListener() {

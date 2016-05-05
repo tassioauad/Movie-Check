@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.tassioauad.moviecheck.R;
+import com.tassioauad.moviecheck.model.entity.Image;
 import com.tassioauad.moviecheck.model.entity.Media;
 import com.tassioauad.moviecheck.model.entity.Video;
 
@@ -39,6 +40,8 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.View
         String thumbnailUrl = null;
         if(media instanceof Video) {
             thumbnailUrl = String.format(holder.itemView.getContext().getString(R.string.youtube_image_url), ((Video)media).getKey());
+        } else if( media instanceof Image) {
+            thumbnailUrl = holder.itemView.getContext().getString(R.string.imagetmdb_baseurl) + ((Image) media).getFilePath();
         }
         Picasso.with(holder.itemView.getContext()).load(thumbnailUrl).into(holder.imageViewThumbnail);
     }
@@ -50,8 +53,8 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.View
 
     @Override
     public void onClick(View view) {
-        Video video = (Video) view.getTag();
-        mediaOnItemClickListener.onClick(video);
+        Media media = (Media) view.getTag();
+        mediaOnItemClickListener.onClick(media);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

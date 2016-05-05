@@ -8,6 +8,7 @@ import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.model.api.CastApi;
 import com.tassioauad.moviecheck.model.api.CrewApi;
 import com.tassioauad.moviecheck.model.api.GenreApi;
+import com.tassioauad.moviecheck.model.api.ImageApi;
 import com.tassioauad.moviecheck.model.api.ItemTypeAdapterFactory;
 import com.tassioauad.moviecheck.model.api.MovieApi;
 import com.tassioauad.moviecheck.model.api.ReviewApi;
@@ -15,15 +16,19 @@ import com.tassioauad.moviecheck.model.api.VideoApi;
 import com.tassioauad.moviecheck.model.api.impl.CastApiImpl;
 import com.tassioauad.moviecheck.model.api.impl.CrewApiImpl;
 import com.tassioauad.moviecheck.model.api.impl.GenreApiImpl;
+import com.tassioauad.moviecheck.model.api.impl.ImageApiImpl;
 import com.tassioauad.moviecheck.model.api.impl.MovieApiImpl;
 import com.tassioauad.moviecheck.model.api.impl.ReviewApiImpl;
 import com.tassioauad.moviecheck.model.api.impl.VideoApiImpl;
 import com.tassioauad.moviecheck.model.api.resource.CastResource;
 import com.tassioauad.moviecheck.model.api.resource.CrewResource;
 import com.tassioauad.moviecheck.model.api.resource.GenreResource;
+import com.tassioauad.moviecheck.model.api.resource.ImageResource;
 import com.tassioauad.moviecheck.model.api.resource.MovieResource;
 import com.tassioauad.moviecheck.model.api.resource.ReviewResource;
 import com.tassioauad.moviecheck.model.api.resource.VideoResource;
+
+import java.util.Arrays;
 
 import dagger.Module;
 import dagger.Provides;
@@ -106,6 +111,21 @@ public class ApiModule {
     }
 
     @Provides
+    public ImageResource provideImageResource(Context context) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapterFactory(new ItemTypeAdapterFactory(Arrays.asList("backdrops", "posters")))
+                .setDateFormat("yyyy'-'MM'-'dd")
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(context.getString(R.string.themoviedbapi_baseurl))
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        return retrofit.create(ImageResource.class);
+    }
+
+    @Provides
     public MovieApi provideMovieApi(Context context) {
         return new MovieApiImpl(context, provideMovieResource(context));
     }
@@ -133,5 +153,10 @@ public class ApiModule {
     @Provides
     public VideoApi provideVideoApi(Context context) {
         return new VideoApiImpl(context, provideVideoResource(context));
+    }
+
+    @Provides
+    public ImageApi provideImageApi(Context context) {
+        return new ImageApiImpl(context, provideImageResource(context));
     }
 }

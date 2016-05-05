@@ -19,6 +19,7 @@ import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.ListMediaViewModule;
+import com.tassioauad.moviecheck.model.entity.Image;
 import com.tassioauad.moviecheck.model.entity.Media;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.model.entity.Video;
@@ -79,6 +80,7 @@ public class ListMediaFragment extends Fragment implements ListMediaView {
         if (mediaList == null) {
             movie = getArguments().getParcelable(KEY_MOVIE);
             presenter.loadVideos(movie);
+            presenter.loadImages(movie);
         } else {
             showMedias(mediaList);
         }
@@ -100,14 +102,14 @@ public class ListMediaFragment extends Fragment implements ListMediaView {
     }
 
     @Override
-    public void showLoadingVideos() {
+    public void showLoadingMedias() {
         progressBar.setVisibility(View.VISIBLE);
         linearLayoutAnyFounded.setVisibility(View.GONE);
         linearLayoutLoadFailed.setVisibility(View.GONE);
     }
 
     @Override
-    public void warnAnyVideoFounded() {
+    public void warnAnyMediaFounded() {
         if (mediaList == null) {
             linearLayoutAnyFounded.setVisibility(View.VISIBLE);
             linearLayoutLoadFailed.setVisibility(View.GONE);
@@ -123,6 +125,16 @@ public class ListMediaFragment extends Fragment implements ListMediaView {
             this.mediaList = new ArrayList<Media>(videoList);
         } else {
             this.mediaList.addAll(videoList);
+        }
+        showMedias(this.mediaList);
+    }
+
+    @Override
+    public void showImages(List<Image> imageList) {
+        if (this.mediaList == null) {
+            this.mediaList = new ArrayList<Media>(imageList);
+        } else {
+            this.mediaList.addAll(imageList);
         }
         showMedias(this.mediaList);
     }
@@ -148,12 +160,12 @@ public class ListMediaFragment extends Fragment implements ListMediaView {
     }
 
     @Override
-    public void hideLoadingVideos() {
+    public void hideLoadingMedias() {
         progressBar.setVisibility(View.GONE);
     }
 
     @Override
-    public void warnFailedToLoadVideos() {
+    public void warnFailedToLoadMedias() {
         if (mediaList == null) {
             linearLayoutAnyFounded.setVisibility(View.GONE);
             linearLayoutLoadFailed.setVisibility(View.VISIBLE);

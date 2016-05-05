@@ -1,6 +1,7 @@
 package com.tassioauad.moviecheck.model.api;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.TypeAdapter;
@@ -9,17 +10,27 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+import org.json.JSONArray;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ItemTypeAdapterFactory implements TypeAdapterFactory {
 
-    private String rootName = "results";
+    private List<String> rootNameList = Arrays.asList("results");
 
     public ItemTypeAdapterFactory() {
     }
 
     public ItemTypeAdapterFactory(String rootName) {
-        this.rootName = rootName;
+        rootNameList = new ArrayList<>();
+        rootNameList.add(rootName);
+    }
+
+    public ItemTypeAdapterFactory(List<String> rootNameList) {
+        this.rootNameList = rootNameList;
     }
 
     public <T> TypeAdapter<T> create(Gson gson, final TypeToken<T> type) {
@@ -38,8 +49,15 @@ public class ItemTypeAdapterFactory implements TypeAdapterFactory {
                 JsonElement jsonElement = elementAdapter.read(in);
                 if (jsonElement.isJsonObject()) {
                     JsonObject jsonObject = jsonElement.getAsJsonObject();
-                    if (jsonObject.has(rootName)) {
-                        jsonElement = jsonObject.get(rootName);
+                    if (jsonObject.has(rootNameList.get(0))) {
+                        jsonElement = jsonObject.get(rootNameList.get(0));
+                    }
+                    if (jsonElement instanceof JsonArray) {
+                        for (int i = 1; i < rootNameList.size(); i++) {
+                            if (jsonObject.has(rootNameList.get(i))) {
+                                ((JsonArray) jsonElement).addAll(jsonObject.getAsJsonArray(rootNameList.get(i)));
+                            }
+                        }
                     }
                 }
 

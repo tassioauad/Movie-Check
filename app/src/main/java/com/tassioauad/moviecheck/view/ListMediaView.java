@@ -1,20 +1,23 @@
 package com.tassioauad.moviecheck.view;
 
+import com.tassioauad.moviecheck.model.entity.Image;
 import com.tassioauad.moviecheck.model.entity.Media;
 import com.tassioauad.moviecheck.model.entity.Video;
 
 import java.util.List;
 
 public interface ListMediaView {
-    void warnAnyVideoFounded();
+    void warnAnyMediaFounded();
 
     void showMedias(List<Media> mediaList);
 
-    void showLoadingVideos();
+    void showLoadingMedias();
 
     void showVideos(List<Video> videoList);
 
-    void hideLoadingVideos();
+    void hideLoadingMedias();
 
-    void warnFailedToLoadVideos();
+    void warnFailedToLoadMedias();
+
+    void showImages(List<Image> imageList);
 }
