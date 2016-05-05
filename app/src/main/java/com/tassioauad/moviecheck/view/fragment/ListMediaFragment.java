@@ -1,6 +1,7 @@
 package com.tassioauad.moviecheck.view.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.ListMediaViewModule;
@@ -138,7 +140,8 @@ public class ListMediaFragment extends Fragment implements ListMediaView {
             @Override
             public void onClick(Media media) {
                 if (media instanceof Video) {
-
+                    Intent intent = YouTubeStandalonePlayer.createVideoIntent(getActivity(), getString(R.string.youtube_credential), ((Video) media).getKey());
+                    startActivity(intent);
                 }
             }
         }));
