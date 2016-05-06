@@ -12,26 +12,25 @@ import android.view.MenuItem;
 
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
-import com.tassioauad.moviecheck.dagger.MovieProfileViewModule;
-import com.tassioauad.moviecheck.model.entity.Movie;
-import com.tassioauad.moviecheck.presenter.MovieProfilePresenter;
-import com.tassioauad.moviecheck.view.MovieProfileView;
-import com.tassioauad.moviecheck.view.fragment.CastCrewFragment;
-import com.tassioauad.moviecheck.view.fragment.ListReviewFragment;
-import com.tassioauad.moviecheck.view.fragment.ListMovieMovieMediaFragment;
-import com.tassioauad.moviecheck.view.fragment.MovieDetailFragment;
+import com.tassioauad.moviecheck.dagger.PersonProfileViewModule;
+import com.tassioauad.moviecheck.model.entity.Person;
+import com.tassioauad.moviecheck.presenter.PersonProfilePresenter;
+import com.tassioauad.moviecheck.view.PersonProfileView;
+import com.tassioauad.moviecheck.view.fragment.ListPersonMediaFragment;
+import com.tassioauad.moviecheck.view.fragment.PersonDetailFragment;
+import com.tassioauad.moviecheck.view.fragment.PersonWorkFragment;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MovieProfileActivity extends AppCompatActivity implements MovieProfileView {
+public class PersonProfileActivity extends AppCompatActivity implements PersonProfileView {
 
-    private static final String KEY_MOVIE = "MOVIE";
+    private static final String KEY_PERSON = "PERSON";
 
     @Inject
-    MovieProfilePresenter presenter;
+    PersonProfilePresenter presenter;
 
     @Bind(R.id.viewpager)
     ViewPager viewPager;
@@ -41,15 +40,15 @@ public class MovieProfileActivity extends AppCompatActivity implements MovieProf
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movieprofile);
+        setContentView(R.layout.activity_personprofile);
         ButterKnife.bind(this);
-        ((MovieCheckApplication) getApplication()).getObjectGraph().plus(new MovieProfileViewModule(this)).inject(this);
+        ((MovieCheckApplication) getApplication()).getObjectGraph().plus(new PersonProfileViewModule(this)).inject(this);
 
         setSupportActionBar(toolbar);
 
-        final Movie movie = getIntent().getParcelableExtra(KEY_MOVIE);
+        final Person person = getIntent().getParcelableExtra(KEY_PERSON);
 
-        presenter.init(movie);
+        presenter.init(person);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -58,13 +57,11 @@ public class MovieProfileActivity extends AppCompatActivity implements MovieProf
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return MovieDetailFragment.newInstance(movie);
+                        return PersonDetailFragment.newInstance(person);
                     case 1:
-                        return CastCrewFragment.newInstance(movie);
+                        return PersonWorkFragment.newInstance(person);
                     case 2:
-                        return ListReviewFragment.newInstance(movie);
-                    case 3:
-                        return ListMovieMovieMediaFragment.newInstance(movie);
+                        return ListPersonMediaFragment.newInstance(person);
                     default:
                         return null;
                 }
@@ -72,20 +69,18 @@ public class MovieProfileActivity extends AppCompatActivity implements MovieProf
 
             @Override
             public int getCount() {
-                return 4;
+                return 3;
             }
 
             @Override
             public CharSequence getPageTitle(int position) {
                 switch (position) {
                     case 0:
-                        return getString(R.string.movieprofileactivity_general);
+                        return getString(R.string.personprofileactivity_general);
                     case 1:
-                        return getString(R.string.movieprofileactivity_castcrew);
+                        return getString(R.string.personprofileactivity_works);
                     case 2:
-                        return getString(R.string.movieprofileactivity_reviews);
-                    case 3:
-                        return getString(R.string.movieprofileactivity_media);
+                        return getString(R.string.personprofileactivity_media);
                     default:
                         return null;
                 }
@@ -102,14 +97,14 @@ public class MovieProfileActivity extends AppCompatActivity implements MovieProf
         return super.onOptionsItemSelected(item);
     }
 
-    public static Intent newIntent(Context context, Movie movie) {
-        Intent intent = new Intent(context, MovieProfileActivity.class);
-        intent.putExtra(KEY_MOVIE, movie);
+    public static Intent newIntent(Context context, Person person) {
+        Intent intent = new Intent(context, PersonProfileActivity.class);
+        intent.putExtra(KEY_PERSON, person);
         return intent;
     }
 
     @Override
-    public void showMovieName(String title) {
+    public void showPersonName(String title) {
         getSupportActionBar().setTitle(title);
     }
 }

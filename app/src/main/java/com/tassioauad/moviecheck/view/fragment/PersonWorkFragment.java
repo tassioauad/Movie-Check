@@ -13,15 +13,13 @@ import android.widget.ProgressBar;
 
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
-import com.tassioauad.moviecheck.dagger.CastCrewViewModule;
-import com.tassioauad.moviecheck.model.entity.Cast;
-import com.tassioauad.moviecheck.model.entity.Crew;
+import com.tassioauad.moviecheck.dagger.PersonWorkViewModule;
 import com.tassioauad.moviecheck.model.entity.Movie;
-import com.tassioauad.moviecheck.presenter.CastCrewPresenter;
-import com.tassioauad.moviecheck.view.CastCrewView;
-import com.tassioauad.moviecheck.view.activity.PersonProfileActivity;
-import com.tassioauad.moviecheck.view.adapter.CastListAdapter;
-import com.tassioauad.moviecheck.view.adapter.CrewListAdapter;
+import com.tassioauad.moviecheck.model.entity.Person;
+import com.tassioauad.moviecheck.presenter.PersonWorkPresenter;
+import com.tassioauad.moviecheck.view.PersonWorkView;
+import com.tassioauad.moviecheck.view.activity.MovieProfileActivity;
+import com.tassioauad.moviecheck.view.adapter.MovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 
 import java.util.ArrayList;
@@ -32,17 +30,17 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CastCrewFragment extends Fragment implements CastCrewView {
+public class PersonWorkFragment extends Fragment implements PersonWorkView {
 
     @Inject
-    CastCrewPresenter presenter;
+    PersonWorkPresenter presenter;
 
-    private List<Cast> castList;
-    private List<Crew> crewList;
-    private Movie movie;
-    private static final String KEY_CREWLIST = "CREWLIST";
-    private static final String KEY_CASTLIST = "CASTLIST";
-    private static final String KEY_MOVIE = "MOVIE";
+    private List<Movie> workAsCastList;
+    private List<Movie> workAscrewList;
+    private Person person;
+    private static final String KEY_WORKASCREWLIST = "WORKASCREWLIST";
+    private static final String KEY_WORKASCASTLIST = "WORKASCASTLIST";
+    private static final String KEY_PERSON = "PERSON";
 
     @Bind(R.id.recyclerview_cast)
     RecyclerView recyclerViewCast;
@@ -65,25 +63,25 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MovieCheckApplication) getActivity().getApplication())
-                .getObjectGraph().plus(new CastCrewViewModule(this)).inject(this);
+                .getObjectGraph().plus(new PersonWorkViewModule(this)).inject(this);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_castcrew, container, false);
+        View view = inflater.inflate(R.layout.fragment_personwork, container, false);
         ButterKnife.bind(this, view);
 
-        movie = getArguments().getParcelable(KEY_MOVIE);
+        person = getArguments().getParcelable(KEY_PERSON);
 
         if (savedInstanceState != null) {
-            crewList = savedInstanceState.getParcelableArrayList(KEY_CREWLIST);
-            castList = savedInstanceState.getParcelableArrayList(KEY_CASTLIST);
-            if (castList != null) {
-                showCasts(castList);
+            workAscrewList = savedInstanceState.getParcelableArrayList(KEY_WORKASCREWLIST);
+            workAsCastList = savedInstanceState.getParcelableArrayList(KEY_WORKASCASTLIST);
+            if (workAsCastList != null) {
+                showWorksAsCast(workAsCastList);
             }
-            if (crewList != null) {
-                showCrews(crewList);
+            if (workAscrewList != null) {
+                showWorksAsCrew(workAscrewList);
             }
         }
 
@@ -92,15 +90,15 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
     @Override
     public void onResume() {
-        if (castList == null) {
-            presenter.loadCast(movie);
+        if (workAsCastList == null) {
+            presenter.loadCastWorks(person);
         } else {
-            showCasts(castList);
+            showWorksAsCast(workAsCastList);
         }
-        if (crewList == null) {
-            presenter.loadCrew(movie);
+        if (workAscrewList == null) {
+            presenter.loadCrewWorks(person);
         } else {
-            showCrews(crewList);
+            showWorksAsCrew(workAscrewList);
         }
         super.onResume();
     }
@@ -113,63 +111,63 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        if (crewList != null) {
-            outState.putParcelableArrayList(KEY_CREWLIST, new ArrayList<>(crewList));
+        if (workAscrewList != null) {
+            outState.putParcelableArrayList(KEY_WORKASCREWLIST, new ArrayList<>(workAscrewList));
         }
-        if (castList != null) {
-            outState.putParcelableArrayList(KEY_CASTLIST, new ArrayList<>(castList));
+        if (workAsCastList != null) {
+            outState.putParcelableArrayList(KEY_WORKASCASTLIST, new ArrayList<>(workAsCastList));
         }
     }
 
-    public static CastCrewFragment newInstance(Movie movie) {
+    public static PersonWorkFragment newInstance(Person person) {
         Bundle args = new Bundle();
-        args.putParcelable(KEY_MOVIE, movie);
-        CastCrewFragment fragment = new CastCrewFragment();
+        args.putParcelable(KEY_PERSON, person);
+        PersonWorkFragment fragment = new PersonWorkFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void hideLoadingCrew() {
+    public void hideLoadingWorkAsCrew() {
         progressBarCrew.setVisibility(View.GONE);
     }
 
     @Override
-    public void showLoadingCrew() {
+    public void showLoadingWorkAsCrew() {
         progressBarCrew.setVisibility(View.VISIBLE);
         linearLayoutCrewLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCrewFounded.setVisibility(View.GONE);
     }
 
     @Override
-    public void showCrews(List<Crew> crewList) {
-        this.crewList = crewList;
+    public void showWorksAsCrew(List<Movie> movieList) {
+        this.workAscrewList = movieList;
         linearLayoutCrewLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCrewFounded.setVisibility(View.GONE);
         recyclerViewCrew.setVisibility(View.VISIBLE);
-        recyclerViewCrew.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
-        recyclerViewCrew.setAdapter(new CrewListAdapter(crewList, new OnItemClickListener<Crew>() {
+        recyclerViewCrew.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
+        recyclerViewCrew.setAdapter(new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
-            public void onClick(Crew crew) {
-                startActivity(PersonProfileActivity.newIntent(getActivity(), crew));
+            public void onClick(Movie movie) {
+                startActivity(MovieProfileActivity.newIntent(getActivity(), movie));
             }
         }));
     }
 
     @Override
-    public void warnAnyCrewFounded() {
+    public void warnAnyWorkAsCrewFounded() {
         linearLayoutCrewLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCrewFounded.setVisibility(View.VISIBLE);
         recyclerViewCrew.setVisibility(View.GONE);
     }
 
     @Override
-    public void warnFailedToLoadCrews() {
+    public void warnFailedToLoadWorkAsCrew() {
         linearLayoutCrewLoadFailed.setVisibility(View.VISIBLE);
         linearLayoutCrewLoadFailed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.loadCrew(movie);
+                presenter.loadCrewWorks(person);
             }
         });
         linearLayoutAnyCrewFounded.setVisibility(View.GONE);
@@ -177,46 +175,46 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
     }
 
     @Override
-    public void hideLoadingCast() {
+    public void hideLoadingWorkAsCast() {
         progressBarCast.setVisibility(View.GONE);
     }
 
     @Override
-    public void showLoadingCast() {
+    public void showLoadingWorkAsCast() {
         progressBarCast.setVisibility(View.VISIBLE);
         linearLayoutCastLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCastFounded.setVisibility(View.GONE);
     }
 
     @Override
-    public void showCasts(List<Cast> castList) {
-        this.castList = castList;
+    public void showWorksAsCast(List<Movie> movieList) {
+        this.workAsCastList = movieList;
         linearLayoutCastLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCastFounded.setVisibility(View.GONE);
         recyclerViewCast.setVisibility(View.VISIBLE);
-        recyclerViewCast.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
-        recyclerViewCast.setAdapter(new CastListAdapter(castList, new OnItemClickListener<Cast>() {
+        recyclerViewCast.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
+        recyclerViewCast.setAdapter(new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
-            public void onClick(Cast cast) {
-                startActivity(PersonProfileActivity.newIntent(getActivity(), cast));
+            public void onClick(Movie movie) {
+                startActivity(MovieProfileActivity.newIntent(getActivity(), movie));
             }
         }));
     }
 
     @Override
-    public void warnAnyCastFounded() {
+    public void warnAnyWorkAsCastFounded() {
         linearLayoutCastLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCastFounded.setVisibility(View.VISIBLE);
         recyclerViewCast.setVisibility(View.GONE);
     }
 
     @Override
-    public void warnFailedToLoadCasts() {
+    public void warnFailedToLoadWorkAsCast() {
         linearLayoutCastLoadFailed.setVisibility(View.VISIBLE);
         linearLayoutCastLoadFailed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.loadCast(movie);
+                presenter.loadCastWorks(person);
             }
         });
         linearLayoutAnyCastFounded.setVisibility(View.GONE);

@@ -47,21 +47,21 @@ public class ItemTypeAdapterFactory implements TypeAdapterFactory {
             public T read(JsonReader in) throws IOException {
 
                 JsonElement jsonElement = elementAdapter.read(in);
+                JsonElement newJsonElement = null;
                 if (jsonElement.isJsonObject()) {
                     JsonObject jsonObject = jsonElement.getAsJsonObject();
-                    if (jsonObject.has(rootNameList.get(0))) {
-                        jsonElement = jsonObject.get(rootNameList.get(0));
-                    }
-                    if (jsonElement instanceof JsonArray) {
-                        for (int i = 1; i < rootNameList.size(); i++) {
-                            if (jsonObject.has(rootNameList.get(i))) {
-                                ((JsonArray) jsonElement).addAll(jsonObject.getAsJsonArray(rootNameList.get(i)));
+                    for (int i = 0; i < rootNameList.size(); i++) {
+                        if (jsonObject.has(rootNameList.get(i))) {
+                            if(newJsonElement == null) {
+                                newJsonElement = jsonObject.get(rootNameList.get(i));
+                            } else {
+                                ((JsonArray) newJsonElement).addAll(jsonObject.getAsJsonArray(rootNameList.get(i)));
                             }
                         }
                     }
                 }
 
-                return delegate.fromJsonTree(jsonElement);
+                return delegate.fromJsonTree(newJsonElement != null ? newJsonElement : jsonElement );
             }
         }.nullSafe();
     }

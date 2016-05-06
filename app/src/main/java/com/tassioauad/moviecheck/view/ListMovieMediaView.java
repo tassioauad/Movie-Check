@@ -6,7 +6,7 @@ import com.tassioauad.moviecheck.model.entity.Video;
 
 import java.util.List;
 
-public interface ListMediaView {
+public interface ListMovieMediaView {
     void warnAnyMediaFounded();
 
     void showMedias(List<Media> mediaList);

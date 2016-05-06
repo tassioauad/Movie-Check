@@ -4,6 +4,10 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.model.api.CastApi;
 import com.tassioauad.moviecheck.model.api.CrewApi;
@@ -11,6 +15,7 @@ import com.tassioauad.moviecheck.model.api.GenreApi;
 import com.tassioauad.moviecheck.model.api.ImageApi;
 import com.tassioauad.moviecheck.model.api.ItemTypeAdapterFactory;
 import com.tassioauad.moviecheck.model.api.MovieApi;
+import com.tassioauad.moviecheck.model.api.PersonApi;
 import com.tassioauad.moviecheck.model.api.ReviewApi;
 import com.tassioauad.moviecheck.model.api.VideoApi;
 import com.tassioauad.moviecheck.model.api.impl.CastApiImpl;
@@ -18,6 +23,7 @@ import com.tassioauad.moviecheck.model.api.impl.CrewApiImpl;
 import com.tassioauad.moviecheck.model.api.impl.GenreApiImpl;
 import com.tassioauad.moviecheck.model.api.impl.ImageApiImpl;
 import com.tassioauad.moviecheck.model.api.impl.MovieApiImpl;
+import com.tassioauad.moviecheck.model.api.impl.PersonApiImpl;
 import com.tassioauad.moviecheck.model.api.impl.ReviewApiImpl;
 import com.tassioauad.moviecheck.model.api.impl.VideoApiImpl;
 import com.tassioauad.moviecheck.model.api.resource.CastResource;
@@ -25,10 +31,16 @@ import com.tassioauad.moviecheck.model.api.resource.CrewResource;
 import com.tassioauad.moviecheck.model.api.resource.GenreResource;
 import com.tassioauad.moviecheck.model.api.resource.ImageResource;
 import com.tassioauad.moviecheck.model.api.resource.MovieResource;
+import com.tassioauad.moviecheck.model.api.resource.PersonResource;
 import com.tassioauad.moviecheck.model.api.resource.ReviewResource;
 import com.tassioauad.moviecheck.model.api.resource.VideoResource;
 
+import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 
 import dagger.Module;
 import dagger.Provides;
@@ -59,6 +71,34 @@ public class ApiModule {
     @Provides
     public VideoResource provideVideoResource(Context context) {
         return provideRetrofit(context).create(VideoResource.class);
+    }
+
+    @Provides
+    public PersonResource providePersonResource(Context context) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+                    @Override
+                    public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                        JsonElement jsonA = json;
+                        if (!json.toString().equals("")) {
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy'-'MM'-'dd", Locale.getDefault());
+                            try {
+                                return simpleDateFormat.parse(json.toString().replace("\"", ""));
+                            } catch (ParseException e) {
+                                return null;
+                            }
+                        }
+                        return null;
+                    }
+                })
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(context.getString(R.string.themoviedbapi_baseurl))
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        return retrofit.create(PersonResource.class);
     }
 
     @Provides
@@ -113,7 +153,7 @@ public class ApiModule {
     @Provides
     public ImageResource provideImageResource(Context context) {
         Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(new ItemTypeAdapterFactory(Arrays.asList("backdrops", "posters")))
+                .registerTypeAdapterFactory(new ItemTypeAdapterFactory(Arrays.asList("backdrops", "posters", "profiles")))
                 .setDateFormat("yyyy'-'MM'-'dd")
                 .create();
 
@@ -158,5 +198,10 @@ public class ApiModule {
     @Provides
     public ImageApi provideImageApi(Context context) {
         return new ImageApiImpl(context, provideImageResource(context));
+    }
+
+    @Provides
+    public PersonApi providePersonApi(Context context) {
+        return new PersonApiImpl(context, providePersonResource(context));
     }
 }

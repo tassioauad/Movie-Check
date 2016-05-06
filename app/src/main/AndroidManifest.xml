@@ -23,6 +23,7 @@
         <activity android:name=".view.activity.ListNowPlayingMoviesActivity"/>
         <activity android:name=".view.activity.MovieProfileActivity"/>
         <activity android:name=".view.activity.ListMoviesByGenreActivity"/>
+        <activity android:name=".view.activity.PersonProfileActivity"/>
     </application>
 
 </manifest>

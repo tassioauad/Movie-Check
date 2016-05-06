@@ -6,17 +6,17 @@ import com.tassioauad.moviecheck.model.api.asynctask.ApiResultListener;
 import com.tassioauad.moviecheck.model.entity.Image;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.model.entity.Video;
-import com.tassioauad.moviecheck.view.ListMediaView;
+import com.tassioauad.moviecheck.view.ListMovieMediaView;
 
 import java.util.List;
 
-public class ListMediaPresenter {
+public class ListMovieMediaPresenter {
 
-    private ListMediaView view;
+    private ListMovieMediaView view;
     private VideoApi videoApi;
     private ImageApi imageApi;
 
-    public ListMediaPresenter(ListMediaView view, VideoApi videoApi, ImageApi imageApi) {
+    public ListMovieMediaPresenter(ListMovieMediaView view, VideoApi videoApi, ImageApi imageApi) {
         this.view = view;
         this.videoApi = videoApi;
         this.imageApi = imageApi;
