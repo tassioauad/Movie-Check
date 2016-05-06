@@ -12,16 +12,11 @@ import android.view.MenuItem;
 
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
-import com.tassioauad.moviecheck.dagger.MovieProfileViewModule;
 import com.tassioauad.moviecheck.dagger.PersonProfileViewModule;
-import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.model.entity.Person;
 import com.tassioauad.moviecheck.presenter.PersonProfilePresenter;
 import com.tassioauad.moviecheck.view.PersonProfileView;
-import com.tassioauad.moviecheck.view.fragment.CastCrewFragment;
-import com.tassioauad.moviecheck.view.fragment.ListMediaFragment;
-import com.tassioauad.moviecheck.view.fragment.ListReviewFragment;
-import com.tassioauad.moviecheck.view.fragment.MovieDetailFragment;
+import com.tassioauad.moviecheck.view.fragment.ListPersonMediaFragment;
 import com.tassioauad.moviecheck.view.fragment.PersonDetailFragment;
 
 import javax.inject.Inject;
@@ -62,6 +57,8 @@ public class PersonProfileActivity extends AppCompatActivity implements PersonPr
                 switch (position) {
                     case 0:
                         return new PersonDetailFragment().newInstance(person);
+                    case 1:
+                        return new ListPersonMediaFragment().newInstance(person);
                     default:
                         return null;
                 }
@@ -69,7 +66,7 @@ public class PersonProfileActivity extends AppCompatActivity implements PersonPr
 
             @Override
             public int getCount() {
-                return 1;
+                return 2;
             }
 
             @Override
@@ -77,6 +74,8 @@ public class PersonProfileActivity extends AppCompatActivity implements PersonPr
                 switch (position) {
                     case 0:
                         return getString(R.string.personprofileactivity_general);
+                    case 1:
+                        return getString(R.string.personprofileactivity_media);
                     default:
                         return null;
                 }

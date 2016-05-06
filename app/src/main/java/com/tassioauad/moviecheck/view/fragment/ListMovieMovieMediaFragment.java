@@ -18,13 +18,13 @@ import android.widget.Toast;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
-import com.tassioauad.moviecheck.dagger.ListMediaViewModule;
+import com.tassioauad.moviecheck.dagger.ListMovieMediaViewModule;
 import com.tassioauad.moviecheck.model.entity.Image;
 import com.tassioauad.moviecheck.model.entity.Media;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.model.entity.Video;
-import com.tassioauad.moviecheck.presenter.ListMediaPresenter;
-import com.tassioauad.moviecheck.view.ListMediaView;
+import com.tassioauad.moviecheck.presenter.ListMovieMediaPresenter;
+import com.tassioauad.moviecheck.view.ListMovieMediaView;
 import com.tassioauad.moviecheck.view.adapter.MediaListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 
@@ -36,10 +36,10 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ListMediaFragment extends Fragment implements ListMediaView {
+public class ListMovieMovieMediaFragment extends Fragment implements ListMovieMediaView {
 
-    @Bind(R.id.recyclerview_midia)
-    RecyclerView recyclerViewMidia;
+    @Bind(R.id.recyclerview_media)
+    RecyclerView recyclerViewMedia;
     @Bind(R.id.progressbar)
     ProgressBar progressBar;
     @Bind(R.id.linearlayout_anyfounded)
@@ -48,7 +48,7 @@ public class ListMediaFragment extends Fragment implements ListMediaView {
     LinearLayout linearLayoutLoadFailed;
 
     @Inject
-    ListMediaPresenter presenter;
+    ListMovieMediaPresenter presenter;
     private List<Media> mediaList;
     private Movie movie;
     private static final String BUNDLE_KEY_MEDIALIST = "bundle_key_medialist";
@@ -58,13 +58,13 @@ public class ListMediaFragment extends Fragment implements ListMediaView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MovieCheckApplication) getActivity().getApplication()).getObjectGraph()
-                .plus(new ListMediaViewModule(this)).inject(this);
+                .plus(new ListMovieMediaViewModule(this)).inject(this);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_listmedia, container, false);
+        View view = inflater.inflate(R.layout.fragment_listmoviemedia, container, false);
         ButterKnife.bind(this, view);
 
         if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MEDIALIST) != null) {
@@ -113,7 +113,7 @@ public class ListMediaFragment extends Fragment implements ListMediaView {
         if (mediaList == null) {
             linearLayoutAnyFounded.setVisibility(View.VISIBLE);
             linearLayoutLoadFailed.setVisibility(View.GONE);
-            recyclerViewMidia.setVisibility(View.GONE);
+            recyclerViewMedia.setVisibility(View.GONE);
         } else {
             Toast.makeText(getActivity(), getActivity().getString(R.string.general_anyfounded), Toast.LENGTH_SHORT).show();
         }
@@ -144,11 +144,11 @@ public class ListMediaFragment extends Fragment implements ListMediaView {
         this.mediaList = mediaList;
         linearLayoutAnyFounded.setVisibility(View.GONE);
         linearLayoutLoadFailed.setVisibility(View.GONE);
-        recyclerViewMidia.setVisibility(View.VISIBLE);
+        recyclerViewMedia.setVisibility(View.VISIBLE);
         final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
-        recyclerViewMidia.setLayoutManager(layoutManager);
-        recyclerViewMidia.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewMidia.setAdapter(new MediaListAdapter(mediaList, new OnItemClickListener<Media>() {
+        recyclerViewMedia.setLayoutManager(layoutManager);
+        recyclerViewMedia.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewMedia.setAdapter(new MediaListAdapter(mediaList, new OnItemClickListener<Media>() {
             @Override
             public void onClick(Media media) {
                 if (media instanceof Video) {
@@ -176,18 +176,19 @@ public class ListMediaFragment extends Fragment implements ListMediaView {
                 @Override
                 public void onClick(View view) {
                     presenter.loadVideos(movie);
+                    presenter.loadImages(movie);
                 }
             });
-            recyclerViewMidia.setVisibility(View.GONE);
+            recyclerViewMedia.setVisibility(View.GONE);
         } else {
             Toast.makeText(getActivity(), getActivity().getString(R.string.general_failedtoload), Toast.LENGTH_SHORT).show();
         }
     }
 
-    public static ListMediaFragment newInstance(Movie movie) {
+    public static ListMovieMovieMediaFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
         args.putParcelable(KEY_MOVIE, movie);
-        ListMediaFragment fragment = new ListMediaFragment();
+        ListMovieMovieMediaFragment fragment = new ListMovieMovieMediaFragment();
         fragment.setArguments(args);
         return fragment;
     }

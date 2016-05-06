@@ -153,7 +153,7 @@ public class ApiModule {
     @Provides
     public ImageResource provideImageResource(Context context) {
         Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(new ItemTypeAdapterFactory(Arrays.asList("backdrops", "posters")))
+                .registerTypeAdapterFactory(new ItemTypeAdapterFactory(Arrays.asList("backdrops", "posters", "profiles")))
                 .setDateFormat("yyyy'-'MM'-'dd")
                 .create();
 

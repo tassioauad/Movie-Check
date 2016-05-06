@@ -58,7 +58,6 @@
                         style="@style/TextH3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="aaa aa"
                         android:textStyle="normal" />
 
                 </LinearLayout>
