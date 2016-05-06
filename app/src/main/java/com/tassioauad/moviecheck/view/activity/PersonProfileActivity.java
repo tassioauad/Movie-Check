@@ -22,6 +22,7 @@ import com.tassioauad.moviecheck.view.fragment.CastCrewFragment;
 import com.tassioauad.moviecheck.view.fragment.ListMediaFragment;
 import com.tassioauad.moviecheck.view.fragment.ListReviewFragment;
 import com.tassioauad.moviecheck.view.fragment.MovieDetailFragment;
+import com.tassioauad.moviecheck.view.fragment.PersonDetailFragment;
 
 import javax.inject.Inject;
 
@@ -59,6 +60,8 @@ public class PersonProfileActivity extends AppCompatActivity implements PersonPr
             @Override
             public Fragment getItem(int position) {
                 switch (position) {
+                    case 0:
+                        return new PersonDetailFragment().newInstance(person);
                     default:
                         return null;
                 }
@@ -66,12 +69,14 @@ public class PersonProfileActivity extends AppCompatActivity implements PersonPr
 
             @Override
             public int getCount() {
-                return 0;
+                return 1;
             }
 
             @Override
             public CharSequence getPageTitle(int position) {
                 switch (position) {
+                    case 0:
+                        return getString(R.string.personprofileactivity_general);
                     default:
                         return null;
                 }

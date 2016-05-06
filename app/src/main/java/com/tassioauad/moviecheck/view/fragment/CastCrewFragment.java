@@ -19,6 +19,7 @@ import com.tassioauad.moviecheck.model.entity.Crew;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.presenter.CastCrewPresenter;
 import com.tassioauad.moviecheck.view.CastCrewView;
+import com.tassioauad.moviecheck.view.activity.PersonProfileActivity;
 import com.tassioauad.moviecheck.view.adapter.CastListAdapter;
 import com.tassioauad.moviecheck.view.adapter.CrewListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
@@ -150,7 +151,7 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
         recyclerViewCrew.setAdapter(new CrewListAdapter(crewList, new OnItemClickListener<Crew>() {
             @Override
             public void onClick(Crew crew) {
-
+                startActivity(PersonProfileActivity.newIntent(getActivity(), crew));
             }
         }));
     }
@@ -197,7 +198,7 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
         recyclerViewCast.setAdapter(new CastListAdapter(castList, new OnItemClickListener<Cast>() {
             @Override
             public void onClick(Cast cast) {
-
+                startActivity(PersonProfileActivity.newIntent(getActivity(), cast));
             }
         }));
     }
