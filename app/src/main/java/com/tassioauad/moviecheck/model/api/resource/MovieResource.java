@@ -1,6 +1,7 @@
 package com.tassioauad.moviecheck.model.api.resource;
 
 import com.tassioauad.moviecheck.model.entity.Movie;
+import com.tassioauad.moviecheck.model.entity.Person;
 
 import java.util.List;
 
@@ -25,5 +26,8 @@ public interface MovieResource {
 
     @GET("genre/{id}/movies")
     Call<List<Movie>> listByGenre(@Path("id") Long genreId, @Query("api_key") String apiKey, @Query("page") Integer page);
+
+    @GET("search/movie")
+    Call<List<Movie>> listByName(@Query("api_key") String apiKey, @Query("query") String query, @Query("page") int page);
 
 }

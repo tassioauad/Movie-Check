@@ -20,4 +20,8 @@ public interface MovieApi extends AsyncService {
     void listNowPlayingMovies(int page);
 
     void listByGenre(Genre genre, int page);
+
+    void listByName(String name, int page);
+
+    void listByName(String name);
 }
