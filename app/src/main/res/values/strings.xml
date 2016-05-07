@@ -16,6 +16,10 @@
     <string name="general_failedtoload">Ops! Failed to Load! :´( \n Touch to try again</string>
     <string name="general_anyfounded">Ops! Any founded! :´(</string>
 
+    <!--HomeActivity-->
+    <string name="homeactivity_search">Search</string>
+
+
     <!--ListPopularMoviesActivity -->
     <string name="listpopularmoviesactivity_title">Popular Movies</string>
 
@@ -62,5 +66,11 @@
     <!--PersonWorkFragment-->
     <string name="fragmentpersonwork_ascrew">As Crew</string>
     <string name="fragmentpersonwork_ascast">As Cast</string>
+
+    <!--SearchActivity-->
+    <string name="searchactivity_movies">Movies</string>
+    <string name="searchactivity_celebrities">Celebrities</string>
+    <string name="searchactivity_search">Search</string>
+    <string name="searchactivity_hint">Movies and Celebrities…</string>
 
 </resources>

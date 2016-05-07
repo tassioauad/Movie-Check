@@ -34,6 +34,7 @@ import com.tassioauad.moviecheck.model.api.resource.MovieResource;
 import com.tassioauad.moviecheck.model.api.resource.PersonResource;
 import com.tassioauad.moviecheck.model.api.resource.ReviewResource;
 import com.tassioauad.moviecheck.model.api.resource.VideoResource;
+import com.tassioauad.moviecheck.util.JsonDateDeserializer;
 
 import java.lang.reflect.Type;
 import java.text.ParseException;
@@ -54,7 +55,7 @@ public class ApiModule {
     public Retrofit provideRetrofit(Context context) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new ItemTypeAdapterFactory())
-                .setDateFormat("yyyy'-'MM'-'dd")
+                .registerTypeAdapter(Date.class, new JsonDateDeserializer())
                 .create();
 
         return new Retrofit.Builder()
@@ -76,21 +77,8 @@ public class ApiModule {
     @Provides
     public PersonResource providePersonResource(Context context) {
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
-                    @Override
-                    public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-                        JsonElement jsonA = json;
-                        if (!json.toString().equals("")) {
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy'-'MM'-'dd", Locale.getDefault());
-                            try {
-                                return simpleDateFormat.parse(json.toString().replace("\"", ""));
-                            } catch (ParseException e) {
-                                return null;
-                            }
-                        }
-                        return null;
-                    }
-                })
+                .registerTypeAdapterFactory(new ItemTypeAdapterFactory())
+                .registerTypeAdapter(Date.class, new JsonDateDeserializer())
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -110,7 +98,7 @@ public class ApiModule {
     public CastResource provideCastResource(Context context) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new ItemTypeAdapterFactory("cast"))
-                .setDateFormat("yyyy'-'MM'-'dd")
+                .registerTypeAdapter(Date.class, new JsonDateDeserializer())
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -125,7 +113,7 @@ public class ApiModule {
     public CrewResource provideCrewResource(Context context) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new ItemTypeAdapterFactory("crew"))
-                .setDateFormat("yyyy'-'MM'-'dd")
+                .registerTypeAdapter(Date.class, new JsonDateDeserializer())
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -140,6 +128,7 @@ public class ApiModule {
     public GenreResource provideGenreResource(Context context) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new ItemTypeAdapterFactory("genres"))
+                .registerTypeAdapter(Date.class, new JsonDateDeserializer())
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -154,7 +143,7 @@ public class ApiModule {
     public ImageResource provideImageResource(Context context) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new ItemTypeAdapterFactory(Arrays.asList("backdrops", "posters", "profiles")))
-                .setDateFormat("yyyy'-'MM'-'dd")
+                .registerTypeAdapter(Date.class, new JsonDateDeserializer())
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()

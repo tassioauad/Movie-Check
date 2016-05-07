@@ -6,7 +6,9 @@ import android.os.AsyncTask;
 import com.tassioauad.moviecheck.model.api.GenericApi;
 import com.tassioauad.moviecheck.model.api.MovieApi;
 import com.tassioauad.moviecheck.model.api.asynctask.ListMovieByGenreAsyncTask;
+import com.tassioauad.moviecheck.model.api.asynctask.ListMoviesByNameAsyncTask;
 import com.tassioauad.moviecheck.model.api.asynctask.ListNowPlayingMoviesAsyncTask;
+import com.tassioauad.moviecheck.model.api.asynctask.ListPersonByNameAsyncTask;
 import com.tassioauad.moviecheck.model.api.asynctask.ListPopularMoviesAsyncTask;
 import com.tassioauad.moviecheck.model.api.asynctask.ListTopRatedMoviesAsyncTask;
 import com.tassioauad.moviecheck.model.api.asynctask.ListUpComingMovieAsyncTask;
@@ -20,6 +22,7 @@ public class MovieApiImpl extends GenericApi implements MovieApi {
     private ListTopRatedMoviesAsyncTask listTopRatedMoviesAsyncTask;
     private ListNowPlayingMoviesAsyncTask listNowPlayingMoviesAsyncTask;
     private ListMovieByGenreAsyncTask listMovieByGenreAsyncTask;
+    private ListMoviesByNameAsyncTask listMoviesByNameAsyncTask;
     private MovieResource movieResource;
 
     public MovieApiImpl(Context context, MovieResource movieResource) {
@@ -98,6 +101,22 @@ public class MovieApiImpl extends GenericApi implements MovieApi {
         listMovieByGenreAsyncTask.setApiResultListener(getApiResultListener());
         listMovieByGenreAsyncTask.execute();
     }
+
+    @Override
+    public void listByName(String name, int page) {
+        verifyServiceResultListener();
+        listMoviesByNameAsyncTask = new ListMoviesByNameAsyncTask(getContext(), movieResource, name, page);
+        listMoviesByNameAsyncTask.setApiResultListener(getApiResultListener());
+        listMoviesByNameAsyncTask.execute();
+    }
+
+    @Override
+    public void listByName(String name) {
+        verifyServiceResultListener();
+        listMoviesByNameAsyncTask = new ListMoviesByNameAsyncTask(getContext(), movieResource, name, 1);
+        listMoviesByNameAsyncTask.setApiResultListener(getApiResultListener());
+        listMoviesByNameAsyncTask.execute();
+    }
     
     @Override
     public void cancelAllServices() {
@@ -115,6 +134,9 @@ public class MovieApiImpl extends GenericApi implements MovieApi {
         }
         if(listMovieByGenreAsyncTask != null && listMovieByGenreAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
             listMovieByGenreAsyncTask.cancel(true);
+        }
+        if(listMoviesByNameAsyncTask != null && listMoviesByNameAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
+            listMoviesByNameAsyncTask.cancel(true);
         }
     }
 }
