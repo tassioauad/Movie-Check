@@ -64,7 +64,7 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
     LinearLayout linearLayoutPersonLoadFailed;
     @Bind(R.id.progressbar_person)
     ProgressBar progressBarPerson;
-    @Bind(R.id.textview_moremovies)
+    @Bind(R.id.textview_moremovie)
     TextView textViewMoreMovies;
     @Bind(R.id.textview_moreperson)
     TextView textViewMorePerson;
@@ -259,5 +259,9 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
         });
         linearLayoutAnyMovieFounded.setVisibility(View.GONE);
         recyclerViewMovie.setVisibility(View.GONE);
+    }
+
+    public void moreMovie(View view) {
+        startActivity(SearchMovieActivity.newIntent(this, query));
     }
 }

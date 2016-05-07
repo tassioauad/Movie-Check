@@ -73,4 +73,7 @@
     <string name="searchactivity_search">Search</string>
     <string name="searchactivity_hint">Movies and Celebrities…</string>
 
+    <!--SearchMovieActivity-->
+    <string name="searchmovieactivity_movies">Movies</string>
+
 </resources>

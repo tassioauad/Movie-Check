@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.tassioauad.moviecheck.R;
@@ -34,6 +35,7 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Vi
         Person person = personList.get(position);
 
         holder.itemView.setTag(person);
+        holder.textViewName.setText(person.getName());
         String posterUrl = holder.itemView.getContext().getString(R.string.imagetmdb_baseurl) + person.getProfilePath();
         Picasso.with(holder.itemView.getContext()).load(posterUrl).placeholder(R.drawable.noimage).into(holder.imageViewPoster);
     }
@@ -52,10 +54,12 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageViewPoster;
+        private TextView textViewName;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imageViewPoster = (ImageView) itemView.findViewById(R.id.imageview_photo);
+            textViewName = (TextView) itemView.findViewById(R.id.textview_name);
         }
     }
 
