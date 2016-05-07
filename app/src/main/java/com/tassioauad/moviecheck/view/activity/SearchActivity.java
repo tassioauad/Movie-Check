@@ -264,4 +264,7 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
     public void moreMovie(View view) {
         startActivity(SearchMovieActivity.newIntent(this, query));
     }
+    public void morePerson(View view) {
+        startActivity(SearchPersonActivity.newIntent(this, query));
+    }
 }
