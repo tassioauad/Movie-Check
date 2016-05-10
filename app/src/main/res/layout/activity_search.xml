@@ -57,6 +57,7 @@
                         android:drawableRight="@drawable/go_arrow"
                         android:gravity="end|center_vertical"
                         android:onClick="moreMovie"
+                        android:visibility="gone"
                         android:text="@string/general_more" />
 
                 </LinearLayout>
@@ -128,6 +129,7 @@
                         android:drawableRight="@drawable/go_arrow"
                         android:gravity="end|center_vertical"
                         android:onClick="morePerson"
+                        android:visibility="gone"
                         android:text="@string/general_more" />
 
                 </LinearLayout>
