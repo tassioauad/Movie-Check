@@ -76,33 +76,42 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
         movie = getArguments().getParcelable(KEY_MOVIE);
 
-        if (savedInstanceState != null) {
+
+        if (savedInstanceState == null) {
+            if (castList == null) {
+                presenter.loadCast(movie);
+            } else {
+                showCasts(castList);
+            }
+            if (crewList == null) {
+                presenter.loadCrew(movie);
+            } else {
+                showCrews(crewList);
+            }
+        } else {
             crewList = savedInstanceState.getParcelableArrayList(KEY_CREWLIST);
             castList = savedInstanceState.getParcelableArrayList(KEY_CASTLIST);
             if (castList != null) {
-                showCasts(castList);
+                if (castList.size() == 0) {
+                    warnAnyCastFounded();
+                } else {
+                    showCasts(castList);
+                }
+            } else {
+                warnFailedToLoadCasts();
             }
             if (crewList != null) {
-                showCrews(crewList);
+                if (crewList.size() == 0) {
+                    warnAnyCrewFounded();
+                } else {
+                    showCrews(crewList);
+                }
+            } else {
+                warnFailedToLoadCrews();
             }
         }
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        if (castList == null) {
-            presenter.loadCast(movie);
-        } else {
-            showCasts(castList);
-        }
-        if (crewList == null) {
-            presenter.loadCrew(movie);
-        } else {
-            showCrews(crewList);
-        }
-        super.onResume();
     }
 
     @Override
@@ -158,6 +167,7 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
     @Override
     public void warnAnyCrewFounded() {
+        crewList = new ArrayList<>();
         linearLayoutCrewLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCrewFounded.setVisibility(View.VISIBLE);
         recyclerViewCrew.setVisibility(View.GONE);
@@ -205,6 +215,7 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
     @Override
     public void warnAnyCastFounded() {
+        castList = new ArrayList<>();
         linearLayoutCastLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCastFounded.setVisibility(View.VISIBLE);
         recyclerViewCast.setVisibility(View.GONE);
