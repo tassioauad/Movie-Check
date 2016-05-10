@@ -153,6 +153,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/listviewitem_nowplayingmovie.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/listviewitem_person.xml">
           <value>
             <set />
@@ -164,6 +169,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/menu/drawer.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/values-large/dimens.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/values-xlarge/dimens.xml">
           <value>
             <set />
           </value>
