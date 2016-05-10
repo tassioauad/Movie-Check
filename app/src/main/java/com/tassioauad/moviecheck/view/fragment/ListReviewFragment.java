@@ -91,15 +91,8 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
                 warnAnyReviewFounded();
             } else {
                 page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
-                warnFailedToLoadReviews();
+                showReviews(reviewList);
             }
-        }
-
-        if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(BUNDLE_KEY_REVIEWLIST) != null
-                && savedInstanceState.getInt(BUNDLE_KEY_PAGE) != 0) {
-            List<Review> reviewList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_REVIEWLIST);
-            page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
-            showReviews(reviewList);
         }
 
         return view;
