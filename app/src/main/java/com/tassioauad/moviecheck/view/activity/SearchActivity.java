@@ -78,7 +78,11 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
 
         setSupportActionBar(toolbar);
         query = getIntent().getStringExtra(KEY_QUERY);
-        getSupportActionBar().setTitle(query);
+        if(query == null) {
+            getSupportActionBar().setTitle(getString(R.string.searchactivity_search));
+        } else {
+            getSupportActionBar().setTitle(query);
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
@@ -161,13 +165,13 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
         }
     }
 
-    public static Intent newInstance(Context context, String query) {
+    public static Intent newIntent(Context context, String query) {
         Intent intent = new Intent(context, SearchActivity.class);
         intent.putExtra(KEY_QUERY, query);
         return intent;
     }
 
-    public static Intent newInstance(Context context) {
+    public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, SearchActivity.class);
         return intent;
     }

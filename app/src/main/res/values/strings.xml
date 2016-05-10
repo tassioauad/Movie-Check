@@ -7,14 +7,17 @@
     <string name="themoviedbapi_key">b4537e21984eb259d2c2b093b7980570</string>
     <string name="youtube_credential">AIzaSyCLcunU7LR5CrNKPVnPixFYrmId5lF2KlE</string>
     <string name="youtube_image_url">https://img.youtube.com/vi/%1$s/0.jpg</string>
-    <string name="general_nowplaying">Now Playing</string>
-    <string name="general_upcoming">Upcoming</string>
-    <string name="general_popular">Popular</string>
-    <string name="general_toprated">Top Rated</string>
+    <string name="general_nowplaying">Now Playing Movies</string>
+    <string name="general_upcoming">Upcoming Movies</string>
+    <string name="general_popular">Popular Movies</string>
+    <string name="general_toprated">Top Rated Movies</string>
     <string name="general_more">more</string>
     <string name="general_date">MM-dd-yyyy</string>
     <string name="general_failedtoload">Ops! Failed to Load! :´( \n Touch to try again</string>
     <string name="general_anyfounded">Ops! Any founded! :´(</string>
+    <string name="generic_opendrawer">Open Drawer</string>
+    <string name="generic_closedrawer">Close Drawer</string>
+    <string name="generic_movies">Movies</string>
 
     <!--HomeActivity-->
     <string name="homeactivity_search">Search</string>
