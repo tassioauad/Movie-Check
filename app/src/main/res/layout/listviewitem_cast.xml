@@ -13,9 +13,8 @@
 
     <ImageView
         android:id="@+id/imageview_poster"
-        android:layout_width="@dimen/poster_width"
-        android:layout_height="@dimen/poster_height"
-        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:background="@drawable/scrim"
         android:src="@drawable/noimage" />

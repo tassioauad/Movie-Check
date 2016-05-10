@@ -5,9 +5,18 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/linearlayout_anyfounded"
+        layout="@layout/anyfounded"/>
+
+    <include
+        android:id="@+id/linearlayout_loadfailed"
+        layout="@layout/failedtoload"
+        android:gravity="center"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_media"
@@ -25,14 +34,5 @@
             android:visibility="gone" />
 
     </RelativeLayout>
-
-    <include
-        android:id="@+id/linearlayout_anyfounded"
-        layout="@layout/anyfounded"/>
-
-    <include
-        android:id="@+id/linearlayout_loadfailed"
-        layout="@layout/failedtoload"
-        android:gravity="center"/>
 
 </LinearLayout>

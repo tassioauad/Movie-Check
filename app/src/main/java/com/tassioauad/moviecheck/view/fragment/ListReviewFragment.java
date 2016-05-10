@@ -72,7 +72,6 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
         View view = inflater.inflate(R.layout.fragment_listreview, container, false);
         ButterKnife.bind(this, view);
 
-
         if (savedInstanceState == null) {
             if (reviewList == null) {
                 movie = getArguments().getParcelable(KEY_MOVIE);
@@ -136,7 +135,7 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
 
     @Override
     public void showReviews(final List<Review> reviewList) {
-        if (this.reviewList == null) {
+        if (this.reviewList == null || reviewList.get(0).equals(this.reviewList.get(0)) ) {
             this.reviewList = reviewList;
         } else {
             this.reviewList.addAll(reviewList);

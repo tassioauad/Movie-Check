@@ -77,29 +77,31 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        query = getIntent().getStringExtra(KEY_QUERY);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        if(getIntent().getStringExtra(SearchManager.QUERY) != null) {
+            query = getIntent().getStringExtra(SearchManager.QUERY);
+        } else {
+            query = getIntent().getStringExtra(KEY_QUERY);
+        }
+
         if(query == null) {
             getSupportActionBar().setTitle(getString(R.string.searchactivity_search));
         } else {
             getSupportActionBar().setTitle(query);
         }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
-            if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
-                presenter.searchMovies(getIntent().getStringExtra(SearchManager.QUERY));
-                presenter.searchPerson(getIntent().getStringExtra(SearchManager.QUERY));
-            } else if (query != null) {
+            if (query != null) {
                 presenter.searchMovies(query);
                 presenter.searchPerson(query);
             }
         } else {
             personList = savedInstanceState.getParcelableArrayList(KEY_PERSONLIST);
             movieList = savedInstanceState.getParcelableArrayList(KEY_MOVIELIST);
-            if (movieList != null) {
-                if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
-                    presenter.searchMovies(getIntent().getStringExtra(SearchManager.QUERY));
-                } else if (query != null) {
+            if (movieList == null) {
+                if (query != null) {
                     presenter.searchMovies(query);
                 }
             } else {
@@ -110,9 +112,7 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
                 }
             }
             if (personList == null) {
-                if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
-                    presenter.searchPerson(getIntent().getStringExtra(SearchManager.QUERY));
-                } else if (query != null) {
+                if (query != null) {
                     presenter.searchPerson(query);
                 }
             } else {
@@ -122,6 +122,17 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
                     showPerson(personList);
                 }
             }
+        }
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction()) && query == null) {
+            query = intent.getStringExtra(SearchManager.QUERY);
+            presenter.searchMovies(query);
+            presenter.searchPerson(query);
+        } else {
+            super.startActivity(intent);
         }
     }
 
