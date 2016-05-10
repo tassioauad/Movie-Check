@@ -85,17 +85,17 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
             if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
                 presenter.searchMovies(getIntent().getStringExtra(SearchManager.QUERY));
                 presenter.searchPerson(getIntent().getStringExtra(SearchManager.QUERY));
-            } else {
+            } else if (query != null) {
                 presenter.searchMovies(query);
                 presenter.searchPerson(query);
             }
         } else {
             personList = savedInstanceState.getParcelableArrayList(KEY_PERSONLIST);
             movieList = savedInstanceState.getParcelableArrayList(KEY_MOVIELIST);
-            if (movieList == null) {
+            if (movieList != null) {
                 if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
                     presenter.searchMovies(getIntent().getStringExtra(SearchManager.QUERY));
-                } else {
+                } else if (query != null) {
                     presenter.searchMovies(query);
                 }
             } else {
@@ -108,7 +108,7 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
             if (personList == null) {
                 if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
                     presenter.searchPerson(getIntent().getStringExtra(SearchManager.QUERY));
-                } else {
+                } else if (query != null) {
                     presenter.searchPerson(query);
                 }
             } else {
@@ -129,7 +129,9 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
         android.support.v7.widget.SearchView searchView =
                 (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
+        if (query == null) {
+            menu.findItem(R.id.search).expandActionView();
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -162,6 +164,11 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
     public static Intent newInstance(Context context, String query) {
         Intent intent = new Intent(context, SearchActivity.class);
         intent.putExtra(KEY_QUERY, query);
+        return intent;
+    }
+
+    public static Intent newInstance(Context context) {
+        Intent intent = new Intent(context, SearchActivity.class);
         return intent;
     }
 
