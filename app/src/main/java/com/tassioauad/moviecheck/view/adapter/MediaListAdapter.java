@@ -43,7 +43,7 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.View
         } else if( media instanceof Image) {
             thumbnailUrl = holder.itemView.getContext().getString(R.string.imagetmdb_baseurl) + ((Image) media).getFilePath();
         }
-        Picasso.with(holder.itemView.getContext()).load(thumbnailUrl).placeholder(R.drawable.noimage).into(holder.imageViewThumbnail);
+        Picasso.with(holder.itemView.getContext()).load(thumbnailUrl).into(holder.imageViewThumbnail);
     }
 
     @Override
