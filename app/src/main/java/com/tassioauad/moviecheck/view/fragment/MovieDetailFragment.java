@@ -78,22 +78,21 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         ButterKnife.bind(this, view);
 
         presenter.init((Movie) getArguments().getParcelable(KEY_MOVIE));
-        if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(KEY_GENRELIST) != null) {
+
+        if(savedInstanceState == null) {
+            if(genreList == null) {
+                presenter.loadGenres();
+            } else if(genreList.size() > 0) {
+                showGenres(genreList);
+            }
+        } else {
             genreList = savedInstanceState.getParcelableArrayList(KEY_GENRELIST);
-            showGenres(genreList);
+            if(genreList != null) {
+                showGenres(genreList);
+            }
         }
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        if (genreList == null) {
-            presenter.loadGenres();
-        } else {
-            showGenres(genreList);
-        }
-        super.onResume();
     }
 
     @Override
@@ -190,6 +189,7 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
 
     @Override
     public void warnAnyGenreFounded() {
+        genreList = new ArrayList<>();
         Toast.makeText(getActivity(), getActivity().getString(R.string.moviedetailfragment_failedtoloadgenre), Toast.LENGTH_SHORT).show();
     }
 

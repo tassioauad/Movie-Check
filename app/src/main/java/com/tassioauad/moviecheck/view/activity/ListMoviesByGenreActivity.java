@@ -73,8 +73,14 @@ public class ListMoviesByGenreActivity extends AppCompatActivity implements List
             presenter.loadMovies(genre, page);
         } else {
             List<Movie> movieList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MOVIELIST);
-            page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
-            showMovies(movieList);
+            if (movieList == null) {
+                presenter.loadMovies(genre, page);
+            } else if (movieList.size() == 0) {
+                warnAnyMovieFounded();
+            } else {
+                page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
+                showMovies(movieList);
+            }
         }
 
         getSupportActionBar().setTitle(genre.getName());

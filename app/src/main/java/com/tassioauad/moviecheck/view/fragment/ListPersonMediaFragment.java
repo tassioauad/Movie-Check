@@ -67,9 +67,24 @@ public class ListPersonMediaFragment extends Fragment implements ListPersonMedia
         View view = inflater.inflate(R.layout.fragment_listpersonmedia, container, false);
         ButterKnife.bind(this, view);
 
-        if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MEDIALIST) != null) {
+        if (savedInstanceState == null) {
+            if (mediaList == null) {
+                person = getArguments().getParcelable(KEY_PERSON);
+                presenter.loadImages(person);
+            } else if (mediaList.size() == 0) {
+                warnAnyMediaFounded();
+            } else {
+                showMedias(mediaList);
+            }
+        } else {
             List<Media> mediaList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MEDIALIST);
-            showMedias(mediaList);
+            if (mediaList == null) {
+                warnFailedToLoadMedias();
+            } else if (mediaList.size() == 0) {
+                warnAnyMediaFounded();
+            } else {
+                showMedias(mediaList);
+            }
         }
 
         return view;

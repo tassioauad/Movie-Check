@@ -72,8 +72,14 @@ public class ListNowPlayingMoviesActivity extends AppCompatActivity implements L
             presenter.loadMovies(page);
         } else {
             List<Movie> movieList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MOVIELIST);
-            page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
-            showMovies(movieList);
+            if (movieList == null) {
+                presenter.loadMovies(page);
+            } else if (movieList.size() == 0) {
+                warnAnyMovieFounded();
+            } else {
+                page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
+                showMovies(movieList);
+            }
         }
     }
 

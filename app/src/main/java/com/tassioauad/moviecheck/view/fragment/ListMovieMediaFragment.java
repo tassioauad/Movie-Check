@@ -36,7 +36,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ListMovieMovieMediaFragment extends Fragment implements ListMovieMediaView {
+public class ListMovieMediaFragment extends Fragment implements ListMovieMediaView {
 
     @Bind(R.id.recyclerview_media)
     RecyclerView recyclerViewMedia;
@@ -67,24 +67,28 @@ public class ListMovieMovieMediaFragment extends Fragment implements ListMovieMe
         View view = inflater.inflate(R.layout.fragment_listmoviemedia, container, false);
         ButterKnife.bind(this, view);
 
-        if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MEDIALIST) != null) {
+        if (savedInstanceState == null) {
+            if (mediaList == null) {
+                movie = getArguments().getParcelable(KEY_MOVIE);
+                presenter.loadVideos(movie);
+                presenter.loadImages(movie);
+            } else if (mediaList.size() == 0) {
+                warnAnyMediaFounded();
+            } else {
+                showMedias(mediaList);
+            }
+        } else {
             List<Media> mediaList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MEDIALIST);
-            showMedias(mediaList);
+            if (mediaList == null) {
+                warnFailedToLoadMedias();
+            } else if (mediaList.size() == 0) {
+                warnAnyMediaFounded();
+            } else {
+                showMedias(mediaList);
+            }
         }
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        if (mediaList == null) {
-            movie = getArguments().getParcelable(KEY_MOVIE);
-            presenter.loadVideos(movie);
-            presenter.loadImages(movie);
-        } else {
-            showMedias(mediaList);
-        }
-        super.onResume();
     }
 
     @Override
@@ -110,7 +114,8 @@ public class ListMovieMovieMediaFragment extends Fragment implements ListMovieMe
 
     @Override
     public void warnAnyMediaFounded() {
-        if (mediaList == null) {
+        if (mediaList == null || mediaList.size() == 0) {
+            mediaList = new ArrayList<>();
             linearLayoutAnyFounded.setVisibility(View.VISIBLE);
             linearLayoutLoadFailed.setVisibility(View.GONE);
             recyclerViewMedia.setVisibility(View.GONE);
@@ -185,10 +190,10 @@ public class ListMovieMovieMediaFragment extends Fragment implements ListMovieMe
         }
     }
 
-    public static ListMovieMovieMediaFragment newInstance(Movie movie) {
+    public static ListMovieMediaFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
         args.putParcelable(KEY_MOVIE, movie);
-        ListMovieMovieMediaFragment fragment = new ListMovieMovieMediaFragment();
+        ListMovieMediaFragment fragment = new ListMovieMediaFragment();
         fragment.setArguments(args);
         return fragment;
     }

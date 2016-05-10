@@ -81,40 +81,44 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
         getSupportActionBar().setTitle(query);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (savedInstanceState != null) {
-            personList = savedInstanceState.getParcelableArrayList(KEY_PERSONLIST);
-            movieList = savedInstanceState.getParcelableArrayList(KEY_MOVIELIST);
-            if (movieList != null) {
-                showMovies(movieList);
-            }
-            if (personList != null) {
-                showPerson(personList);
-            }
-        }
-    }
-
-
-    @Override
-    public void onResume() {
-        if (movieList == null) {
+        if (savedInstanceState == null) {
             if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
                 presenter.searchMovies(getIntent().getStringExtra(SearchManager.QUERY));
-            } else {
-                presenter.searchMovies(query);
-            }
-        } else {
-            showMovies(movieList);
-        }
-        if (personList == null) {
-            if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
                 presenter.searchPerson(getIntent().getStringExtra(SearchManager.QUERY));
             } else {
+                presenter.searchMovies(query);
                 presenter.searchPerson(query);
             }
         } else {
-            showPerson(personList);
+            personList = savedInstanceState.getParcelableArrayList(KEY_PERSONLIST);
+            movieList = savedInstanceState.getParcelableArrayList(KEY_MOVIELIST);
+            if (movieList == null) {
+                if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
+                    presenter.searchMovies(getIntent().getStringExtra(SearchManager.QUERY));
+                } else {
+                    presenter.searchMovies(query);
+                }
+            } else {
+                if (movieList.size() == 0) {
+                    warnAnyMovieFounded();
+                } else {
+                    showMovies(movieList);
+                }
+            }
+            if (personList == null) {
+                if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
+                    presenter.searchPerson(getIntent().getStringExtra(SearchManager.QUERY));
+                } else {
+                    presenter.searchPerson(query);
+                }
+            } else {
+                if (personList.size() == 0) {
+                    warnAnyPersonFounded();
+                } else {
+                    showPerson(personList);
+                }
+            }
         }
-        super.onResume();
     }
 
     @Override
@@ -131,7 +135,7 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
@@ -176,7 +180,7 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
     @Override
     public void showPerson(List<Person> personList) {
         this.personList = personList;
-        if(personList.size() == 20) {
+        if (personList.size() == 20) {
             textViewMorePerson.setVisibility(View.VISIBLE);
         }
         linearLayoutPersonLoadFailed.setVisibility(View.GONE);
@@ -226,7 +230,7 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
     @Override
     public void showMovies(List<Movie> movieList) {
         this.movieList = movieList;
-        if(movieList.size() == 20) {
+        if (movieList.size() == 20) {
             textViewMoreMovies.setVisibility(View.VISIBLE);
         }
         linearLayoutMovieLoadFailed.setVisibility(View.GONE);
@@ -264,6 +268,7 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
     public void moreMovie(View view) {
         startActivity(SearchMovieActivity.newIntent(this, query));
     }
+
     public void morePerson(View view) {
         startActivity(SearchPersonActivity.newIntent(this, query));
     }

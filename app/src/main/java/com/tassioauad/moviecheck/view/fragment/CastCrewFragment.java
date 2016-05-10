@@ -76,15 +76,18 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
         movie = getArguments().getParcelable(KEY_MOVIE);
 
-
         if (savedInstanceState == null) {
             if (castList == null) {
                 presenter.loadCast(movie);
+            } else if (castList.size() == 0) {
+                warnAnyCastFounded();
             } else {
                 showCasts(castList);
             }
             if (crewList == null) {
                 presenter.loadCrew(movie);
+            } else if (crewList.size() == 0) {
+                warnAnyCrewFounded();
             } else {
                 showCrews(crewList);
             }

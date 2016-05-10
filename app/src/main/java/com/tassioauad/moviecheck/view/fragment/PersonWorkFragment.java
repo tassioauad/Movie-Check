@@ -74,33 +74,45 @@ public class PersonWorkFragment extends Fragment implements PersonWorkView {
 
         person = getArguments().getParcelable(KEY_PERSON);
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState == null) {
+            if (workAsCastList == null) {
+                presenter.loadCastWorks(person);
+            } else if (workAsCastList.size() == 0) {
+                warnAnyWorkAsCastFounded();
+            } else {
+                showWorksAsCast(workAsCastList);
+            }
+            if (workAscrewList == null) {
+                presenter.loadCrewWorks(person);
+            } else if (workAscrewList.size() == 0) {
+                warnAnyWorkAsCrewFounded();
+            } else {
+                showWorksAsCrew(workAscrewList);
+            }
+        } else {
             workAscrewList = savedInstanceState.getParcelableArrayList(KEY_WORKASCREWLIST);
             workAsCastList = savedInstanceState.getParcelableArrayList(KEY_WORKASCASTLIST);
             if (workAsCastList != null) {
-                showWorksAsCast(workAsCastList);
+                if (workAsCastList.size() == 0) {
+                    warnAnyWorkAsCastFounded();
+                } else {
+                    showWorksAsCast(workAsCastList);
+                }
+            } else {
+                warnFailedToLoadWorkAsCast();
             }
             if (workAscrewList != null) {
-                showWorksAsCrew(workAscrewList);
+                if (workAscrewList.size() == 0) {
+                    warnAnyWorkAsCrewFounded();
+                } else {
+                    showWorksAsCrew(workAscrewList);
+                }
+            } else {
+                warnFailedToLoadWorkAsCrew();
             }
         }
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        if (workAsCastList == null) {
-            presenter.loadCastWorks(person);
-        } else {
-            showWorksAsCast(workAsCastList);
-        }
-        if (workAscrewList == null) {
-            presenter.loadCrewWorks(person);
-        } else {
-            showWorksAsCrew(workAscrewList);
-        }
-        super.onResume();
     }
 
     @Override
@@ -156,6 +168,7 @@ public class PersonWorkFragment extends Fragment implements PersonWorkView {
 
     @Override
     public void warnAnyWorkAsCrewFounded() {
+        workAscrewList = new ArrayList<>();
         linearLayoutCrewLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCrewFounded.setVisibility(View.VISIBLE);
         recyclerViewCrew.setVisibility(View.GONE);
@@ -203,6 +216,7 @@ public class PersonWorkFragment extends Fragment implements PersonWorkView {
 
     @Override
     public void warnAnyWorkAsCastFounded() {
+        workAsCastList = new ArrayList<>();
         linearLayoutCastLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCastFounded.setVisibility(View.VISIBLE);
         recyclerViewCast.setVisibility(View.GONE);

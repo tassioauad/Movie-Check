@@ -79,8 +79,15 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchMovi
             presenter.search(query, page);
         } else {
             List<Movie> movieList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MOVIELIST);
-            page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
-            showMovies(movieList);
+            if (movieList == null) {
+                presenter.search(query, page);
+            } else if (movieList.size() == 0) {
+                warnAnyMovieFounded();
+            } else {
+                page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
+                showMovies(movieList);
+            }
+
         }
     }
 
@@ -117,7 +124,7 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchMovi
 
     @Override
     public void warnAnyMovieFounded() {
-        if(movieList == null) {
+        if (movieList == null) {
             linearLayoutAnyFounded.setVisibility(View.VISIBLE);
             linearLayoutLoadFailed.setVisibility(View.GONE);
             recyclerViewMovies.setVisibility(View.GONE);
@@ -174,7 +181,7 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchMovi
 
     @Override
     public void warnFailedToLoadMovies() {
-        if(movieList == null) {
+        if (movieList == null) {
             linearLayoutAnyFounded.setVisibility(View.GONE);
             linearLayoutLoadFailed.setVisibility(View.VISIBLE);
             linearLayoutLoadFailed.setOnClickListener(new View.OnClickListener() {

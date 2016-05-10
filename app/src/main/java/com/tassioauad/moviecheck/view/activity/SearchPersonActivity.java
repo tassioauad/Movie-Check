@@ -80,8 +80,14 @@ public class SearchPersonActivity extends AppCompatActivity implements SearchPer
             presenter.search(query, page);
         } else {
             List<Person> personList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_PERSONLIST);
-            page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
-            showPerson(personList);
+            if(personList == null) {
+                presenter.search(query, page);
+            } else if(personList.size() == 0) {
+                warnAnyPersonFounded();
+            } else {
+                page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
+                showPerson(personList);
+            }
         }
     }
 

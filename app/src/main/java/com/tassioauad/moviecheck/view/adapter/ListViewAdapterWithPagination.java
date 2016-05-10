@@ -49,7 +49,7 @@ public class ListViewAdapterWithPagination extends RecyclerView.Adapter<Recycler
 
     @Override
     public int getItemCount() {
-        if(withShowMoreButton && adapter.getItemCount() % itensPerPage == 0) {
+        if(withShowMoreButton && adapter.getItemCount()> 0 && adapter.getItemCount() % itensPerPage == 0) {
             return adapter.getItemCount() + 1;
         } else {
             return adapter.getItemCount();

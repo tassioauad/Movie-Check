@@ -45,7 +45,7 @@
                     android:id="@+id/ratingbar_vote"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
+                    android:isIndicator="true"
                     android:layout_gravity="end"/>
 
                 <TextView

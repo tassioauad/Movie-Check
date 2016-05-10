@@ -72,6 +72,29 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
         View view = inflater.inflate(R.layout.fragment_listreview, container, false);
         ButterKnife.bind(this, view);
 
+
+        if (savedInstanceState == null) {
+            if (reviewList == null) {
+                movie = getArguments().getParcelable(KEY_MOVIE);
+                presenter.loadReviews(movie, page);
+            } else if (reviewList.size() == 0) {
+                warnAnyReviewFounded();
+            } else {
+                showReviews(reviewList);
+            }
+        } else {
+            List<Review> reviewList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_REVIEWLIST);
+            if (reviewList == null) {
+                movie = getArguments().getParcelable(KEY_MOVIE);
+                presenter.loadReviews(movie, page);
+            } else if (reviewList.size() == 0) {
+                warnAnyReviewFounded();
+            } else {
+                page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
+                warnFailedToLoadReviews();
+            }
+        }
+
         if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(BUNDLE_KEY_REVIEWLIST) != null
                 && savedInstanceState.getInt(BUNDLE_KEY_PAGE) != 0) {
             List<Review> reviewList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_REVIEWLIST);
@@ -80,17 +103,6 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
         }
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        if (reviewList == null) {
-            movie = getArguments().getParcelable(KEY_MOVIE);
-            presenter.loadReviews(movie, page);
-        } else {
-            showReviews(reviewList);
-        }
-        super.onResume();
     }
 
     @Override
@@ -117,7 +129,8 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
 
     @Override
     public void warnAnyReviewFounded() {
-        if(reviewList == null) {
+        if (reviewList == null || reviewList.size() == 0) {
+            reviewList = new ArrayList<>();
             linearLayoutAnyFounded.setVisibility(View.VISIBLE);
             linearLayoutLoadFailed.setVisibility(View.GONE);
             recyclerViewReviews.setVisibility(View.GONE);
@@ -168,7 +181,7 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
 
     @Override
     public void warnFailedToLoadReviews() {
-        if(reviewList == null) {
+        if (reviewList == null) {
             linearLayoutAnyFounded.setVisibility(View.GONE);
             linearLayoutLoadFailed.setVisibility(View.VISIBLE);
             linearLayoutLoadFailed.setOnClickListener(new View.OnClickListener() {

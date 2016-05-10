@@ -93,41 +93,53 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
         setSupportActionBar(toolbar);
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState == null) {
+            presenter.listPopularMovies();
+            presenter.listTopRatedMovies();
+            presenter.listUpcomingMovies();
+            presenter.listNowPlayingMovies();
+        } else {
             popularMovieList = savedInstanceState.getParcelableArrayList(KEY_POPULARMOVIELIST);
             topRatedMovieList = savedInstanceState.getParcelableArrayList(KEY_TOPRATEMOVIELIST);
             upcomingMovieList = savedInstanceState.getParcelableArrayList(KEY_UPCOMINGMOVIELIST);
             nowPlayingMovieList = savedInstanceState.getParcelableArrayList(KEY_NOWPLAYINGMOVIELIST);
-            if(popularMovieList != null) {
-                showPopularMovies(popularMovieList);
+            if (popularMovieList == null) {
+                presenter.listPopularMovies();
+            } else {
+                if (popularMovieList.size() == 0) {
+                    warnAnyPopularMovieFounded();
+                } else {
+                    showPopularMovies(popularMovieList);
+                }
             }
-            if(topRatedMovieList != null) {
-                showTopRatedMovies(topRatedMovieList);
+            if (topRatedMovieList == null) {
+                presenter.listTopRatedMovies();
+            } else {
+                if (topRatedMovieList.size() == 0) {
+                    warnAnyTopRatedMovieFounded();
+                } else {
+                    showTopRatedMovies(topRatedMovieList);
+                }
             }
-            if(upcomingMovieList != null) {
-                showUpcomingMovies(upcomingMovieList);
+            if (upcomingMovieList == null) {
+                presenter.listUpcomingMovies();
+            } else {
+                if (upcomingMovieList.size() == 0) {
+                    warnAnyUpcomingMovieFounded();
+                } else {
+                    showUpcomingMovies(upcomingMovieList);
+                }
             }
-            if(nowPlayingMovieList != null) {
-                showNowPlayingMovies(nowPlayingMovieList);
+            if (nowPlayingMovieList == null) {
+                presenter.listNowPlayingMovies();
+            } else {
+                if (nowPlayingMovieList.size() == 0) {
+                    warnAnyNowPlayingMovieFounded();
+                } else {
+                    showNowPlayingMovies(nowPlayingMovieList);
+                }
             }
         }
-    }
-
-    @Override
-    protected void onResume() {
-        if(popularMovieList == null) {
-            presenter.listPopularMovies();
-        }
-        if(topRatedMovieList == null) {
-            presenter.listTopRatedMovies();
-        }
-        if(upcomingMovieList == null) {
-            presenter.listUpcomingMovies();
-        }
-        if(nowPlayingMovieList == null) {
-            presenter.listNowPlayingMovies();
-        }
-        super.onResume();
     }
 
     @Override
@@ -158,16 +170,16 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        if(popularMovieList != null) {
+        if (popularMovieList != null) {
             outState.putParcelableArrayList(KEY_POPULARMOVIELIST, new ArrayList<>(popularMovieList));
         }
-        if(topRatedMovieList != null) {
+        if (topRatedMovieList != null) {
             outState.putParcelableArrayList(KEY_TOPRATEMOVIELIST, new ArrayList<>(topRatedMovieList));
         }
-        if(upcomingMovieList != null) {
+        if (upcomingMovieList != null) {
             outState.putParcelableArrayList(KEY_UPCOMINGMOVIELIST, new ArrayList<>(upcomingMovieList));
         }
-        if(nowPlayingMovieList != null) {
+        if (nowPlayingMovieList != null) {
             outState.putParcelableArrayList(KEY_NOWPLAYINGMOVIELIST, new ArrayList<>(nowPlayingMovieList));
         }
         super.onSaveInstanceState(outState);
@@ -348,7 +360,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     }
 
     @Override
-    public void hideLoadingNowPlayingMovies()    {
+    public void hideLoadingNowPlayingMovies() {
         progressBarNowPlaying.setVisibility(View.GONE);
     }
 
