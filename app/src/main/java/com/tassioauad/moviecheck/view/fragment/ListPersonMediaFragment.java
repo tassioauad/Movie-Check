@@ -92,17 +92,6 @@ public class ListPersonMediaFragment extends Fragment implements ListPersonMedia
     }
 
     @Override
-    public void onResume() {
-        if (mediaList == null) {
-            person = getArguments().getParcelable(KEY_PERSON);
-            presenter.loadImages(person);
-        } else {
-            showMedias(mediaList);
-        }
-        super.onResume();
-    }
-
-    @Override
     public void onStop() {
         presenter.stop();
         super.onStop();

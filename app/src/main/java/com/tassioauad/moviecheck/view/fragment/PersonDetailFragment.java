@@ -148,6 +148,7 @@ public class PersonDetailFragment extends Fragment implements PersonDetailView {
         this.person = person;
         showPhoto(person.getProfilePath());
         if (person.getDeathday() != null) {
+            linearLayoutDeathday.setVisibility(View.VISIBLE);
             showDeathday(person.getDeathday());
         } else {
             linearLayoutDeathday.setVisibility(View.GONE);
