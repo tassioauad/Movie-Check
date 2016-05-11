@@ -25,6 +25,7 @@ import com.tassioauad.moviecheck.model.entity.Person;
 import com.tassioauad.moviecheck.model.entity.Video;
 import com.tassioauad.moviecheck.presenter.ListPersonMediaPresenter;
 import com.tassioauad.moviecheck.view.ListPersonMediaView;
+import com.tassioauad.moviecheck.view.activity.FullImageSliderActivity;
 import com.tassioauad.moviecheck.view.adapter.MediaListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 
@@ -145,7 +146,7 @@ public class ListPersonMediaFragment extends Fragment implements ListPersonMedia
     }
 
     @Override
-    public void showMedias(List<Media> mediaList) {
+    public void showMedias(final List<Media> mediaList) {
         this.mediaList = mediaList;
         linearLayoutAnyFounded.setVisibility(View.GONE);
         linearLayoutLoadFailed.setVisibility(View.GONE);
@@ -160,8 +161,13 @@ public class ListPersonMediaFragment extends Fragment implements ListPersonMedia
                     Intent intent = YouTubeStandalonePlayer.createVideoIntent(getActivity(), getString(R.string.youtube_credential), ((Video) media).getKey());
                     startActivity(intent);
                 } else if (media instanceof Image) {
-                    String photoUrl = getActivity().getString(R.string.imagetmdb_baseurl) + ((Image) media).getFilePath();
-                    FullImageDialogFragment.newInstance(photoUrl).show(getActivity().getSupportFragmentManager(), "fullimage");
+                    ArrayList<Image> imageArrayList = new ArrayList<Image>();
+                    for (Media mediaOfList : mediaList) {
+                        if (mediaOfList instanceof Image) {
+                            imageArrayList.add((Image) mediaOfList);
+                        }
+                    }
+                    startActivity(FullImageSliderActivity.newIntent(getActivity(), imageArrayList, imageArrayList.indexOf(media)));
                 }
             }
         }));

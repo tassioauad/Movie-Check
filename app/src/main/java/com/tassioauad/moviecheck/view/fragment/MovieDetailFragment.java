@@ -21,15 +21,18 @@ import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.MovieDetailViewModule;
 import com.tassioauad.moviecheck.model.entity.Genre;
 import com.tassioauad.moviecheck.model.entity.Image;
+import com.tassioauad.moviecheck.model.entity.Media;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.presenter.MovieDetailPresenter;
 import com.tassioauad.moviecheck.view.MovieDetailView;
+import com.tassioauad.moviecheck.view.activity.FullImageSliderActivity;
 import com.tassioauad.moviecheck.view.activity.ListMoviesByGenreActivity;
 import com.tassioauad.moviecheck.view.adapter.GenreListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -140,26 +143,24 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
 
     @Override
     public void showPoster(String posterUrl) {
-        posterUrl = getString(R.string.imagetmdb_baseurl) + posterUrl;
-        Picasso.with(getActivity()).load(posterUrl).into(imageViewPoster);
-        final String finalPosterUrl = posterUrl;
+        final String pathUrl = getString(R.string.imagetmdb_baseurl) + posterUrl;
+        Picasso.with(getActivity()).load(pathUrl).into(imageViewPoster);
         imageViewPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FullImageDialogFragment.newInstance(finalPosterUrl).show(getActivity().getSupportFragmentManager(), "fullimage");
+                startActivity(FullImageSliderActivity.newIntent(getActivity(), pathUrl));
             }
         });
     }
 
     @Override
     public void showBackdrop(String backdropUrl) {
-        backdropUrl = getString(R.string.imagetmdb_baseurl) + backdropUrl;
-        Picasso.with(getActivity()).load(backdropUrl).into(imageViewBackdrop);
-        final String finalBackdropUrl = backdropUrl;
+        final String pathUrl = getString(R.string.imagetmdb_baseurl) + backdropUrl;
+        Picasso.with(getActivity()).load(pathUrl).into(imageViewBackdrop);
         imageViewBackdrop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FullImageDialogFragment.newInstance(finalBackdropUrl).show(getActivity().getSupportFragmentManager(), "fullimage");
+                startActivity(FullImageSliderActivity.newIntent(getActivity(), pathUrl));
             }
         });
     }

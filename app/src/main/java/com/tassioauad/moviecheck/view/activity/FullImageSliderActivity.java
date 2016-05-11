@@ -2,6 +2,8 @@ package com.tassioauad.moviecheck.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -12,12 +14,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.model.entity.Image;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -46,6 +52,8 @@ public class FullImageSliderActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         imageList = getIntent().getParcelableArrayListExtra(KEY_IMAGELIST);
         position = getIntent().getIntExtra(KEY_POSITION, 0);
 
@@ -57,11 +65,26 @@ public class FullImageSliderActivity extends AppCompatActivity {
 
             @Override
             public Object instantiateItem(ViewGroup container, int position) {
-                ImageView imageView = new ImageView(container.getContext());
-                String imageUrl = getString(R.string.imagetmdb_baseurl) + imageList.get(position).getFilePath();
-                Picasso.with(FullImageSliderActivity.this).load(imageUrl).placeholder(R.drawable.noimage).into(imageView);
+                View view = LayoutInflater.from(FullImageSliderActivity.this).inflate(R.layout.activity_fullimageslider_item, container, false);
 
-                return imageView;
+                ImageView imageView = (ImageView) view.findViewById(R.id.imageview_photo);
+                final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
+                String imageUrl = getString(R.string.imagetmdb_baseurl) + imageList.get(position).getFilePath();
+                Picasso.with(FullImageSliderActivity.this).load(imageUrl).into(imageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+
+                container.addView(view);
+
+                return view;
             }
 
             @Override
@@ -71,7 +94,7 @@ public class FullImageSliderActivity extends AppCompatActivity {
 
             @Override
             public void destroyItem(ViewGroup container, int position, Object object) {
-                super.destroyItem(container, position, object);
+                container.removeView((View) object);
             }
         });
         viewPager.setCurrentItem(position);
@@ -79,7 +102,7 @@ public class FullImageSliderActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
         }
@@ -90,6 +113,16 @@ public class FullImageSliderActivity extends AppCompatActivity {
         Intent intent = new Intent(context, FullImageSliderActivity.class);
         intent.putParcelableArrayListExtra(KEY_IMAGELIST, imageList);
         intent.putExtra(KEY_POSITION, position);
+
+        return intent;
+    }
+
+    public static Intent newIntent(Context context, String pathUrl) {
+        Intent intent = new Intent(context, FullImageSliderActivity.class);
+        Image image = new Image();
+        image.setFilePath(pathUrl);
+        intent.putParcelableArrayListExtra(KEY_IMAGELIST, new ArrayList<>(Arrays.asList(image)));
+        intent.putExtra(KEY_POSITION, 0);
 
         return intent;
     }
