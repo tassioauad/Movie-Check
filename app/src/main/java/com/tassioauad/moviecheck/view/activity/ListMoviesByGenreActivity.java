@@ -3,6 +3,7 @@ package com.tassioauad.moviecheck.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -147,8 +148,8 @@ public class ListMoviesByGenreActivity extends AppCompatActivity implements List
                 new ListViewAdapterWithPagination(
                         new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
                             @Override
-                            public void onClick(Movie movie) {
-                                startActivity(MovieProfileActivity.newIntent(ListMoviesByGenreActivity.this, movie));
+                            public void onClick(Movie movie, View view) {
+                                startActivity(MovieProfileActivity.newIntent(ListMoviesByGenreActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(ListMoviesByGenreActivity.this).toBundle());
                             }
                         }
                         ),

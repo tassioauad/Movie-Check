@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -26,9 +27,9 @@ import com.tassioauad.moviecheck.dagger.HomeViewModule;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.presenter.HomePresenter;
 import com.tassioauad.moviecheck.view.HomeView;
+import com.tassioauad.moviecheck.view.adapter.MovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.NowPlayingMovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
-import com.tassioauad.moviecheck.view.adapter.MovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.TopRatedMovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.UpcomingMovieListAdapter;
 
@@ -154,19 +155,19 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.drawer_search:
-                        startActivity(SearchActivity.newIntent(HomeActivity.this));
+                        startActivity(SearchActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
                         break;
                     case R.id.drawer_nowplaying:
-                        startActivity(ListNowPlayingMoviesActivity.newIntent(HomeActivity.this));
+                        startActivity(ListNowPlayingMoviesActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
                         break;
                     case R.id.drawer_upcoming:
-                        startActivity(ListUpcomingMoviesActivity.newIntent(HomeActivity.this));
+                        startActivity(ListUpcomingMoviesActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
                         break;
                     case R.id.drawer_toprated:
-                        startActivity(ListTopRatedMoviesActivity.newIntent(HomeActivity.this));
+                        startActivity(ListTopRatedMoviesActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
                         break;
                     case R.id.drawer_popular:
-                        startActivity(ListPopularMoviesActivity.newIntent(HomeActivity.this));
+                        startActivity(ListPopularMoviesActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
                         break;
                 }
                 drawerLayout.closeDrawers();
@@ -212,7 +213,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     @Override
     public void startActivity(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            startActivity(SearchActivity.newIntent(this, intent.getStringExtra(SearchManager.QUERY)));
+            startActivity(SearchActivity.newIntent(this, intent.getStringExtra(SearchManager.QUERY)), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
         } else {
             super.startActivity(intent);
         }
@@ -257,8 +258,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewUpcoming.setItemAnimator(new DefaultItemAnimator());
         recyclerViewUpcoming.setAdapter(new UpcomingMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
-            public void onClick(Movie movie) {
-                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie));
+            public void onClick(Movie movie, View view) {
+                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
             }
         }));
     }
@@ -325,8 +326,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewPopular.setItemAnimator(new DefaultItemAnimator());
         recyclerViewPopular.setAdapter(new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
-            public void onClick(Movie movie) {
-                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie));
+            public void onClick(Movie movie, View view) {
+                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
             }
         }));
     }
@@ -355,8 +356,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewTopRated.setItemAnimator(new DefaultItemAnimator());
         recyclerViewTopRated.setAdapter(new TopRatedMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
-            public void onClick(Movie movie) {
-                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie));
+            public void onClick(Movie movie, View view) {
+                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
             }
         }));
     }
@@ -403,9 +404,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewNowPlaying.setItemAnimator(new DefaultItemAnimator());
         recyclerViewNowPlaying.setAdapter(new NowPlayingMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
-            public void onClick(Movie movie) {
-                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie));
-            }
+            public void onClick(Movie movie, View view) {
+                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_backdrop), "movieBackdrop").toBundle());            }
         }));
     }
 
@@ -428,18 +428,18 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     }
 
     public void morePopularMovies(View view) {
-        startActivity(ListPopularMoviesActivity.newIntent(this));
+        startActivity(ListPopularMoviesActivity.newIntent(this), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void moreNowPlayingMovies(View view) {
-        startActivity(ListNowPlayingMoviesActivity.newIntent(this));
+        startActivity(ListNowPlayingMoviesActivity.newIntent(this), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void moreUpcomingMovies(View view) {
-        startActivity(ListUpcomingMoviesActivity.newIntent(this));
+        startActivity(ListUpcomingMoviesActivity.newIntent(this), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void moreTopRatedMovies(View view) {
-        startActivity(ListTopRatedMoviesActivity.newIntent(this));
+        startActivity(ListTopRatedMoviesActivity.newIntent(this), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
 }

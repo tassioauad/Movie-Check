@@ -1,8 +1,8 @@
 package com.tassioauad.moviecheck.view.fragment;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -20,8 +20,6 @@ import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.MovieDetailViewModule;
 import com.tassioauad.moviecheck.model.entity.Genre;
-import com.tassioauad.moviecheck.model.entity.Image;
-import com.tassioauad.moviecheck.model.entity.Media;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.presenter.MovieDetailPresenter;
 import com.tassioauad.moviecheck.view.MovieDetailView;
@@ -32,7 +30,6 @@ import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -182,8 +179,8 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         recyclerViewGenres.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerViewGenres.setAdapter(new GenreListAdapter(genreList, new OnItemClickListener<Genre>() {
             @Override
-            public void onClick(Genre genre) {
-                startActivity(ListMoviesByGenreActivity.newIntent(getActivity(), genre));
+            public void onClick(Genre genre, View view) {
+                startActivity(ListMoviesByGenreActivity.newIntent(getActivity(), genre), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle());
             }
         }));
     }

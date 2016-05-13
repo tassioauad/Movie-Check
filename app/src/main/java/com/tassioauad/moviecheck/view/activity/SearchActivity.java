@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -211,8 +212,8 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
         recyclerViewPerson.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerViewPerson.setAdapter(new PersonListAdapter(personList, new OnItemClickListener<Person>() {
             @Override
-            public void onClick(Person person) {
-                startActivity(PersonProfileActivity.newIntent(SearchActivity.this, person));
+            public void onClick(Person person, View view) {
+                startActivity(PersonProfileActivity.newIntent(SearchActivity.this, person), ActivityOptionsCompat.makeSceneTransitionAnimation(SearchActivity.this, view.findViewById(R.id.imageview_photo), "personPhoto").toBundle());
             }
         }));
     }
@@ -261,8 +262,8 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
         recyclerViewMovie.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerViewMovie.setAdapter(new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
-            public void onClick(Movie movie) {
-                startActivity(MovieProfileActivity.newIntent(SearchActivity.this, movie));
+            public void onClick(Movie movie, View view) {
+                startActivity(MovieProfileActivity.newIntent(SearchActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(SearchActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
             }
         }));
     }
@@ -288,10 +289,10 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
     }
 
     public void moreMovie(View view) {
-        startActivity(SearchMovieActivity.newIntent(this, query));
+        startActivity(SearchMovieActivity.newIntent(this, query), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void morePerson(View view) {
-        startActivity(SearchPersonActivity.newIntent(this, query));
+        startActivity(SearchPersonActivity.newIntent(this, query), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
 }

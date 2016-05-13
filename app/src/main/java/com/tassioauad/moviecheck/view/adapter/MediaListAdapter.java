@@ -54,7 +54,7 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.View
     @Override
     public void onClick(View view) {
         Media media = (Media) view.getTag();
-        mediaOnItemClickListener.onClick(media);
+        mediaOnItemClickListener.onClick(media, view);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

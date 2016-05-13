@@ -3,6 +3,7 @@ package com.tassioauad.moviecheck.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,9 +22,9 @@ import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.presenter.ListNowPlayingMoviesPresenter;
 import com.tassioauad.moviecheck.view.ListNowPlayingMoviesView;
 import com.tassioauad.moviecheck.view.adapter.ListViewAdapterWithPagination;
+import com.tassioauad.moviecheck.view.adapter.NowPlayingMovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 import com.tassioauad.moviecheck.view.adapter.OnShowMoreListener;
-import com.tassioauad.moviecheck.view.adapter.NowPlayingMovieListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,7 +117,7 @@ public class ListNowPlayingMoviesActivity extends AppCompatActivity implements L
 
     @Override
     public void warnAnyMovieFounded() {
-        if(movieList == null) {
+        if (movieList == null) {
             linearLayoutAnyFounded.setVisibility(View.VISIBLE);
             linearLayoutLoadFailed.setVisibility(View.GONE);
             recyclerViewMovies.setVisibility(View.GONE);
@@ -143,11 +144,10 @@ public class ListNowPlayingMoviesActivity extends AppCompatActivity implements L
         listViewAdapter = new ListViewAdapterWithPagination(
                 new NowPlayingMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
                     @Override
-                    public void onClick(Movie movie) {
-                        startActivity(MovieProfileActivity.newIntent(ListNowPlayingMoviesActivity.this, movie));
+                    public void onClick(Movie movie, View view) {
+                        startActivity(MovieProfileActivity.newIntent(ListNowPlayingMoviesActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(ListNowPlayingMoviesActivity.this, view.findViewById(R.id.imageview_backdrop), "movieBackdrop").toBundle());
                     }
-                }
-                ),
+                }),
                 new OnShowMoreListener() {
                     @Override
                     public void showMore() {
@@ -167,7 +167,7 @@ public class ListNowPlayingMoviesActivity extends AppCompatActivity implements L
 
     @Override
     public void warnFailedToLoadMovies() {
-        if(movieList == null) {
+        if (movieList == null) {
             linearLayoutAnyFounded.setVisibility(View.GONE);
             linearLayoutLoadFailed.setVisibility(View.VISIBLE);
             linearLayoutLoadFailed.setOnClickListener(new View.OnClickListener() {

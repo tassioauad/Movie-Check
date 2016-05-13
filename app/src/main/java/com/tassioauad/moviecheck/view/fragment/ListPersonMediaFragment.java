@@ -145,7 +145,7 @@ public class ListPersonMediaFragment extends Fragment implements ListPersonMedia
         recyclerViewMedia.setItemAnimator(new DefaultItemAnimator());
         recyclerViewMedia.setAdapter(new MediaListAdapter(mediaList, new OnItemClickListener<Media>() {
             @Override
-            public void onClick(Media media) {
+            public void onClick(Media media, View view) {
                 if (media instanceof Video) {
                     Intent intent = YouTubeStandalonePlayer.createVideoIntent(getActivity(), getString(R.string.youtube_credential), ((Video) media).getKey());
                     startActivity(intent);

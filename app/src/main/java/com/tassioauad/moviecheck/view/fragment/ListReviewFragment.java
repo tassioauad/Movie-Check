@@ -149,7 +149,7 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
         listViewAdapter = new ListViewAdapterWithPagination(
                 new ReviewListAdapter(this.reviewList, new OnItemClickListener<Review>() {
                     @Override
-                    public void onClick(Review review) {
+                    public void onClick(Review review, View view) {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(review.getUrl()));
                         startActivity(browserIntent);
                     }

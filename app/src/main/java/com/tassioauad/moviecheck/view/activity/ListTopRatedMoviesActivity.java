@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -150,8 +151,8 @@ public class ListTopRatedMoviesActivity extends AppCompatActivity implements Lis
         listViewAdapter = new ListViewAdapterWithPagination(
                 new TopRatedMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
                     @Override
-                    public void onClick(Movie movie) {
-                        startActivity(MovieProfileActivity.newIntent(ListTopRatedMoviesActivity.this, movie));
+                    public void onClick(Movie movie, View view) {
+                        startActivity(MovieProfileActivity.newIntent(ListTopRatedMoviesActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(ListTopRatedMoviesActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
                     }
                 }
                 ),

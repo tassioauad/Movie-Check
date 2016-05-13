@@ -3,6 +3,7 @@ package com.tassioauad.moviecheck.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -157,8 +158,8 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchMovi
         listViewAdapter = new ListViewAdapterWithPagination(
                 new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
                     @Override
-                    public void onClick(Movie movie) {
-                        startActivity(MovieProfileActivity.newIntent(SearchMovieActivity.this, movie));
+                    public void onClick(Movie movie, View view) {
+                        startActivity(MovieProfileActivity.newIntent(SearchMovieActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(SearchMovieActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
                     }
                 }
                 ),

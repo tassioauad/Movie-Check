@@ -2,6 +2,7 @@ package com.tassioauad.moviecheck.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -162,8 +163,8 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
         recyclerViewCrew.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerViewCrew.setAdapter(new CrewListAdapter(crewList, new OnItemClickListener<Crew>() {
             @Override
-            public void onClick(Crew crew) {
-                startActivity(PersonProfileActivity.newIntent(getActivity(), crew));
+            public void onClick(Crew crew, View view) {
+                startActivity(PersonProfileActivity.newIntent(getActivity(), crew), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.imageview_profile), "personPhoto").toBundle());
             }
         }));
     }
@@ -210,8 +211,8 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
         recyclerViewCast.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerViewCast.setAdapter(new CastListAdapter(castList, new OnItemClickListener<Cast>() {
             @Override
-            public void onClick(Cast cast) {
-                startActivity(PersonProfileActivity.newIntent(getActivity(), cast));
+            public void onClick(Cast cast, View view) {
+                startActivity(PersonProfileActivity.newIntent(getActivity(), cast), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.imageview_poster), "personPhoto").toBundle());
             }
         }));
     }

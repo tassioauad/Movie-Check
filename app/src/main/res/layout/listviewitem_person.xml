@@ -17,6 +17,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:background="@drawable/scrim"
+        android:transitionName="personPhoto"
         android:src="@drawable/noimage" />
 
     <LinearLayout

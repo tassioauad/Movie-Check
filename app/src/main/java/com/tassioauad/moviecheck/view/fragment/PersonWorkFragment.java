@@ -2,6 +2,7 @@ package com.tassioauad.moviecheck.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -160,8 +161,8 @@ public class PersonWorkFragment extends Fragment implements PersonWorkView {
         recyclerViewCrew.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerViewCrew.setAdapter(new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
-            public void onClick(Movie movie) {
-                startActivity(MovieProfileActivity.newIntent(getActivity(), movie));
+            public void onClick(Movie movie, View view) {
+                startActivity(MovieProfileActivity.newIntent(getActivity(), movie), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
             }
         }));
     }
@@ -208,8 +209,8 @@ public class PersonWorkFragment extends Fragment implements PersonWorkView {
         recyclerViewCast.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerViewCast.setAdapter(new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
-            public void onClick(Movie movie) {
-                startActivity(MovieProfileActivity.newIntent(getActivity(), movie));
+            public void onClick(Movie movie, View view) {
+                startActivity(MovieProfileActivity.newIntent(getActivity(), movie), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
             }
         }));
     }
