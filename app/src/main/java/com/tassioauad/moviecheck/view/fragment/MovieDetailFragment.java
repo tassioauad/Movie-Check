@@ -1,8 +1,8 @@
 package com.tassioauad.moviecheck.view.fragment;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -20,10 +20,10 @@ import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.MovieDetailViewModule;
 import com.tassioauad.moviecheck.model.entity.Genre;
-import com.tassioauad.moviecheck.model.entity.Image;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.presenter.MovieDetailPresenter;
 import com.tassioauad.moviecheck.view.MovieDetailView;
+import com.tassioauad.moviecheck.view.activity.FullImageSliderActivity;
 import com.tassioauad.moviecheck.view.activity.ListMoviesByGenreActivity;
 import com.tassioauad.moviecheck.view.adapter.GenreListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
@@ -78,22 +78,21 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         ButterKnife.bind(this, view);
 
         presenter.init((Movie) getArguments().getParcelable(KEY_MOVIE));
-        if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(KEY_GENRELIST) != null) {
+
+        if(savedInstanceState == null) {
+            if(genreList == null) {
+                presenter.loadGenres();
+            } else if(genreList.size() > 0) {
+                showGenres(genreList);
+            }
+        } else {
             genreList = savedInstanceState.getParcelableArrayList(KEY_GENRELIST);
-            showGenres(genreList);
+            if(genreList != null) {
+                showGenres(genreList);
+            }
         }
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        if (genreList == null) {
-            presenter.loadGenres();
-        } else {
-            showGenres(genreList);
-        }
-        super.onResume();
     }
 
     @Override
@@ -141,26 +140,24 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
 
     @Override
     public void showPoster(String posterUrl) {
-        posterUrl = getString(R.string.imagetmdb_baseurl) + posterUrl;
-        Picasso.with(getActivity()).load(posterUrl).into(imageViewPoster);
-        final String finalPosterUrl = posterUrl;
+        final String pathUrl = getString(R.string.imagetmdb_baseurl) + posterUrl;
+        Picasso.with(getActivity()).load(pathUrl).into(imageViewPoster);
         imageViewPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FullImageDialogFragment.newInstance(finalPosterUrl).show(getActivity().getSupportFragmentManager(), "fullimage");
+                startActivity(FullImageSliderActivity.newIntent(getActivity(), pathUrl));
             }
         });
     }
 
     @Override
     public void showBackdrop(String backdropUrl) {
-        backdropUrl = getString(R.string.imagetmdb_baseurl) + backdropUrl;
-        Picasso.with(getActivity()).load(backdropUrl).into(imageViewBackdrop);
-        final String finalBackdropUrl = backdropUrl;
+        final String pathUrl = getString(R.string.imagetmdb_baseurl) + backdropUrl;
+        Picasso.with(getActivity()).load(pathUrl).into(imageViewBackdrop);
         imageViewBackdrop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FullImageDialogFragment.newInstance(finalBackdropUrl).show(getActivity().getSupportFragmentManager(), "fullimage");
+                startActivity(FullImageSliderActivity.newIntent(getActivity(), pathUrl));
             }
         });
     }
@@ -182,14 +179,15 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         recyclerViewGenres.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerViewGenres.setAdapter(new GenreListAdapter(genreList, new OnItemClickListener<Genre>() {
             @Override
-            public void onClick(Genre genre) {
-                startActivity(ListMoviesByGenreActivity.newIntent(getActivity(), genre));
+            public void onClick(Genre genre, View view) {
+                startActivity(ListMoviesByGenreActivity.newIntent(getActivity(), genre), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle());
             }
         }));
     }
 
     @Override
     public void warnAnyGenreFounded() {
+        genreList = new ArrayList<>();
         Toast.makeText(getActivity(), getActivity().getString(R.string.moviedetailfragment_failedtoloadgenre), Toast.LENGTH_SHORT).show();
     }
 

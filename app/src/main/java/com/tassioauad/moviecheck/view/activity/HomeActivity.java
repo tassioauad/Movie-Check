@@ -4,7 +4,11 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +16,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -22,9 +27,9 @@ import com.tassioauad.moviecheck.dagger.HomeViewModule;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.presenter.HomePresenter;
 import com.tassioauad.moviecheck.view.HomeView;
+import com.tassioauad.moviecheck.view.adapter.MovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.NowPlayingMovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
-import com.tassioauad.moviecheck.view.adapter.MovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.TopRatedMovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.UpcomingMovieListAdapter;
 
@@ -83,6 +88,10 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     LinearLayout linearLayoutPopularAnyFounded;
     @Bind(R.id.linearlayout_popular_loadfailed)
     LinearLayout linearLayoutPopularLoadFailed;
+    @Bind(R.id.navigation_view)
+    NavigationView navigationView;
+    @Bind(R.id.drawer)
+    DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,41 +102,95 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
         setSupportActionBar(toolbar);
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState == null) {
+            presenter.listPopularMovies();
+            presenter.listTopRatedMovies();
+            presenter.listUpcomingMovies();
+            presenter.listNowPlayingMovies();
+        } else {
             popularMovieList = savedInstanceState.getParcelableArrayList(KEY_POPULARMOVIELIST);
             topRatedMovieList = savedInstanceState.getParcelableArrayList(KEY_TOPRATEMOVIELIST);
             upcomingMovieList = savedInstanceState.getParcelableArrayList(KEY_UPCOMINGMOVIELIST);
             nowPlayingMovieList = savedInstanceState.getParcelableArrayList(KEY_NOWPLAYINGMOVIELIST);
-            if(popularMovieList != null) {
-                showPopularMovies(popularMovieList);
+            if (popularMovieList == null) {
+                presenter.listPopularMovies();
+            } else {
+                if (popularMovieList.size() == 0) {
+                    warnAnyPopularMovieFounded();
+                } else {
+                    showPopularMovies(popularMovieList);
+                }
             }
-            if(topRatedMovieList != null) {
-                showTopRatedMovies(topRatedMovieList);
+            if (topRatedMovieList == null) {
+                presenter.listTopRatedMovies();
+            } else {
+                if (topRatedMovieList.size() == 0) {
+                    warnAnyTopRatedMovieFounded();
+                } else {
+                    showTopRatedMovies(topRatedMovieList);
+                }
             }
-            if(upcomingMovieList != null) {
-                showUpcomingMovies(upcomingMovieList);
+            if (upcomingMovieList == null) {
+                presenter.listUpcomingMovies();
+            } else {
+                if (upcomingMovieList.size() == 0) {
+                    warnAnyUpcomingMovieFounded();
+                } else {
+                    showUpcomingMovies(upcomingMovieList);
+                }
             }
-            if(nowPlayingMovieList != null) {
-                showNowPlayingMovies(nowPlayingMovieList);
+            if (nowPlayingMovieList == null) {
+                presenter.listNowPlayingMovies();
+            } else {
+                if (nowPlayingMovieList.size() == 0) {
+                    warnAnyNowPlayingMovieFounded();
+                } else {
+                    showNowPlayingMovies(nowPlayingMovieList);
+                }
             }
         }
-    }
 
-    @Override
-    protected void onResume() {
-        if(popularMovieList == null) {
-            presenter.listPopularMovies();
-        }
-        if(topRatedMovieList == null) {
-            presenter.listTopRatedMovies();
-        }
-        if(upcomingMovieList == null) {
-            presenter.listUpcomingMovies();
-        }
-        if(nowPlayingMovieList == null) {
-            presenter.listNowPlayingMovies();
-        }
-        super.onResume();
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.drawer_search:
+                        startActivity(SearchActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
+                        break;
+                    case R.id.drawer_nowplaying:
+                        startActivity(ListNowPlayingMoviesActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
+                        break;
+                    case R.id.drawer_upcoming:
+                        startActivity(ListUpcomingMoviesActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
+                        break;
+                    case R.id.drawer_toprated:
+                        startActivity(ListTopRatedMoviesActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
+                        break;
+                    case R.id.drawer_popular:
+                        startActivity(ListPopularMoviesActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
+                        break;
+                }
+                drawerLayout.closeDrawers();
+                return false;
+            }
+        });
+
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.generic_opendrawer, R.string.generic_closedrawer) {
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
     }
 
     @Override
@@ -150,7 +213,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     @Override
     public void startActivity(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            startActivity(SearchActivity.newInstance(this, intent.getStringExtra(SearchManager.QUERY)));
+            startActivity(SearchActivity.newIntent(this, intent.getStringExtra(SearchManager.QUERY)), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
         } else {
             super.startActivity(intent);
         }
@@ -158,16 +221,16 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        if(popularMovieList != null) {
+        if (popularMovieList != null) {
             outState.putParcelableArrayList(KEY_POPULARMOVIELIST, new ArrayList<>(popularMovieList));
         }
-        if(topRatedMovieList != null) {
+        if (topRatedMovieList != null) {
             outState.putParcelableArrayList(KEY_TOPRATEMOVIELIST, new ArrayList<>(topRatedMovieList));
         }
-        if(upcomingMovieList != null) {
+        if (upcomingMovieList != null) {
             outState.putParcelableArrayList(KEY_UPCOMINGMOVIELIST, new ArrayList<>(upcomingMovieList));
         }
-        if(nowPlayingMovieList != null) {
+        if (nowPlayingMovieList != null) {
             outState.putParcelableArrayList(KEY_NOWPLAYINGMOVIELIST, new ArrayList<>(nowPlayingMovieList));
         }
         super.onSaveInstanceState(outState);
@@ -195,8 +258,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewUpcoming.setItemAnimator(new DefaultItemAnimator());
         recyclerViewUpcoming.setAdapter(new UpcomingMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
-            public void onClick(Movie movie) {
-                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie));
+            public void onClick(Movie movie, View view) {
+                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
             }
         }));
     }
@@ -263,8 +326,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewPopular.setItemAnimator(new DefaultItemAnimator());
         recyclerViewPopular.setAdapter(new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
-            public void onClick(Movie movie) {
-                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie));
+            public void onClick(Movie movie, View view) {
+                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
             }
         }));
     }
@@ -293,8 +356,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewTopRated.setItemAnimator(new DefaultItemAnimator());
         recyclerViewTopRated.setAdapter(new TopRatedMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
-            public void onClick(Movie movie) {
-                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie));
+            public void onClick(Movie movie, View view) {
+                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
             }
         }));
     }
@@ -341,14 +404,13 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewNowPlaying.setItemAnimator(new DefaultItemAnimator());
         recyclerViewNowPlaying.setAdapter(new NowPlayingMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
-            public void onClick(Movie movie) {
-                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie));
-            }
+            public void onClick(Movie movie, View view) {
+                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_backdrop), "movieBackdrop").toBundle());            }
         }));
     }
 
     @Override
-    public void hideLoadingNowPlayingMovies()    {
+    public void hideLoadingNowPlayingMovies() {
         progressBarNowPlaying.setVisibility(View.GONE);
     }
 
@@ -366,18 +428,18 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     }
 
     public void morePopularMovies(View view) {
-        startActivity(ListPopularMoviesActivity.newIntent(this));
+        startActivity(ListPopularMoviesActivity.newIntent(this), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void moreNowPlayingMovies(View view) {
-        startActivity(ListNowPlayingMoviesActivity.newIntent(this));
+        startActivity(ListNowPlayingMoviesActivity.newIntent(this), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void moreUpcomingMovies(View view) {
-        startActivity(ListUpcomingMoviesActivity.newIntent(this));
+        startActivity(ListUpcomingMoviesActivity.newIntent(this), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void moreTopRatedMovies(View view) {
-        startActivity(ListTopRatedMoviesActivity.newIntent(this));
+        startActivity(ListTopRatedMoviesActivity.newIntent(this), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
 }

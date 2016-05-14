@@ -49,7 +49,7 @@ public class CrewListAdapter extends RecyclerView.Adapter<CrewListAdapter.ViewHo
     @Override
     public void onClick(View view) {
         Crew crew = (Crew) view.getTag();
-        crewOnItemClickListener.onClick(crew);
+        crewOnItemClickListener.onClick(crew, view);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

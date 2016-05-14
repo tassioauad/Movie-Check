@@ -3,6 +3,7 @@ package com.tassioauad.moviecheck.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -73,8 +74,14 @@ public class ListMoviesByGenreActivity extends AppCompatActivity implements List
             presenter.loadMovies(genre, page);
         } else {
             List<Movie> movieList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MOVIELIST);
-            page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
-            showMovies(movieList);
+            if (movieList == null) {
+                presenter.loadMovies(genre, page);
+            } else if (movieList.size() == 0) {
+                warnAnyMovieFounded();
+            } else {
+                page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
+                showMovies(movieList);
+            }
         }
 
         getSupportActionBar().setTitle(genre.getName());
@@ -141,8 +148,8 @@ public class ListMoviesByGenreActivity extends AppCompatActivity implements List
                 new ListViewAdapterWithPagination(
                         new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
                             @Override
-                            public void onClick(Movie movie) {
-                                startActivity(MovieProfileActivity.newIntent(ListMoviesByGenreActivity.this, movie));
+                            public void onClick(Movie movie, View view) {
+                                startActivity(MovieProfileActivity.newIntent(ListMoviesByGenreActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(ListMoviesByGenreActivity.this).toBundle());
                             }
                         }
                         ),

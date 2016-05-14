@@ -18,272 +18,12 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/build.gradle">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/build/intermediates/manifests/full/debug/AndroidManifest.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/dagger/ApiModule.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/dagger/ListMediaViewModule.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/dagger/ListMoviesByGenreViewModule.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/dagger/ListMoviesOfGenreViewModule.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/dagger/ListMoviesOfMovieViewModule.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/dagger/ListVideoViewModule.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/dagger/MovieDetailViewModule.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/GenreApi.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/GenreTypeAdapterFactory.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/ImageApi.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/ItemTypeAdapterFactory.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/MovieApi.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/VideoApi.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/asynctask/ListAllMovieGenreAsyncTask.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/asynctask/ListCastByMovieAsyncTask.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/asynctask/ListCrewByMovieAsyncTask.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/asynctask/ListImageByMovieAsyncTask.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/asynctask/ListMovieByGenreAsyncTask.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/asynctask/ListVideoByMovieAsyncTask.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/impl/CastApiImpl.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/impl/CrewApiImpl.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/impl/GenreApiImpl.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/impl/ImageApiImpl.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/impl/MovieApiImpl.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/impl/VideoApiImpl.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/resource/CastResource.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/resource/CrewResource.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/resource/GenreResource.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/resource/ImageResource.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/resource/MovieResource.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/api/resource/VideoResource.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/entity/Genre.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/entity/Image.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/entity/Media.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/model/entity/Video.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/presenter/CastCrewPresenter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/presenter/HomePresenter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/presenter/ListMediaPresenter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/presenter/ListMidiaPresenter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/presenter/ListMoviesByGenrePresenter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/presenter/ListNowPlayingMoviesPresenter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/presenter/ListPopularMoviesPresenter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/presenter/ListReviewPresenter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/presenter/ListTopRatedMoviesPresenter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/presenter/ListUpcomingMoviesPresenter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/presenter/ListVideoPresenter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/presenter/MovieDetailPresenter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/ListMediaView.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/ListMoviesByGenreView.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/ListVideoView.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/MovieDetailView.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/activity/FullImageSliderActivity.java">
           <value>
             <set />
           </value>
@@ -294,11 +34,6 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/activity/ListMoviesByGenreActivity.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/activity/ListMoviesOfGenreActivity.java">
           <value>
             <set />
           </value>
@@ -323,17 +58,17 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/activity/MovieProfileActivity.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/activity/SearchActivity.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/adapter/CrewListAdapter.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/activity/SearchMovieActivity.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/adapter/GenreListAdapter.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/activity/SearchPersonActivity.java">
           <value>
             <set />
           </value>
@@ -343,42 +78,22 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/adapter/MediaListAdapter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/adapter/MovieListAdapter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/adapter/UpcomingMovieListAdapter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/adapter/VideoListAdapter.java">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/fragment/CastCrewFragment.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/fragment/FullImageDialogFragment.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/fragment/ListMovieMediaFragment.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/fragment/ListMediaFragment.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/fragment/ListMovieMovieMediaFragment.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/fragment/ListMidiaFragment.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/fragment/ListPersonMediaFragment.java">
           <value>
             <set />
           </value>
@@ -388,22 +103,17 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/fragment/ListVideoFragment.java">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/fragment/MovieDetailFragment.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/scrim.xml">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/fragment/PersonWorkFragment.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout-land/fragment_moviedetail.xml">
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_fullimageslider.xml">
           <value>
             <set />
           </value>
@@ -413,32 +123,7 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_listmoviebygenre.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_listnowplayingmovies.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_listpopularmovies.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_listtopratedmovies.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_listupcomingmovies.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/anyfounded.xml">
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_search.xml">
           <value>
             <set />
           </value>
@@ -448,17 +133,17 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/failedtoload.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/fragment_castcrew.xml">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/fragment_listmidia.xml">
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/fragment_listmoviemedia.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/fragment_listpersonmedia.xml">
           <value>
             <set />
           </value>
@@ -483,42 +168,32 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/listviewitem_genre.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/listviewitem_media.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/listviewitem_movie.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/listviewitem_nowplayingmovie.xml">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/listviewitem_popularmovie.xml">
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/listviewitem_person.xml">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/listviewitem_topratedmovie.xml">
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/navigationview_header.xml">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/listviewitem_upcomingmovie.xml">
+        <entry key="$PROJECT_DIR$/app/src/main/res/menu/drawer.xml">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/listviewitem_video.xml">
+        <entry key="$PROJECT_DIR$/app/src/main/res/values-large/dimens.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/values-xlarge/dimens.xml">
           <value>
             <set />
           </value>
@@ -533,7 +208,7 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/values/styles.xml">
+        <entry key="$PROJECT_DIR$/../MobileSistemaZaalQuiosque/app/src/main/java/br/com/zaal/mobilesistemazaalquiosque/view/activity/FuncionarioStatusActivity.java">
           <value>
             <set />
           </value>

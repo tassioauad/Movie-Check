@@ -47,7 +47,7 @@ public class ReviewListAdapter extends RecyclerView.Adapter<ReviewListAdapter.Vi
     @Override
     public void onClick(View view) {
         Review review = (Review) view.getTag();
-        reviewOnItemClickListener.onClick(review);
+        reviewOnItemClickListener.onClick(review, view);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

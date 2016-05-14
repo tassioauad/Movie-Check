@@ -25,6 +25,7 @@ import com.tassioauad.moviecheck.model.entity.Person;
 import com.tassioauad.moviecheck.model.entity.Video;
 import com.tassioauad.moviecheck.presenter.ListPersonMediaPresenter;
 import com.tassioauad.moviecheck.view.ListPersonMediaView;
+import com.tassioauad.moviecheck.view.activity.FullImageSliderActivity;
 import com.tassioauad.moviecheck.view.adapter.MediaListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 
@@ -67,23 +68,27 @@ public class ListPersonMediaFragment extends Fragment implements ListPersonMedia
         View view = inflater.inflate(R.layout.fragment_listpersonmedia, container, false);
         ButterKnife.bind(this, view);
 
-        if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MEDIALIST) != null) {
+        if (savedInstanceState == null) {
+            if (mediaList == null) {
+                person = getArguments().getParcelable(KEY_PERSON);
+                presenter.loadImages(person);
+            } else if (mediaList.size() == 0) {
+                warnAnyMediaFounded();
+            } else {
+                showMedias(mediaList);
+            }
+        } else {
             List<Media> mediaList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MEDIALIST);
-            showMedias(mediaList);
+            if (mediaList == null) {
+                warnFailedToLoadMedias();
+            } else if (mediaList.size() == 0) {
+                warnAnyMediaFounded();
+            } else {
+                showMedias(mediaList);
+            }
         }
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        if (mediaList == null) {
-            person = getArguments().getParcelable(KEY_PERSON);
-            presenter.loadImages(person);
-        } else {
-            showMedias(mediaList);
-        }
-        super.onResume();
     }
 
     @Override
@@ -130,7 +135,7 @@ public class ListPersonMediaFragment extends Fragment implements ListPersonMedia
     }
 
     @Override
-    public void showMedias(List<Media> mediaList) {
+    public void showMedias(final List<Media> mediaList) {
         this.mediaList = mediaList;
         linearLayoutAnyFounded.setVisibility(View.GONE);
         linearLayoutLoadFailed.setVisibility(View.GONE);
@@ -140,13 +145,18 @@ public class ListPersonMediaFragment extends Fragment implements ListPersonMedia
         recyclerViewMedia.setItemAnimator(new DefaultItemAnimator());
         recyclerViewMedia.setAdapter(new MediaListAdapter(mediaList, new OnItemClickListener<Media>() {
             @Override
-            public void onClick(Media media) {
+            public void onClick(Media media, View view) {
                 if (media instanceof Video) {
                     Intent intent = YouTubeStandalonePlayer.createVideoIntent(getActivity(), getString(R.string.youtube_credential), ((Video) media).getKey());
                     startActivity(intent);
                 } else if (media instanceof Image) {
-                    String photoUrl = getActivity().getString(R.string.imagetmdb_baseurl) + ((Image) media).getFilePath();
-                    FullImageDialogFragment.newInstance(photoUrl).show(getActivity().getSupportFragmentManager(), "fullimage");
+                    ArrayList<Image> imageArrayList = new ArrayList<Image>();
+                    for (Media mediaOfList : mediaList) {
+                        if (mediaOfList instanceof Image) {
+                            imageArrayList.add((Image) mediaOfList);
+                        }
+                    }
+                    startActivity(FullImageSliderActivity.newIntent(getActivity(), imageArrayList, imageArrayList.indexOf(media)));
                 }
             }
         }));

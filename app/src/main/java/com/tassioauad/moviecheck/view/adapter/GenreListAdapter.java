@@ -44,7 +44,7 @@ public class GenreListAdapter extends RecyclerView.Adapter<GenreListAdapter.View
     @Override
     public void onClick(View view) {
         Genre genre = (Genre) view.getTag();
-        genreOnItemClickListener.onClick(genre);
+        genreOnItemClickListener.onClick(genre, view);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

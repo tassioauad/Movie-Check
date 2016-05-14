@@ -9,6 +9,7 @@
     <ImageView
         android:id="@+id/imageview_poster"
         android:layout_width="match_parent"
+        android:transitionName="moviePhoto"
         android:layout_height="match_parent"
         android:src="@drawable/noimage"
         android:adjustViewBounds="true" />

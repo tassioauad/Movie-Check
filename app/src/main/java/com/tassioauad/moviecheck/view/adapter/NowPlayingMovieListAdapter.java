@@ -48,7 +48,7 @@ public class NowPlayingMovieListAdapter extends RecyclerView.Adapter<NowPlayingM
     @Override
     public void onClick(View view) {
         Movie movie = (Movie) view.getTag();
-        movieOnItemClickListener.onClick(movie);
+        movieOnItemClickListener.onClick(movie, view);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

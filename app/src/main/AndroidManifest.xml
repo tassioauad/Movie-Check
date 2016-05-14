@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".view.activity.HomeActivity">
+        <activity android:name=".view.activity.HomeActivity" android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.SEARCH" />
@@ -30,7 +30,8 @@
         <activity android:name=".view.activity.PersonProfileActivity" />
         <activity android:name=".view.activity.SearchMovieActivity" />
         <activity android:name=".view.activity.SearchPersonActivity" />
-        <activity android:name=".view.activity.SearchActivity">
+        <activity android:name=".view.activity.FullImageSliderActivity"/>
+        <activity android:name=".view.activity.SearchActivity" android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

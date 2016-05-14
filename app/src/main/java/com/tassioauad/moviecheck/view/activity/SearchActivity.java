@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -77,44 +78,63 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        query = getIntent().getStringExtra(KEY_QUERY);
-        getSupportActionBar().setTitle(query);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (savedInstanceState != null) {
+
+        if(getIntent().getStringExtra(SearchManager.QUERY) != null) {
+            query = getIntent().getStringExtra(SearchManager.QUERY);
+        } else {
+            query = getIntent().getStringExtra(KEY_QUERY);
+        }
+
+        if(query == null) {
+            getSupportActionBar().setTitle(getString(R.string.searchactivity_search));
+        } else {
+            getSupportActionBar().setTitle(query);
+        }
+
+        if (savedInstanceState == null) {
+            if (query != null) {
+                presenter.searchMovies(query);
+                presenter.searchPerson(query);
+            }
+        } else {
             personList = savedInstanceState.getParcelableArrayList(KEY_PERSONLIST);
             movieList = savedInstanceState.getParcelableArrayList(KEY_MOVIELIST);
-            if (movieList != null) {
-                showMovies(movieList);
+            if (movieList == null) {
+                if (query != null) {
+                    presenter.searchMovies(query);
+                }
+            } else {
+                if (movieList.size() == 0) {
+                    warnAnyMovieFounded();
+                } else {
+                    showMovies(movieList);
+                }
             }
-            if (personList != null) {
-                showPerson(personList);
+            if (personList == null) {
+                if (query != null) {
+                    presenter.searchPerson(query);
+                }
+            } else {
+                if (personList.size() == 0) {
+                    warnAnyPersonFounded();
+                } else {
+                    showPerson(personList);
+                }
             }
         }
     }
 
-
     @Override
-    public void onResume() {
-        if (movieList == null) {
-            if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
-                presenter.searchMovies(getIntent().getStringExtra(SearchManager.QUERY));
-            } else {
-                presenter.searchMovies(query);
-            }
+    public void startActivity(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction()) && query == null) {
+            query = intent.getStringExtra(SearchManager.QUERY);
+            presenter.searchMovies(query);
+            presenter.searchPerson(query);
         } else {
-            showMovies(movieList);
+            super.startActivity(intent);
         }
-        if (personList == null) {
-            if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
-                presenter.searchPerson(getIntent().getStringExtra(SearchManager.QUERY));
-            } else {
-                presenter.searchPerson(query);
-            }
-        } else {
-            showPerson(personList);
-        }
-        super.onResume();
     }
 
     @Override
@@ -125,13 +145,15 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
         android.support.v7.widget.SearchView searchView =
                 (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
+        if (query == null) {
+            menu.findItem(R.id.search).expandActionView();
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
@@ -155,9 +177,14 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
         }
     }
 
-    public static Intent newInstance(Context context, String query) {
+    public static Intent newIntent(Context context, String query) {
         Intent intent = new Intent(context, SearchActivity.class);
         intent.putExtra(KEY_QUERY, query);
+        return intent;
+    }
+
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, SearchActivity.class);
         return intent;
     }
 
@@ -176,7 +203,7 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
     @Override
     public void showPerson(List<Person> personList) {
         this.personList = personList;
-        if(personList.size() == 20) {
+        if (personList.size() == 20) {
             textViewMorePerson.setVisibility(View.VISIBLE);
         }
         linearLayoutPersonLoadFailed.setVisibility(View.GONE);
@@ -185,8 +212,8 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
         recyclerViewPerson.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerViewPerson.setAdapter(new PersonListAdapter(personList, new OnItemClickListener<Person>() {
             @Override
-            public void onClick(Person person) {
-                startActivity(PersonProfileActivity.newIntent(SearchActivity.this, person));
+            public void onClick(Person person, View view) {
+                startActivity(PersonProfileActivity.newIntent(SearchActivity.this, person), ActivityOptionsCompat.makeSceneTransitionAnimation(SearchActivity.this, view.findViewById(R.id.imageview_photo), "personPhoto").toBundle());
             }
         }));
     }
@@ -226,7 +253,7 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
     @Override
     public void showMovies(List<Movie> movieList) {
         this.movieList = movieList;
-        if(movieList.size() == 20) {
+        if (movieList.size() == 20) {
             textViewMoreMovies.setVisibility(View.VISIBLE);
         }
         linearLayoutMovieLoadFailed.setVisibility(View.GONE);
@@ -235,8 +262,8 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
         recyclerViewMovie.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerViewMovie.setAdapter(new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
-            public void onClick(Movie movie) {
-                startActivity(MovieProfileActivity.newIntent(SearchActivity.this, movie));
+            public void onClick(Movie movie, View view) {
+                startActivity(MovieProfileActivity.newIntent(SearchActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(SearchActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
             }
         }));
     }
@@ -262,9 +289,10 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
     }
 
     public void moreMovie(View view) {
-        startActivity(SearchMovieActivity.newIntent(this, query));
+        startActivity(SearchMovieActivity.newIntent(this, query), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
+
     public void morePerson(View view) {
-        startActivity(SearchPersonActivity.newIntent(this, query));
+        startActivity(SearchPersonActivity.newIntent(this, query), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
 }

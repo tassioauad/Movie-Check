@@ -49,7 +49,7 @@ public class CastListAdapter extends RecyclerView.Adapter<CastListAdapter.ViewHo
     @Override
     public void onClick(View view) {
         Cast cast = (Cast) view.getTag();
-        castOnItemClickListener.onClick(cast);
+        castOnItemClickListener.onClick(cast, view);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

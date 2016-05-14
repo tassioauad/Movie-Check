@@ -3,6 +3,7 @@ package com.tassioauad.moviecheck.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -79,8 +80,15 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchMovi
             presenter.search(query, page);
         } else {
             List<Movie> movieList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MOVIELIST);
-            page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
-            showMovies(movieList);
+            if (movieList == null) {
+                presenter.search(query, page);
+            } else if (movieList.size() == 0) {
+                warnAnyMovieFounded();
+            } else {
+                page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
+                showMovies(movieList);
+            }
+
         }
     }
 
@@ -117,7 +125,7 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchMovi
 
     @Override
     public void warnAnyMovieFounded() {
-        if(movieList == null) {
+        if (movieList == null) {
             linearLayoutAnyFounded.setVisibility(View.VISIBLE);
             linearLayoutLoadFailed.setVisibility(View.GONE);
             recyclerViewMovies.setVisibility(View.GONE);
@@ -150,8 +158,8 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchMovi
         listViewAdapter = new ListViewAdapterWithPagination(
                 new MovieListAdapter(movieList, new OnItemClickListener<Movie>() {
                     @Override
-                    public void onClick(Movie movie) {
-                        startActivity(MovieProfileActivity.newIntent(SearchMovieActivity.this, movie));
+                    public void onClick(Movie movie, View view) {
+                        startActivity(MovieProfileActivity.newIntent(SearchMovieActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(SearchMovieActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
                     }
                 }
                 ),
@@ -174,7 +182,7 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchMovi
 
     @Override
     public void warnFailedToLoadMovies() {
-        if(movieList == null) {
+        if (movieList == null) {
             linearLayoutAnyFounded.setVisibility(View.GONE);
             linearLayoutLoadFailed.setVisibility(View.VISIBLE);
             linearLayoutLoadFailed.setOnClickListener(new View.OnClickListener() {

@@ -48,7 +48,7 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Vi
     @Override
     public void onClick(View view) {
         Person person = (Person) view.getTag();
-        personOnItemClickListener.onClick(person);
+        personOnItemClickListener.onClick(person, view);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

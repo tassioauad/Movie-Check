@@ -2,6 +2,7 @@ package com.tassioauad.moviecheck.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -76,33 +77,45 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
         movie = getArguments().getParcelable(KEY_MOVIE);
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState == null) {
+            if (castList == null) {
+                presenter.loadCast(movie);
+            } else if (castList.size() == 0) {
+                warnAnyCastFounded();
+            } else {
+                showCasts(castList);
+            }
+            if (crewList == null) {
+                presenter.loadCrew(movie);
+            } else if (crewList.size() == 0) {
+                warnAnyCrewFounded();
+            } else {
+                showCrews(crewList);
+            }
+        } else {
             crewList = savedInstanceState.getParcelableArrayList(KEY_CREWLIST);
             castList = savedInstanceState.getParcelableArrayList(KEY_CASTLIST);
             if (castList != null) {
-                showCasts(castList);
+                if (castList.size() == 0) {
+                    warnAnyCastFounded();
+                } else {
+                    showCasts(castList);
+                }
+            } else {
+                warnFailedToLoadCasts();
             }
             if (crewList != null) {
-                showCrews(crewList);
+                if (crewList.size() == 0) {
+                    warnAnyCrewFounded();
+                } else {
+                    showCrews(crewList);
+                }
+            } else {
+                warnFailedToLoadCrews();
             }
         }
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        if (castList == null) {
-            presenter.loadCast(movie);
-        } else {
-            showCasts(castList);
-        }
-        if (crewList == null) {
-            presenter.loadCrew(movie);
-        } else {
-            showCrews(crewList);
-        }
-        super.onResume();
     }
 
     @Override
@@ -147,17 +160,18 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
         linearLayoutCrewLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCrewFounded.setVisibility(View.GONE);
         recyclerViewCrew.setVisibility(View.VISIBLE);
-        recyclerViewCrew.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
+        recyclerViewCrew.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerViewCrew.setAdapter(new CrewListAdapter(crewList, new OnItemClickListener<Crew>() {
             @Override
-            public void onClick(Crew crew) {
-                startActivity(PersonProfileActivity.newIntent(getActivity(), crew));
+            public void onClick(Crew crew, View view) {
+                startActivity(PersonProfileActivity.newIntent(getActivity(), crew), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.imageview_profile), "personPhoto").toBundle());
             }
         }));
     }
 
     @Override
     public void warnAnyCrewFounded() {
+        crewList = new ArrayList<>();
         linearLayoutCrewLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCrewFounded.setVisibility(View.VISIBLE);
         recyclerViewCrew.setVisibility(View.GONE);
@@ -194,17 +208,18 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
         linearLayoutCastLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCastFounded.setVisibility(View.GONE);
         recyclerViewCast.setVisibility(View.VISIBLE);
-        recyclerViewCast.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
+        recyclerViewCast.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerViewCast.setAdapter(new CastListAdapter(castList, new OnItemClickListener<Cast>() {
             @Override
-            public void onClick(Cast cast) {
-                startActivity(PersonProfileActivity.newIntent(getActivity(), cast));
+            public void onClick(Cast cast, View view) {
+                startActivity(PersonProfileActivity.newIntent(getActivity(), cast), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.imageview_poster), "personPhoto").toBundle());
             }
         }));
     }
 
     @Override
     public void warnAnyCastFounded() {
+        castList = new ArrayList<>();
         linearLayoutCastLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCastFounded.setVisibility(View.VISIBLE);
         recyclerViewCast.setVisibility(View.GONE);

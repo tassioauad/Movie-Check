@@ -72,25 +72,29 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
         View view = inflater.inflate(R.layout.fragment_listreview, container, false);
         ButterKnife.bind(this, view);
 
-        if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(BUNDLE_KEY_REVIEWLIST) != null
-                && savedInstanceState.getInt(BUNDLE_KEY_PAGE) != 0) {
+        if (savedInstanceState == null) {
+            if (reviewList == null) {
+                movie = getArguments().getParcelable(KEY_MOVIE);
+                presenter.loadReviews(movie, page);
+            } else if (reviewList.size() == 0) {
+                warnAnyReviewFounded();
+            } else {
+                showReviews(reviewList);
+            }
+        } else {
             List<Review> reviewList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_REVIEWLIST);
-            page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
-            showReviews(reviewList);
+            if (reviewList == null) {
+                movie = getArguments().getParcelable(KEY_MOVIE);
+                presenter.loadReviews(movie, page);
+            } else if (reviewList.size() == 0) {
+                warnAnyReviewFounded();
+            } else {
+                page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
+                showReviews(reviewList);
+            }
         }
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        if (reviewList == null) {
-            movie = getArguments().getParcelable(KEY_MOVIE);
-            presenter.loadReviews(movie, page);
-        } else {
-            showReviews(reviewList);
-        }
-        super.onResume();
     }
 
     @Override
@@ -117,7 +121,8 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
 
     @Override
     public void warnAnyReviewFounded() {
-        if(reviewList == null) {
+        if (reviewList == null || reviewList.size() == 0) {
+            reviewList = new ArrayList<>();
             linearLayoutAnyFounded.setVisibility(View.VISIBLE);
             linearLayoutLoadFailed.setVisibility(View.GONE);
             recyclerViewReviews.setVisibility(View.GONE);
@@ -130,7 +135,7 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
 
     @Override
     public void showReviews(final List<Review> reviewList) {
-        if (this.reviewList == null) {
+        if (this.reviewList == null || reviewList.get(0).equals(this.reviewList.get(0)) ) {
             this.reviewList = reviewList;
         } else {
             this.reviewList.addAll(reviewList);
@@ -144,7 +149,7 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
         listViewAdapter = new ListViewAdapterWithPagination(
                 new ReviewListAdapter(this.reviewList, new OnItemClickListener<Review>() {
                     @Override
-                    public void onClick(Review review) {
+                    public void onClick(Review review, View view) {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(review.getUrl()));
                         startActivity(browserIntent);
                     }
@@ -168,7 +173,7 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
 
     @Override
     public void warnFailedToLoadReviews() {
-        if(reviewList == null) {
+        if (reviewList == null) {
             linearLayoutAnyFounded.setVisibility(View.GONE);
             linearLayoutLoadFailed.setVisibility(View.VISIBLE);
             linearLayoutLoadFailed.setOnClickListener(new View.OnClickListener() {

@@ -19,6 +19,7 @@ import com.tassioauad.moviecheck.dagger.PersonDetailViewModule;
 import com.tassioauad.moviecheck.model.entity.Person;
 import com.tassioauad.moviecheck.presenter.PersonDetailPresenter;
 import com.tassioauad.moviecheck.view.PersonDetailView;
+import com.tassioauad.moviecheck.view.activity.FullImageSliderActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -112,13 +113,12 @@ public class PersonDetailFragment extends Fragment implements PersonDetailView {
 
     @Override
     public void showPhoto(String photoUrl) {
-        photoUrl = getString(R.string.imagetmdb_baseurl) + photoUrl;
-        Picasso.with(getActivity()).load(photoUrl).into(imageViewPhoto);
-        final String finalPhotoUrl = photoUrl;
+        final String pathUrl = getString(R.string.imagetmdb_baseurl) + photoUrl;
+        Picasso.with(getActivity()).load(pathUrl).into(imageViewPhoto);
         imageViewPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FullImageDialogFragment.newInstance(finalPhotoUrl).show(getActivity().getSupportFragmentManager(), "fullimage");
+                startActivity(FullImageSliderActivity.newIntent(getActivity(), pathUrl));
             }
         });
     }
@@ -148,6 +148,7 @@ public class PersonDetailFragment extends Fragment implements PersonDetailView {
         this.person = person;
         showPhoto(person.getProfilePath());
         if (person.getDeathday() != null) {
+            linearLayoutDeathday.setVisibility(View.VISIBLE);
             showDeathday(person.getDeathday());
         } else {
             linearLayoutDeathday.setVisibility(View.GONE);

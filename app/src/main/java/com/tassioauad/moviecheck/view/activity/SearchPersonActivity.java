@@ -3,6 +3,7 @@ package com.tassioauad.moviecheck.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -80,8 +81,14 @@ public class SearchPersonActivity extends AppCompatActivity implements SearchPer
             presenter.search(query, page);
         } else {
             List<Person> personList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_PERSONLIST);
-            page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
-            showPerson(personList);
+            if(personList == null) {
+                presenter.search(query, page);
+            } else if(personList.size() == 0) {
+                warnAnyPersonFounded();
+            } else {
+                page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
+                showPerson(personList);
+            }
         }
     }
 
@@ -151,8 +158,8 @@ public class SearchPersonActivity extends AppCompatActivity implements SearchPer
         listViewAdapter = new ListViewAdapterWithPagination(
                 new PersonListAdapter(this.personList, new OnItemClickListener<Person>() {
                     @Override
-                    public void onClick(Person person) {
-                        startActivity(PersonProfileActivity.newIntent(SearchPersonActivity.this, person));
+                    public void onClick(Person person, View view) {
+                        startActivity(PersonProfileActivity.newIntent(SearchPersonActivity.this, person), ActivityOptionsCompat.makeSceneTransitionAnimation(SearchPersonActivity.this, view.findViewById(R.id.imageview_photo), "personPhoto").toBundle());
                     }
                 }
                 ),

@@ -16,6 +16,7 @@
             android:layout_height="@dimen/poster_height"
             android:background="@drawable/scrim"
             android:adjustViewBounds="true"
+            android:transitionName="movieBackdrop"
             android:scaleType="centerCrop"/>
 
         <LinearLayout
@@ -32,6 +33,7 @@
                 android:id="@+id/imageview_poster"
                 android:layout_width="@dimen/poster_width"
                 android:layout_height="@dimen/poster_height"
+                android:transitionName="moviePoster"
                 android:adjustViewBounds="true"
                 android:background="@drawable/scrim"
                 android:scaleType="fitXY" />
@@ -45,6 +47,7 @@
                     android:id="@+id/ratingbar_vote"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:isIndicator="true"
                     android:layout_gravity="end"/>
 
                 <TextView

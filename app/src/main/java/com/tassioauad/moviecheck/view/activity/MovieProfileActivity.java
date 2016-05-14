@@ -18,7 +18,7 @@ import com.tassioauad.moviecheck.presenter.MovieProfilePresenter;
 import com.tassioauad.moviecheck.view.MovieProfileView;
 import com.tassioauad.moviecheck.view.fragment.CastCrewFragment;
 import com.tassioauad.moviecheck.view.fragment.ListReviewFragment;
-import com.tassioauad.moviecheck.view.fragment.ListMovieMovieMediaFragment;
+import com.tassioauad.moviecheck.view.fragment.ListMovieMediaFragment;
 import com.tassioauad.moviecheck.view.fragment.MovieDetailFragment;
 
 import javax.inject.Inject;
@@ -64,7 +64,7 @@ public class MovieProfileActivity extends AppCompatActivity implements MovieProf
                     case 2:
                         return ListReviewFragment.newInstance(movie);
                     case 3:
-                        return ListMovieMovieMediaFragment.newInstance(movie);
+                        return ListMovieMediaFragment.newInstance(movie);
                     default:
                         return null;
                 }
