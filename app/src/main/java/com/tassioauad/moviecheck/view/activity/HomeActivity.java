@@ -20,13 +20,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.HomeViewModule;
 import com.tassioauad.moviecheck.model.entity.Movie;
+import com.tassioauad.moviecheck.model.entity.User;
 import com.tassioauad.moviecheck.presenter.HomePresenter;
 import com.tassioauad.moviecheck.view.HomeView;
 import com.tassioauad.moviecheck.view.adapter.MovieListAdapter;
@@ -43,7 +51,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends AppCompatActivity implements HomeView {
+public class HomeActivity extends AppCompatActivity implements HomeView, GoogleApiClient.OnConnectionFailedListener {
 
     @Inject
     HomePresenter presenter;
@@ -55,6 +63,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     private static final String KEY_TOPRATEMOVIELIST = "TOPRATEMOVIELIST";
     private static final String KEY_UPCOMINGMOVIELIST = "UPCOMINGMOVIELIST";
     private static final String KEY_NOWPLAYINGMOVIELIST = "NOWPLAYINGMOVIELIST";
+    private static final int RC_SIGN_IN = 27832;
+    private GoogleApiClient googleApiClient;
 
     @Bind(R.id.recyclerview_nowplaying)
     RecyclerView recyclerViewNowPlaying;
@@ -103,6 +113,15 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         ((MovieCheckApplication) getApplication()).getObjectGraph().plus(new HomeViewModule(this)).inject(this);
 
         setSupportActionBar(toolbar);
+
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
+                .build();
 
         if (savedInstanceState == null) {
             presenter.listPopularMovies();
@@ -244,6 +263,18 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
             outState.putParcelableArrayList(KEY_NOWPLAYINGMOVIELIST, new ArrayList<>(nowPlayingMovieList));
         }
         super.onSaveInstanceState(outState);
+    }
+
+    @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                GoogleSignInAccount googleSignInAccount = result.getSignInAccount();
+                User user = new User(googleSignInAccount.getId(), googleSignInAccount.getDisplayName(),
+                        googleSignInAccount.getEmail(), googleSignInAccount.getPhotoUrl().toString());
+            }
+        }
     }
 
     @Override
@@ -415,7 +446,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewNowPlaying.setAdapter(new NowPlayingMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
             public void onClick(Movie movie, View view) {
-                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_backdrop), "movieBackdrop").toBundle());            }
+                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_backdrop), "movieBackdrop").toBundle());
+            }
         }));
     }
 
@@ -451,5 +483,15 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     public void moreTopRatedMovies(View view) {
         startActivity(ListTopRatedMoviesActivity.newIntent(this), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Toast.makeText(this, connectionResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    public void googleSignIn(View view) {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 }

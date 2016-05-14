@@ -3,6 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="250dp"
     android:background="@color/primary"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/textview_signingoogle"
+        android:onClick="googleSignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign In with Google"
+        android:gravity="center"
+        android:background="@color/red"
+        style="@style/TextH2White"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/google_logo"
+        android:drawableStart="@drawable/google_logo"/>
 
 </LinearLayout>

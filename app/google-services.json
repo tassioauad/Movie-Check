@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "799466509603",
+    "project_id": "movie-check"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799466509603:android:e5ae0db8dc44450f",
+        "android_client_info": {
+          "package_name": "com.tassioauad.moviecheck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799466509603-h4acr0b10njljabokh1tgpdlsj0l2eka.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tassioauad.moviecheck",
+            "certificate_hash": "ADADAB529BC5356A8A42AC48C632E098B2F9B2ED"
+          }
+        },
+        {
+          "client_id": "799466509603-46d7njb4do69tcuekmrgup0rbma4iach.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTKrlesVyAXyDTgyFUMlj8Fsj6_XVR8Tk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
