@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.ListReviewViewModule;
@@ -101,6 +103,14 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
     public void onStop() {
         presenter.stop();
         super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Tracker defaultTracker = ((MovieCheckApplication) getActivity().getApplication()).getDefaultTracker();
+        defaultTracker.setScreenName("List of Reviews Screen");
+        defaultTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

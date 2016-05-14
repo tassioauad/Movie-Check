@@ -16,8 +16,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.model.entity.Image;
 
@@ -98,6 +101,14 @@ public class FullImageSliderActivity extends AppCompatActivity {
             }
         });
         viewPager.setCurrentItem(position);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Tracker defaultTracker = ((MovieCheckApplication) getApplication()).getDefaultTracker();
+        defaultTracker.setScreenName("Full Image Slider Screen");
+        defaultTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

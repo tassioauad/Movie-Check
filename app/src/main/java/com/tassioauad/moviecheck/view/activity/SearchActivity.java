@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.SearchViewModule;
@@ -43,6 +45,7 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
     private List<Movie> movieList;
     private List<Person> personList;
     private String query;
+    private Tracker defaultTracker;
     private static final String KEY_PERSONLIST = "PERSONLIST";
     private static final String KEY_MOVIELIST = "MOVIELIST";
     private static final String KEY_QUERY = "QUERY";
@@ -76,6 +79,7 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
         setContentView(R.layout.activity_search);
         ((MovieCheckApplication) getApplication()).getObjectGraph().plus(new SearchViewModule(this)).inject(this);
         ButterKnife.bind(this);
+        defaultTracker = ((MovieCheckApplication) getApplication()).getDefaultTracker();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -91,6 +95,10 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
             getSupportActionBar().setTitle(getString(R.string.searchactivity_search));
         } else {
             getSupportActionBar().setTitle(query);
+            defaultTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Search")
+                    .setAction(query)
+                    .build());
         }
 
         if (savedInstanceState == null) {
@@ -127,9 +135,20 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        defaultTracker.setScreenName("Search Screen");
+        defaultTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    @Override
     public void startActivity(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction()) && query == null) {
             query = intent.getStringExtra(SearchManager.QUERY);
+            defaultTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Search")
+                    .setAction(query)
+                    .build());
             presenter.searchMovies(query);
             presenter.searchPerson(query);
         } else {
