@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.CastCrewViewModule;
@@ -116,6 +118,14 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
         }
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Tracker defaultTracker = ((MovieCheckApplication) getActivity().getApplication()).getDefaultTracker();
+        defaultTracker.setScreenName("List of Cast And Crew Of A Movie Screen");
+        defaultTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

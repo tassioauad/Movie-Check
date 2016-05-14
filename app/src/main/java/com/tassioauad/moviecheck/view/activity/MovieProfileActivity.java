@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.MovieProfileViewModule;
@@ -91,6 +93,14 @@ public class MovieProfileActivity extends AppCompatActivity implements MovieProf
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Tracker defaultTracker = ((MovieCheckApplication) getApplication()).getDefaultTracker();
+        defaultTracker.setScreenName("Movie Profile Screen");
+        defaultTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="ga_sessionTimeout">300</integer>
+    <bool name="ga_autoActivityTracking">true</bool>
+    <string name="ga_trackingId">UA-77707265-1</string>
+    <string name="ga_sampleFrequency">100.0</string>
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+    <screenName name="com.tassioauad.moviecheck.view.activity.HomeActivity">Home Screen</screenName>
+    <screenName name="com.tassioauad.moviecheck.view.activity.ListNowPlayingMoviesActivity">List Of Now Playing Movies Screen</screenName>
+    <screenName name="com.tassioauad.moviecheck.view.activity.ListPopularMoviesActivity">List Of Popular Movies Screen</screenName>
+    <screenName name="com.tassioauad.moviecheck.view.activity.ListTopRatedMoviesActivity">List Of Top Rated Movies Screen</screenName>
+    <screenName name="com.tassioauad.moviecheck.view.activity.ListUpcomingMoviesActivity">List Of Upcoming Movies Screen</screenName>
+    <screenName name="com.tassioauad.moviecheck.view.activity.ListMoviesByGenreActivity">List Movies By Genre Screen</screenName>
+    <screenName name="com.tassioauad.moviecheck.view.activity.FullImageSliderActivity">Full Image Slider Screen</screenName>
+    <screenName name="com.tassioauad.moviecheck.view.activity.MovieProfileActivity">Movie Profile Screen</screenName>
+    <screenName name="com.tassioauad.moviecheck.view.activity.PersonProfileActivity">Person Profile Screen</screenName>
+    <screenName name="com.tassioauad.moviecheck.view.activity.SearchActivity">Search Screen</screenName>
+    <screenName name="com.tassioauad.moviecheck.view.activity.SearchPersonActivity">Search Person Screen</screenName>
+    <screenName name="com.tassioauad.moviecheck.view.activity.SearchMovieActivity">Search Movie Screen</screenName>
+</resources>

@@ -15,6 +15,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
@@ -93,6 +95,14 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         }
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Tracker defaultTracker = ((MovieCheckApplication) getActivity().getApplication()).getDefaultTracker();
+        defaultTracker.setScreenName("Movie Detail Screen");
+        defaultTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

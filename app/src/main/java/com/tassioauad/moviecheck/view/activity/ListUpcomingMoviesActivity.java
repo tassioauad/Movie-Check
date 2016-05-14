@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.ListUpcomingMoviesViewModule;
@@ -82,6 +84,14 @@ public class ListUpcomingMoviesActivity extends AppCompatActivity implements Lis
                 showMovies(movieList);
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Tracker defaultTracker = ((MovieCheckApplication) getApplication()).getDefaultTracker();
+        defaultTracker.setScreenName("List Of Upcoming Movies Screen");
+        defaultTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

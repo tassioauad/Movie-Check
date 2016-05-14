@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.ListMoviesByGenreViewModule;
@@ -85,6 +87,14 @@ public class ListMoviesByGenreActivity extends AppCompatActivity implements List
         }
 
         getSupportActionBar().setTitle(genre.getName());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Tracker defaultTracker = ((MovieCheckApplication) getApplication()).getDefaultTracker();
+        defaultTracker.setScreenName("List Movies By Genre Screen");
+        defaultTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
