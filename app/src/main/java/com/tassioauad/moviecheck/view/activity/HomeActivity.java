@@ -39,6 +39,7 @@ import com.tassioauad.moviecheck.dagger.HomeViewModule;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.model.entity.User;
 import com.tassioauad.moviecheck.presenter.HomePresenter;
+import com.tassioauad.moviecheck.util.PicassoCircleTransform;
 import com.tassioauad.moviecheck.view.HomeView;
 import com.tassioauad.moviecheck.view.adapter.MovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.NowPlayingMovieListAdapter;
@@ -491,7 +492,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView, GoogleA
         textViewGoogleSignIn.setVisibility(View.GONE);
         linearLayoutUser.setVisibility(View.VISIBLE);
         textViewUserName.setText(user.getName());
-        Picasso.with(this).load(user.getPhotoUrl()).into(imageViewUserPhoto);
+        Picasso.with(this).load(user.getPhotoUrl()).transform(new PicassoCircleTransform()).into(imageViewUserPhoto);
     }
 
     public void morePopularMovies(View view) {
