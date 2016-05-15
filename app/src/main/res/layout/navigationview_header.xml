@@ -11,12 +11,49 @@
         android:onClick="googleSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign In with Google"
+        android:text="@string/navigationview_signingoogle"
         android:gravity="center"
         android:background="@color/red"
         style="@style/TextH2White"
         android:padding="10dp"
         android:drawableLeft="@drawable/google_logo"
-        android:drawableStart="@drawable/google_logo"/>
+        android:drawableStart="@drawable/google_logo"
+        android:visibility="visible"/>
+
+    <LinearLayout
+        android:id="@+id/linearlayout_user"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/imageview_userphoto"
+            android:layout_width="@dimen/poster_width"
+            android:layout_height="@dimen/poster_height"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/noimage"/>
+
+        <TextView
+            android:id="@+id/textview_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            style="@style/TextH2White"
+            android:padding="10dp"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logout"
+            android:layout_gravity="end"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:onClick="logout"
+            android:background="@android:color/transparent"/>
+
+    </LinearLayout>
 
 </LinearLayout>

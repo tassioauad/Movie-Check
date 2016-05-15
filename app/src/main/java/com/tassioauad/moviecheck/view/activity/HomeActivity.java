@@ -18,8 +18,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -30,6 +32,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.squareup.picasso.Picasso;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.HomeViewModule;
@@ -104,6 +107,11 @@ public class HomeActivity extends AppCompatActivity implements HomeView, GoogleA
     NavigationView navigationView;
     @Bind(R.id.drawer)
     DrawerLayout drawerLayout;
+    TextView textViewGoogleSignIn;
+    LinearLayout linearLayoutUser;
+    TextView textViewUserName;
+    ImageView imageViewUserPhoto;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,6 +220,14 @@ public class HomeActivity extends AppCompatActivity implements HomeView, GoogleA
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+
+        View headerView = navigationView.getHeaderView(0);
+        textViewGoogleSignIn = (TextView) headerView.findViewById(R.id.textview_signingoogle);
+        linearLayoutUser = (LinearLayout) headerView.findViewById(R.id.linearlayout_user);
+        textViewUserName = (TextView) headerView.findViewById(R.id.textview_username);
+        imageViewUserPhoto = (ImageView) headerView.findViewById(R.id.imageview_userphoto);
+
+        presenter.init();
     }
 
     @Override
@@ -273,6 +289,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView, GoogleA
                 GoogleSignInAccount googleSignInAccount = result.getSignInAccount();
                 User user = new User(googleSignInAccount.getId(), googleSignInAccount.getDisplayName(),
                         googleSignInAccount.getEmail(), googleSignInAccount.getPhotoUrl().toString());
+                presenter.login(user);
             }
         }
     }
@@ -469,6 +486,14 @@ public class HomeActivity extends AppCompatActivity implements HomeView, GoogleA
         });
     }
 
+    @Override
+    public void showLoggedUser(User user) {
+        textViewGoogleSignIn.setVisibility(View.GONE);
+        linearLayoutUser.setVisibility(View.VISIBLE);
+        textViewUserName.setText(user.getName());
+        Picasso.with(this).load(user.getPhotoUrl()).into(imageViewUserPhoto);
+    }
+
     public void morePopularMovies(View view) {
         startActivity(ListPopularMoviesActivity.newIntent(this), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
@@ -493,5 +518,11 @@ public class HomeActivity extends AppCompatActivity implements HomeView, GoogleA
     public void googleSignIn(View view) {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    public void logout(View view) {
+        presenter.logout();
+        textViewGoogleSignIn.setVisibility(View.VISIBLE);
+        linearLayoutUser.setVisibility(View.GONE);
     }
 }

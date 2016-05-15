@@ -1,6 +1,7 @@
 package com.tassioauad.moviecheck.view;
 
 import com.tassioauad.moviecheck.model.entity.Movie;
+import com.tassioauad.moviecheck.model.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,4 +47,6 @@ public interface HomeView {
     void hideLoadingNowPlayingMovies();
 
     void warnFailedToLoadNowPlayingMovies();
+
+    void showLoggedUser(User user);
 }

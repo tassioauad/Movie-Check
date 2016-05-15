@@ -34,7 +34,7 @@ public class HomePresenterTest extends AndroidTestCase {
         movieApi = mock(MovieApi.class);
         view = mock(HomeView.class);
         apiResultListenerArgumentCaptor = ArgumentCaptor.forClass(ApiResultListener.class);
-        presenter = new HomePresenter(view, movieApi);
+        presenter = new HomePresenter(view, movieApi, userDao);
     }
 
     public void testInit() {

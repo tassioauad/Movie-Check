@@ -2,6 +2,8 @@
 
     <!--General-->
     <string name="app_name">Movie Check</string>
+    <string name="sharedpreferences">sharedpreferences_moviecheck</string>
+    <string name="sharedpreferences_loggeduser">sharedpreferences_loggeduser_moviecheck</string>
     <string name="themoviedbapi_baseurl">http://api.themoviedb.org/3/</string>
     <string name="imagetmdb_baseurl">http://image.tmdb.org/t/p/w500</string>
     <string name="themoviedbapi_key">b4537e21984eb259d2c2b093b7980570</string>
@@ -22,6 +24,8 @@
     <!--HomeActivity-->
     <string name="homeactivity_search">Search</string>
 
+    <!--NavigationView-->
+    <string name="navigationview_signingoogle">Sign In with Google</string>
 
     <!--ListPopularMoviesActivity -->
     <string name="listpopularmoviesactivity_title">Popular Movies</string>

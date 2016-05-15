@@ -6,6 +6,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.tassioauad.moviecheck.dagger.ApiModule;
 import com.tassioauad.moviecheck.dagger.AppModule;
+import com.tassioauad.moviecheck.dagger.DaoModule;
 
 import dagger.ObjectGraph;
 
@@ -29,6 +30,7 @@ public class MovieCheckApplication extends Application {
                 new Object[]{
                         new AppModule(MovieCheckApplication.this),
                         new ApiModule(),
+                        new DaoModule()
                 }
         );
 

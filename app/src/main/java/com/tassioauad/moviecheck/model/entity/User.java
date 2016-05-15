@@ -7,36 +7,19 @@ public class User implements Parcelable {
 
     private String id;
 
+    private String googleId;
+
     private String name;
 
     private String email;
 
     private String photoUrl;
 
-    public User(String id, String name, String email, String photoUrl) {
-        this.id = id;
+    public User(String googleId, String name, String email, String photoUrl) {
+        this.googleId = googleId;
         this.name = name;
         this.email = email;
         this.photoUrl = photoUrl;
-    }
-
-    public User() {
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        return id.equals(user.id);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
     }
 
     public String getId() {
@@ -45,6 +28,14 @@ public class User implements Parcelable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 
     public String getName() {
@@ -72,6 +63,22 @@ public class User implements Parcelable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return !(id != null ? !id.equals(user.id) : user.id != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -79,6 +86,7 @@ public class User implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
+        dest.writeString(this.googleId);
         dest.writeString(this.name);
         dest.writeString(this.email);
         dest.writeString(this.photoUrl);
@@ -86,6 +94,7 @@ public class User implements Parcelable {
 
     protected User(Parcel in) {
         this.id = in.readString();
+        this.googleId = in.readString();
         this.name = in.readString();
         this.email = in.readString();
         this.photoUrl = in.readString();
