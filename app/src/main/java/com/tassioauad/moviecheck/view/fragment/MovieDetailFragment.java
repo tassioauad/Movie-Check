@@ -1,7 +1,9 @@
 package com.tassioauad.moviecheck.view.fragment;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -65,6 +67,8 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     RecyclerView recyclerViewGenres;
     @Bind(R.id.progressbar_genre)
     ProgressBar progressBarGenre;
+    @Bind(R.id.fab_interest)
+    FloatingActionButton fabInterest;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,6 +97,13 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
                 showGenres(genreList);
             }
         }
+
+        fabInterest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.checkInterest();
+            }
+        });
 
         return view;
     }
@@ -204,5 +215,25 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     @Override
     public void hideLoadingGenres() {
         progressBarGenre.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void disableToCheckInterest() {
+        fabInterest.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void enableToCheckInterest() {
+        fabInterest.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void checkInterest() {
+        fabInterest.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.accent)));
+    }
+
+    @Override
+    public void uncheckInterest() {
+        fabInterest.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gray)));
     }
 }

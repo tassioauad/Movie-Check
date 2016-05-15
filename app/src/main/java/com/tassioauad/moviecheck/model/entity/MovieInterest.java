@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class MovieInterest implements Parcelable {
 
-    private Integer id;
+    private Long id;
     private Movie movie;
     private User user;
 
@@ -17,11 +17,11 @@ public class MovieInterest implements Parcelable {
         this.user = user;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -70,7 +70,7 @@ public class MovieInterest implements Parcelable {
     }
 
     protected MovieInterest(Parcel in) {
-        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
         this.movie = in.readParcelable(Movie.class.getClassLoader());
         this.user = in.readParcelable(User.class.getClassLoader());
     }

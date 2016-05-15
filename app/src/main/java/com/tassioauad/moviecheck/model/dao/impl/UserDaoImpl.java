@@ -14,13 +14,13 @@ import com.tassioauad.moviecheck.model.entity.User;
 
 public class UserDaoImpl extends Dao implements UserDao {
 
-    private static final String TABLE_NAME = "user";
-    private static final String COLUMN_NAME_ID = "id";
-    private static final String COLUMN_NAME_GOOGLEID = "google_id";
-    private static final String COLUMN_NAME_FULLNAME = "fullname";
-    private static final String COLUMN_NAME_EMAIL = "email";
-    private static final String COLUMN_NAME_PHOTOURL = "photourl";
-    private static final String[] COLUMNS = new String[]{COLUMN_NAME_ID, COLUMN_NAME_GOOGLEID, COLUMN_NAME_FULLNAME,
+    public static final String TABLE_NAME = "user";
+    public static final String COLUMN_NAME_ID = "id";
+    public static final String COLUMN_NAME_GOOGLEID = "google_id";
+    public static final String COLUMN_NAME_FULLNAME = "fullname";
+    public static final String COLUMN_NAME_EMAIL = "email";
+    public static final String COLUMN_NAME_PHOTOURL = "photourl";
+    public static final String[] COLUMNS = new String[]{COLUMN_NAME_ID, COLUMN_NAME_GOOGLEID, COLUMN_NAME_FULLNAME,
             COLUMN_NAME_EMAIL, COLUMN_NAME_PHOTOURL};
 
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (\n" +
@@ -51,7 +51,8 @@ public class UserDaoImpl extends Dao implements UserDao {
 
     @Override
     public void insert(User user) {
-        getDatabase().insert(TABLE_NAME, null, toContentValues(user));
+        long id = getDatabase().insert(TABLE_NAME, null, toContentValues(user));
+        user.setId(id);
     }
 
     @Override
@@ -86,15 +87,18 @@ public class UserDaoImpl extends Dao implements UserDao {
     }
 
     public User fromCursor(Cursor cursor) {
-        cursor.moveToNext();
-        User user = new User();
-        user.setId(cursor.getInt(0));
-        user.setGoogleId(cursor.getString(1));
-        user.setName(cursor.getString(2));
-        user.setEmail(cursor.getString(3));
-        user.setPhotoUrl(cursor.getString(4));
+       if( cursor.moveToNext()) {
+           User user = new User();
+           user.setId(cursor.getLong(0));
+           user.setGoogleId(cursor.getString(1));
+           user.setName(cursor.getString(2));
+           user.setEmail(cursor.getString(3));
+           user.setPhotoUrl(cursor.getString(4));
 
-        return user;
+           return user;
+       }
+
+        return null;
     }
 
     public ContentValues toContentValues(User user) {

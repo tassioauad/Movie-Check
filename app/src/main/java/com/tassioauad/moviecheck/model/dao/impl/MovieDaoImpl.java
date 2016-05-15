@@ -15,25 +15,13 @@ import java.util.List;
 
 public class MovieDaoImpl extends Dao implements MovieDao {
 
-    private Long id;
-    private String title;
-    private Date releaseDate;
-    private String backdropUrl;
-    private String posterUrl;
-    private String overview;
-    private boolean adult;
-    private float voteAverage;
-    private long voteCount;
-    private String language;
-    private double popularity;
-    
-    private static final String TABLE_NAME = "movie";
-    private static final String COLUMN_NAME_ID = "id";
-    private static final String COLUMN_NAME_TITLE = "title";
-    private static final String COLUMN_NAME_RELEASE_DATE = "release_date";
-    private static final String COLUMN_NAME_BACKDROP_URL = "backdrop_url";
-    private static final String COLUMN_NAME_POSTER_URL = "poster_url";
-    private static final String[] COLUMNS = new String [] {COLUMN_NAME_ID, COLUMN_NAME_TITLE,
+    public static final String TABLE_NAME = "movie";
+    public static final String COLUMN_NAME_ID = "id";
+    public static final String COLUMN_NAME_TITLE = "title";
+    public static final String COLUMN_NAME_RELEASE_DATE = "release_date";
+    public static final String COLUMN_NAME_BACKDROP_URL = "backdrop_url";
+    public static final String COLUMN_NAME_POSTER_URL = "poster_url";
+    public static final String[] COLUMNS = new String [] {COLUMN_NAME_ID, COLUMN_NAME_TITLE,
             COLUMN_NAME_RELEASE_DATE, COLUMN_NAME_BACKDROP_URL, COLUMN_NAME_POSTER_URL};
 
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (\n" +
@@ -51,7 +39,7 @@ public class MovieDaoImpl extends Dao implements MovieDao {
 
     @Override
     public void save(Movie movie) {
-        if(movie.getId() == null) {
+        if(findById(movie.getId()) == null) {
             insert(movie);
         } else {
             update(movie);

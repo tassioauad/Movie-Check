@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class User implements Parcelable {
 
-    private Integer id;
+    private Long id;
 
     private String googleId;
 
@@ -25,11 +25,11 @@ public class User implements Parcelable {
         this.photoUrl = photoUrl;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -88,7 +88,7 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeLong(this.id);
         dest.writeString(this.googleId);
         dest.writeString(this.name);
         dest.writeString(this.email);
@@ -96,7 +96,7 @@ public class User implements Parcelable {
     }
 
     protected User(Parcel in) {
-        this.id = in.readInt();
+        this.id = in.readLong();
         this.googleId = in.readString();
         this.name = in.readString();
         this.email = in.readString();

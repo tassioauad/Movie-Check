@@ -27,4 +27,12 @@ public interface MovieDetailView {
     void warnAnyGenreFounded();
 
     void hideLoadingGenres();
+
+    void disableToCheckInterest();
+
+    void enableToCheckInterest();
+
+    void checkInterest();
+
+    void uncheckInterest();
 }
