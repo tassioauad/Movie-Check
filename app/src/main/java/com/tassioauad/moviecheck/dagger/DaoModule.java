@@ -4,7 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.tassioauad.moviecheck.model.SqliteConnection;
+import com.tassioauad.moviecheck.model.dao.MovieDao;
+import com.tassioauad.moviecheck.model.dao.MovieInterestDao;
 import com.tassioauad.moviecheck.model.dao.UserDao;
+import com.tassioauad.moviecheck.model.dao.impl.MovieDaoImpl;
+import com.tassioauad.moviecheck.model.dao.impl.MovieInterestDaoImpl;
 import com.tassioauad.moviecheck.model.dao.impl.UserDaoImpl;
 
 import dagger.Module;
@@ -21,5 +25,16 @@ public class DaoModule {
     @Provides
     public UserDao provideUserDao(Context context) {
         return new UserDaoImpl(context, provideSqLiteDatabase(context));
+    }
+
+    @Provides
+    public MovieDao provideMovieDao(Context context) {
+        return new MovieDaoImpl(context, provideSqLiteDatabase(context));
+    }
+
+    @Provides
+    public MovieInterestDao provideMovieInterestDao(Context context) {
+        return new MovieInterestDaoImpl(context, provideSqLiteDatabase(context),
+                provideMovieDao(context), provideUserDao(context));
     }
 }

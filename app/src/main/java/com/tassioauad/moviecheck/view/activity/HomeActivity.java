@@ -526,4 +526,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView, GoogleA
         textViewGoogleSignIn.setVisibility(View.VISIBLE);
         linearLayoutUser.setVisibility(View.GONE);
     }
+
+    public void showUserProfile(View view) {
+        startActivity(UserProfileActivity.newIntent(this));
+    }
 }

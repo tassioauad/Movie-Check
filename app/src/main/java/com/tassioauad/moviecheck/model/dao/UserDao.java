@@ -14,4 +14,6 @@ public interface UserDao {
     User getLoggedUser();
 
     void logout();
+
+    User findById(Integer id);
 }

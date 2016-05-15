@@ -86,4 +86,7 @@
     <!--SearchMovieActivity-->
     <string name="searchmovieactivity_movies">Movies</string>
 
+    <!--UserProfileActivity-->
+    <string name="userprofileactivity_title">%1$s Profile</string>
+
 </resources>
