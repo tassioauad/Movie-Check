@@ -11,6 +11,7 @@ import com.tassioauad.moviecheck.model.dao.MovieInterestDao;
 import com.tassioauad.moviecheck.model.dao.UserDao;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.model.entity.MovieInterest;
+import com.tassioauad.moviecheck.model.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,16 +42,17 @@ public class MovieInterestDaoImpl extends Dao implements MovieInterestDao {
     }
 
     @Override
-    public List<MovieInterest> listAll() {
-        Cursor cursor = getDatabase().query(TABLE_NAME, COLUMNS, null, null, null, null, COLUMN_NAME_ID + " ASC");
+    public List<MovieInterest> listAll(User user) {
+        Cursor cursor = getDatabase().query(TABLE_NAME, COLUMNS, COLUMN_NAME_USER_ID + " = ?",
+                new String[]{String.valueOf(String.valueOf(user.getId()))}, null, null, null);
 
         return fromCursor(cursor);
     }
 
     @Override
-    public MovieInterest findByMovie(Movie movie) {
-        Cursor cursor = getDatabase().query(TABLE_NAME, COLUMNS, COLUMN_NAME_MOVIE_ID + " = ?",
-                new String[]{String.valueOf(movie.getId())}, null, null, null);
+    public MovieInterest findByMovie(Movie movie, User user) {
+        Cursor cursor = getDatabase().query(TABLE_NAME, COLUMNS, COLUMN_NAME_MOVIE_ID + " = ? AND " + COLUMN_NAME_USER_ID + " = ?",
+                new String[]{String.valueOf(movie.getId()), String.valueOf(user.getId())}, null, null, null);
 
         List<MovieInterest> movieInterestList = fromCursor(cursor);
         if (movieInterestList.size() == 0) {

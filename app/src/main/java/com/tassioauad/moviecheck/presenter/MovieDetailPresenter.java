@@ -41,7 +41,7 @@ public class MovieDetailPresenter {
             view.disableToCheckInterest();
         } else {
             view.enableToCheckInterest();
-            movieInterest = movieInterestDao.findByMovie(movie);
+            movieInterest = movieInterestDao.findByMovie(movie, userDao.getLoggedUser());
             if(movieInterest != null) {
                 view.checkInterest();
             }

@@ -17,6 +17,7 @@ import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.UserProfileViewModule;
 import com.tassioauad.moviecheck.presenter.UserPerfilPresenter;
 import com.tassioauad.moviecheck.view.UserProfileView;
+import com.tassioauad.moviecheck.view.fragment.ListMovieInterestsFragment;
 
 import javax.inject.Inject;
 
@@ -48,6 +49,8 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
             @Override
             public Fragment getItem(int position) {
                 switch (position) {
+                    case 0:
+                        return ListMovieInterestsFragment.newInstance();
                     default:
                         return null;
                 }
@@ -55,12 +58,14 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 
             @Override
             public int getCount() {
-                return 0;
+                return 1;
             }
 
             @Override
             public CharSequence getPageTitle(int position) {
                 switch (position) {
+                    case 0:
+                        return getString(R.string.userprofileactivity_interest);
                     default:
                         return null;
                 }
