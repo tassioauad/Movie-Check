@@ -110,7 +110,9 @@ public class MovieDaoImpl extends Dao implements MovieDao {
             ArrayList<Long> genreIdList = new ArrayList<>();
             String[] genreIdArray = cursor.getString(8).split(GENRE_ID_DIVISOR);
             for(String genreId : genreIdArray) {
-                genreIdList.add(Long.parseLong(genreId));
+                if(!genreId.isEmpty()) {
+                    genreIdList.add(Long.parseLong(genreId));
+                }
             }
             movie.setGenreId(genreIdList);
 
