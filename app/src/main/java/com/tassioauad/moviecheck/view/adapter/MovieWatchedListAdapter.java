@@ -2,6 +2,7 @@ package com.tassioauad.moviecheck.view.adapter;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -15,53 +16,50 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.tassioauad.moviecheck.R;
-import com.tassioauad.moviecheck.model.entity.MovieInterest;
+import com.tassioauad.moviecheck.model.entity.MovieWatched;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class MovieInterestListAdapter extends RecyclerView.Adapter<MovieInterestListAdapter.ViewHolder> implements View.OnClickListener {
+public class MovieWatchedListAdapter extends RecyclerView.Adapter<MovieWatchedListAdapter.ViewHolder> implements View.OnClickListener {
 
-    private List<MovieInterest> movieInterestList;
-    private OnItemClickListener<MovieInterest> movieInterestOnItemClickListener;
+    private List<MovieWatched> movieWatchedList;
+    private OnItemClickListener<MovieWatched> movieInterestOnItemClickListener;
 
-    public MovieInterestListAdapter(List<MovieInterest> movieInterestList, OnItemClickListener<MovieInterest> movieInterestOnItemClickListener) {
-        this.movieInterestList = movieInterestList;
+    public MovieWatchedListAdapter(List<MovieWatched> movieWatchedList, OnItemClickListener<MovieWatched> movieInterestOnItemClickListener) {
+        this.movieWatchedList = movieWatchedList;
         this.movieInterestOnItemClickListener = movieInterestOnItemClickListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listviewitem_movieinterest, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listviewitem_moviewatched, parent, false);
         view.setOnClickListener(this);
         return new ViewHolder(view);
     }
 
-
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        MovieInterest movieInterest = movieInterestList.get(position);
-        holder.itemView.setTag(movieInterest);
-        holder.textViewMovieName.setText(movieInterest.getMovie().getTitle());
-        String posterUrl = holder.itemView.getContext().getString(R.string.imagetmdb_baseurl) + movieInterest.getMovie().getPosterUrl();
+        MovieWatched movieWatched = movieWatchedList.get(position);
+        holder.itemView.setTag(movieWatched);
+        holder.textViewMovieName.setText(movieWatched.getMovie().getTitle());
+        String posterUrl = holder.itemView.getContext().getString(R.string.imagetmdb_baseurl) + movieWatched.getMovie().getPosterUrl();
         Picasso.with(holder.itemView.getContext()).load(posterUrl).placeholder(R.drawable.noimage).into(holder.imageViewMoviePoster);
-        holder.ratingBarVote.setRating(movieInterest.getMovie().getVoteAverage() / 2);
+        holder.ratingBarVote.setRating(movieWatched.getVote());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(holder.itemView.getContext().getString(R.string.general_date), Locale.getDefault());
-        holder.textViewMovieReleaseDate.setText(simpleDateFormat.format(movieInterest.getMovie().getReleaseDate()));
-        holder.textViewMovieVoteCount.setText(String.format(holder.itemView.getContext().getString(R.string.moviedetailfragment_votecount),
-                movieInterest.getMovie().getVoteCount()));
-    }
+        holder.textViewMovieReleaseDate.setText(simpleDateFormat.format(movieWatched.getMovie().getReleaseDate()));
+}
 
     @Override
     public int getItemCount() {
-        return movieInterestList.size();
+        return movieWatchedList.size();
     }
 
     @Override
     public void onClick(View view) {
-        MovieInterest movieInterest = (MovieInterest) view.getTag();
-        movieInterestOnItemClickListener.onClick(movieInterest, view);
+        MovieWatched movieWatched = (MovieWatched) view.getTag();
+        movieInterestOnItemClickListener.onClick(movieWatched, view);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -69,7 +67,6 @@ public class MovieInterestListAdapter extends RecyclerView.Adapter<MovieInterest
         private ImageView imageViewMoviePoster;
         private TextView textViewMovieName;
         private TextView textViewMovieReleaseDate;
-        private TextView textViewMovieVoteCount;
         private RatingBar ratingBarVote;
 
         public ViewHolder(View itemView) {
@@ -77,7 +74,6 @@ public class MovieInterestListAdapter extends RecyclerView.Adapter<MovieInterest
             imageViewMoviePoster = (ImageView) itemView.findViewById(R.id.imageview_movieposter);
             textViewMovieName = (TextView) itemView.findViewById(R.id.textview_moviename);
             textViewMovieReleaseDate = (TextView) itemView.findViewById(R.id.textview_moviereleasedate);
-            textViewMovieVoteCount = (TextView) itemView.findViewById(R.id.textview_movievotecount);
             ratingBarVote = (RatingBar) itemView.findViewById(R.id.ratingbar_vote);
         }
     }

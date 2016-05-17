@@ -13,5 +13,7 @@ public interface MovieInterestDao {
 
     void remove(MovieInterest movieInterest);
 
+    void remove(Movie movie, User user);
+
     void insert(MovieInterest movieInterest);
 }

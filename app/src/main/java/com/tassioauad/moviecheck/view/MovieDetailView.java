@@ -35,4 +35,6 @@ public interface MovieDetailView {
     void checkInterest();
 
     void uncheckInterest();
+
+    void showUserClassification(Float classification);
 }

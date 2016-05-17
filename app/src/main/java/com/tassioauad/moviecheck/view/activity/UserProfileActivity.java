@@ -18,6 +18,7 @@ import com.tassioauad.moviecheck.dagger.UserProfileViewModule;
 import com.tassioauad.moviecheck.presenter.UserPerfilPresenter;
 import com.tassioauad.moviecheck.view.UserProfileView;
 import com.tassioauad.moviecheck.view.fragment.ListMovieInterestsFragment;
+import com.tassioauad.moviecheck.view.fragment.ListMovieWatchedFragment;
 
 import javax.inject.Inject;
 
@@ -51,6 +52,8 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                 switch (position) {
                     case 0:
                         return ListMovieInterestsFragment.newInstance();
+                    case 1:
+                        return ListMovieWatchedFragment.newInstance();
                     default:
                         return null;
                 }
@@ -58,7 +61,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 
             @Override
             public int getCount() {
-                return 1;
+                return 2;
             }
 
             @Override
@@ -66,6 +69,8 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                 switch (position) {
                     case 0:
                         return getString(R.string.userprofileactivity_interest);
+                    case 1:
+                        return getString(R.string.userprofileactivity_watched);
                     default:
                         return null;
                 }

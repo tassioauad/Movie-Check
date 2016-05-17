@@ -61,4 +61,14 @@
         <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
 
+    <style name="RatingBarAccent" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/accent_alpha</item>
+        <item name="colorControlActivated">@color/accent</item>
+    </style>
+
+    <style name="RatingBarRed" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/accent_alpha</item>
+        <item name="colorControlActivated">@color/red</item>
+    </style>
+
 </resources>

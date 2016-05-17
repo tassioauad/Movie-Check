@@ -89,5 +89,6 @@
     <!--UserProfileActivity-->
     <string name="userprofileactivity_title">%1$s Profile</string>
     <string name="userprofileactivity_interest">To Watch</string>
+    <string name="userprofileactivity_watched">Watched</string>
 
 </resources>

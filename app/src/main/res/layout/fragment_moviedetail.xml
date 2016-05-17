@@ -52,7 +52,7 @@
                         android:id="@+id/ratingbar_vote"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:isIndicator="true"
+                        android:numStars="5"
                         android:layout_gravity="end" />
 
                     <TextView

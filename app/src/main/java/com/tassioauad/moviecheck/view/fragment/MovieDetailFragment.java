@@ -1,13 +1,17 @@
 package com.tassioauad.moviecheck.view.fragment;
 
 import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,6 +106,13 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
             @Override
             public void onClick(View v) {
                 presenter.checkInterest();
+            }
+        });
+
+        ratingBarVoteAverage.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                presenter.informUserClassification(rating);
             }
         });
 
@@ -235,5 +246,16 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     @Override
     public void uncheckInterest() {
         fabInterest.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gray)));
+    }
+
+    @Override
+    public void showUserClassification(Float classification) {
+        textViewVoteCount.setVisibility(View.INVISIBLE);
+        RatingBar newRatingBar = new RatingBar(new ContextThemeWrapper(getActivity(), R.style.RatingBarRed));
+        newRatingBar.setRating(classification);
+        ((ViewGroup)ratingBarVoteAverage.getParent()).addView(newRatingBar, 0);
+        ((ViewGroup)ratingBarVoteAverage.getParent()).removeView(ratingBarVoteAverage);
+        ratingBarVoteAverage = newRatingBar;
+
     }
 }
