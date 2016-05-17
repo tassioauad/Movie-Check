@@ -3,6 +3,7 @@ package com.tassioauad.moviecheck.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -19,6 +20,7 @@ import com.tassioauad.moviecheck.presenter.UserPerfilPresenter;
 import com.tassioauad.moviecheck.view.UserProfileView;
 import com.tassioauad.moviecheck.view.fragment.ListMovieInterestsFragment;
 import com.tassioauad.moviecheck.view.fragment.ListMovieWatchedFragment;
+import com.tassioauad.moviecheck.view.fragment.PersonDetailFragment;
 
 import javax.inject.Inject;
 
@@ -30,7 +32,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     @Inject
     UserPerfilPresenter presenter;
 
-    @Bind(R.id.viewpager)
+    @Nullable @Bind(R.id.viewpager)
     ViewPager viewPager;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -46,36 +48,41 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                switch (position) {
-                    case 0:
-                        return ListMovieInterestsFragment.newInstance();
-                    case 1:
-                        return ListMovieWatchedFragment.newInstance();
-                    default:
-                        return null;
+        if (viewPager != null) {
+            viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+                @Override
+                public Fragment getItem(int position) {
+                    switch (position) {
+                        case 0:
+                            return ListMovieInterestsFragment.newInstance();
+                        case 1:
+                            return ListMovieWatchedFragment.newInstance();
+                        default:
+                            return null;
+                    }
                 }
-            }
 
-            @Override
-            public int getCount() {
-                return 2;
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                switch (position) {
-                    case 0:
-                        return getString(R.string.userprofileactivity_interest);
-                    case 1:
-                        return getString(R.string.userprofileactivity_watched);
-                    default:
-                        return null;
+                @Override
+                public int getCount() {
+                    return 2;
                 }
-            }
-        });
+
+                @Override
+                public CharSequence getPageTitle(int position) {
+                    switch (position) {
+                        case 0:
+                            return getString(R.string.userprofileactivity_interest);
+                        case 1:
+                            return getString(R.string.userprofileactivity_watched);
+                        default:
+                            return null;
+                    }
+                }
+            });
+        } else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_interest, ListMovieInterestsFragment.newInstance()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_classification, ListMovieWatchedFragment.newInstance()).commit();
+        }
 
         presenter.init();
 
