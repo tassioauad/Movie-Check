@@ -263,4 +263,9 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         ratingBarVoteAverage = newRatingBar;
 
     }
+
+    @Override
+    public void enableToClassify() {
+        ratingBarVoteAverage.setIsIndicator(false);
+    }
 }

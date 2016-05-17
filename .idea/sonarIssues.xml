@@ -23,6 +23,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/presenter/MovieDetailPresenter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/MovieDetailView.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/activity/FullImageSliderActivity.java">
           <value>
             <set />

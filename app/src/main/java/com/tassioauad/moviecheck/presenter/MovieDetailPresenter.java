@@ -43,10 +43,14 @@ public class MovieDetailPresenter {
         view.showPoster(movie.getPosterUrl());
         view.showBackdrop(movie.getBackdropUrl());
 
-        movieWatched = movieWatchedDao.findByMovie(movie, userDao.getLoggedUser());
-        if (userDao.getLoggedUser() == null || movieWatched != null) {
+        if(userDao.getLoggedUser() != null) {
+            view.enableToClassify();
+        }
+
+        if (userDao.getLoggedUser() == null || movieWatchedDao.findByMovie(movie, userDao.getLoggedUser()) != null) {
             view.disableToCheckInterest();
-            if (movieWatched != null) {
+            if (userDao.getLoggedUser() != null && movieWatchedDao.findByMovie(movie, userDao.getLoggedUser()) != null) {
+                movieWatched = movieWatchedDao.findByMovie(movie, userDao.getLoggedUser());
                 view.showUserClassification(movieWatched.getVote());
             }
         } else {
