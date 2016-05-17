@@ -12,7 +12,7 @@ public interface MovieWatchedDao {
 
     MovieWatched findByMovie(Movie movie, User user);
 
-    List<Long> favoriteGenres(User user);
+    List<Long> favoriteGenres(User user, int size);
 
     void remove(MovieWatched movieWatched);
 

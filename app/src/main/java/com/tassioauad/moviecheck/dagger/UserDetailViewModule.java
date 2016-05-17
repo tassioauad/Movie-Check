@@ -1,5 +1,7 @@
 package com.tassioauad.moviecheck.dagger;
 
+import com.tassioauad.moviecheck.model.api.GenreApi;
+import com.tassioauad.moviecheck.model.dao.Dao;
 import com.tassioauad.moviecheck.model.dao.MovieInterestDao;
 import com.tassioauad.moviecheck.model.dao.MovieWatchedDao;
 import com.tassioauad.moviecheck.model.dao.UserDao;
@@ -10,7 +12,7 @@ import com.tassioauad.moviecheck.view.fragment.UserDetailFragment;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(library = true, injects = UserDetailFragment.class, includes = {AppModule.class, ApiModule.class})
+@Module(library = true, injects = UserDetailFragment.class, includes = {AppModule.class, ApiModule.class, DaoModule.class})
 public class UserDetailViewModule {
 
     private UserDetailView view;
@@ -20,7 +22,7 @@ public class UserDetailViewModule {
     }
 
     @Provides
-    public UserDetailPresenter provideUserDetailPresenter(UserDao userDao, MovieInterestDao movieInterestDao, MovieWatchedDao movieWatchedDao) {
+    public UserDetailPresenter provideUserDetailPresenter(UserDao userDao, MovieInterestDao movieInterestDao, MovieWatchedDao movieWatchedDao, GenreApi genreApi) {
         return new UserDetailPresenter(view, userDao, movieInterestDao, movieWatchedDao, genreApi);
     }
 }

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +63,12 @@ public class UserDetailFragment extends Fragment implements UserDetailView {
     RecyclerView recyclerViewGenres;
     @Bind(R.id.fab_discovery)
     FloatingActionButton fabDiscovery;
+    @Bind(R.id.linearlayout_genre_anyfounded)
+    LinearLayout linearLayoutAnyGenreFounded;
+    @Bind(R.id.linearlayout_genre_loadfailed)
+    LinearLayout linearLayoutFailedToLoadGenre;
+    @Bind(R.id.linearlayout_interests_anyfounded)
+    LinearLayout linearLayoutAnyInterestsFounded;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -152,8 +159,9 @@ public class UserDetailFragment extends Fragment implements UserDetailView {
 
     @Override
     public void showUpcomingInterests(List<MovieInterest> movieInterests) {
+        linearLayoutAnyInterestsFounded.setVisibility(View.GONE);
         recyclerViewInterests.setVisibility(View.VISIBLE);
-        recyclerViewInterests.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
+        recyclerViewInterests.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         recyclerViewInterests.setAdapter(new MovieInterestListAdapter(movieInterests, new OnItemClickListener<MovieInterest>() {
             @Override
             public void onClick(MovieInterest movieInterest, View view) {
@@ -174,12 +182,22 @@ public class UserDetailFragment extends Fragment implements UserDetailView {
 
     @Override
     public void warnFailedOnLoadGenres() {
-        Toast.makeText(getActivity(), getActivity().getString(R.string.moviedetailfragment_failedtoloadgenre), Toast.LENGTH_SHORT).show();
+        linearLayoutAnyGenreFounded.setVisibility(View.GONE);
+        linearLayoutFailedToLoadGenre.setVisibility(View.VISIBLE);
+        recyclerViewGenres.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void warnAnyInterestFound() {
+        linearLayoutAnyInterestsFounded.setVisibility(View.VISIBLE);
+        recyclerViewInterests.setVisibility(View.GONE);
     }
 
     @Override
     public void showGenres(List<Genre> genreList) {
         this.genreList = genreList;
+        linearLayoutAnyGenreFounded.setVisibility(View.GONE);
+        linearLayoutFailedToLoadGenre.setVisibility(View.GONE);
         recyclerViewGenres.setVisibility(View.VISIBLE);
         recyclerViewGenres.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerViewGenres.setAdapter(new GenreListAdapter(genreList, new OnItemClickListener<Genre>() {
@@ -198,7 +216,9 @@ public class UserDetailFragment extends Fragment implements UserDetailView {
     @Override
     public void warnAnyGenreFounded() {
         genreList = new ArrayList<>();
-        Toast.makeText(getActivity(), getActivity().getString(R.string.moviedetailfragment_failedtoloadgenre), Toast.LENGTH_SHORT).show();
+        linearLayoutAnyGenreFounded.setVisibility(View.VISIBLE);
+        linearLayoutFailedToLoadGenre.setVisibility(View.GONE);
+        recyclerViewGenres.setVisibility(View.GONE);
     }
 
     @Override

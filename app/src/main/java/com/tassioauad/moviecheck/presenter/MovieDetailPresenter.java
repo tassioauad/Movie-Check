@@ -63,6 +63,11 @@ public class MovieDetailPresenter {
     }
 
     public void loadGenres() {
+        if(movie.getGenreId() == null || movie.getGenreId().size() == 0) {
+            view.warnAnyGenreFounded();
+            return;
+        }
+
         view.showLoadingGenres();
         genreApi.setApiResultListener(new ApiResultListener() {
             @Override

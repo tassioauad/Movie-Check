@@ -14,12 +14,13 @@ import com.tassioauad.moviecheck.model.entity.MovieWatched;
 import com.tassioauad.moviecheck.model.entity.User;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-public class MovieWatchedDaoImpl extends Dao implements MovieWatchedDao{
+public class MovieWatchedDaoImpl extends Dao implements MovieWatchedDao {
 
     public static final String TABLE_NAME = "movie_watched";
     public static final String COLUMN_NAME_ID = "id";
@@ -34,8 +35,8 @@ public class MovieWatchedDaoImpl extends Dao implements MovieWatchedDao{
             COLUMN_NAME_USER_ID + " INTEGER, \n" +
             COLUMN_NAME_MOVIE_ID + " INTEGER, \n" +
             COLUMN_NAME_VOTE + " REAL, \n" +
-            "FOREIGN KEY(" + COLUMN_NAME_USER_ID + ") REFERENCES "+UserDaoImpl.TABLE_NAME+"("+UserDaoImpl.COLUMN_NAME_ID+"), \n" +
-            "FOREIGN KEY(" + COLUMN_NAME_MOVIE_ID + ") REFERENCES "+MovieDaoImpl.TABLE_NAME+"("+MovieDaoImpl.COLUMN_NAME_ID+") \n" +
+            "FOREIGN KEY(" + COLUMN_NAME_USER_ID + ") REFERENCES " + UserDaoImpl.TABLE_NAME + "(" + UserDaoImpl.COLUMN_NAME_ID + "), \n" +
+            "FOREIGN KEY(" + COLUMN_NAME_MOVIE_ID + ") REFERENCES " + MovieDaoImpl.TABLE_NAME + "(" + MovieDaoImpl.COLUMN_NAME_ID + ") \n" +
             ")";
 
     private MovieDao movieDao;
@@ -69,17 +70,36 @@ public class MovieWatchedDaoImpl extends Dao implements MovieWatchedDao{
     }
 
     @Override
-    public List<Long> favoriteGenres(User user) {
-        Set<Long> genreSet = new HashSet<>();
+    public List<Long> favoriteGenres(User user, int size) {
+
+        HashMap<Long, Integer> genreHasMap = new HashMap();
+        ArrayList<Long> arrayList = new ArrayList<>();
 
         List<MovieWatched> movieWatchedList = listAll(user);
-        for(MovieWatched movieWatched : movieWatchedList) {
-            for(Long genreId : movieWatched.getMovie().getGenreId()) {
-                genreSet.add(genreId);
+        for (MovieWatched movieWatched : movieWatchedList) {
+            for (Long genreId : movieWatched.getMovie().getGenreId()) {
+                if (genreHasMap.get(genreId) == null) {
+                    genreHasMap.put(genreId, 1);
+                } else {
+                    genreHasMap.put(genreId, genreHasMap.get(genreId) + 1);
+                }
             }
         }
 
-        return new ArrayList<>(genreSet);
+        ArrayList<Map.Entry<Long, Integer>> entryArrayList = new ArrayList<>(genreHasMap.entrySet());
+        Collections.sort(entryArrayList, new Comparator<Map.Entry<Long, Integer>>() {
+            @Override
+            public int compare(Map.Entry<Long, Integer> lhs, Map.Entry<Long, Integer> rhs) {
+                return rhs.getValue().compareTo(lhs.getValue());
+            }
+        });
+
+        for (int i = 0; i < size && i < entryArrayList.size(); i++) {
+            arrayList.add(entryArrayList.get(i).getKey());
+        }
+
+
+        return arrayList;
     }
 
     @Override
@@ -101,7 +121,7 @@ public class MovieWatchedDaoImpl extends Dao implements MovieWatchedDao{
 
     @Override
     public void save(MovieWatched movieWatched) {
-        if(movieWatched.getId() == null) {
+        if (movieWatched.getId() == null) {
             insert(movieWatched);
         } else {
             update(movieWatched);

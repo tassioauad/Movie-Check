@@ -98,4 +98,8 @@
     <string name="listmovieinterestfragment_remove">Remove</string>
     <string name="userprofileactivity_general">General</string>
 
+    <!--UserDetailFragment-->
+    <string name="userdetailfragment_watchedgenres">Most Watched Genres</string>
+    <string name="userdetailfragment_dontforget">Don\'t Forget To Watch!</string>
+
 </resources>

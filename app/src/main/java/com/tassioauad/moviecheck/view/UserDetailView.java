@@ -29,4 +29,6 @@ public interface UserDetailView {
     void hideLoadingGenres();
 
     void warnFailedOnLoadGenres();
+
+    void warnAnyInterestFound();
 }

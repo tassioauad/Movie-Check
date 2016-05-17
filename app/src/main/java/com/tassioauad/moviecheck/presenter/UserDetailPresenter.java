@@ -7,7 +7,7 @@ import com.tassioauad.moviecheck.model.dao.MovieInterestDao;
 import com.tassioauad.moviecheck.model.dao.MovieWatchedDao;
 import com.tassioauad.moviecheck.model.dao.UserDao;
 import com.tassioauad.moviecheck.model.entity.Genre;
-import com.tassioauad.moviecheck.model.entity.User;
+import com.tassioauad.moviecheck.model.entity.MovieInterest;
 import com.tassioauad.moviecheck.view.UserDetailView;
 
 import java.util.ArrayList;
@@ -15,12 +15,13 @@ import java.util.List;
 
 public class UserDetailPresenter {
 
+    private static final int NUMBER_GENRE = 5;
+
     private UserDetailView view;
     private UserDao userDao;
     private MovieInterestDao movieInterestDao;
     private MovieWatchedDao movieWatchedDao;
     private GenreApi genreApi;
-    private User loggedUser;
 
     public UserDetailPresenter(UserDetailView view, UserDao userDao, MovieInterestDao movieInterestDao, MovieWatchedDao movieWatchedDao, GenreApi genreApi) {
         this.view = view;
@@ -31,12 +32,21 @@ public class UserDetailPresenter {
     }
 
     public void init() {
-        loggedUser = userDao.getLoggedUser();
-        view.showUser(loggedUser);
-        view.showUpcomingInterests(movieInterestDao.listAllUpcoming(loggedUser));
+        view.showUser(userDao.getLoggedUser());
+        List<MovieInterest> movieInterestList = movieInterestDao.listAllUpcoming(userDao.getLoggedUser());
+        if (movieInterestList == null || movieInterestList.size() == 0) {
+            view.warnAnyInterestFound();
+        } else {
+            view.showUpcomingInterests(movieInterestList);
+        }
     }
 
     public void loadGenres() {
+        final List<Long> favoriteGenreIdList = movieWatchedDao.favoriteGenres(userDao.getLoggedUser(), NUMBER_GENRE);
+        if (favoriteGenreIdList.size() == 0) {
+            view.warnAnyGenreFounded();
+            return;
+        }
         view.showLoadingGenres();
         genreApi.setApiResultListener(new ApiResultListener() {
             @Override
@@ -47,7 +57,7 @@ public class UserDetailPresenter {
                 } else {
                     List<Genre> genresOfTheMovieList = new ArrayList<>();
                     for (Genre genre : genreList) {
-                        if (movieWatchedDao.favoriteGenres(loggedUser).contains(genre.getId())) {
+                        if (favoriteGenreIdList.contains(genre.getId())) {
                             genresOfTheMovieList.add(genre);
                         }
                     }
