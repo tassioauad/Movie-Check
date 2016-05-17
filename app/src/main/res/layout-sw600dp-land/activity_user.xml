@@ -14,7 +14,15 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:background="@color/primary_dark"
-        android:weightSum="2">
+        android:weightSum="3">
+
+        <FrameLayout
+            android:id="@+id/fragment_general"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_height="match_parent" />
 
         <FrameLayout
             android:id="@+id/fragment_interest"

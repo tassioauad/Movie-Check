@@ -9,6 +9,8 @@ import java.util.List;
 public interface MovieInterestDao {
     List<MovieInterest> listAll(User user);
 
+    List<MovieInterest> listAllUpcoming(User user);
+
     MovieInterest findByMovie(Movie movie, User user);
 
     void remove(MovieInterest movieInterest);

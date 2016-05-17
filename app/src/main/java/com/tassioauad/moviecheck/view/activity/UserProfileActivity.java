@@ -21,6 +21,7 @@ import com.tassioauad.moviecheck.view.UserProfileView;
 import com.tassioauad.moviecheck.view.fragment.ListMovieInterestsFragment;
 import com.tassioauad.moviecheck.view.fragment.ListMovieWatchedFragment;
 import com.tassioauad.moviecheck.view.fragment.PersonDetailFragment;
+import com.tassioauad.moviecheck.view.fragment.UserDetailFragment;
 
 import javax.inject.Inject;
 
@@ -54,8 +55,10 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                 public Fragment getItem(int position) {
                     switch (position) {
                         case 0:
-                            return ListMovieInterestsFragment.newInstance();
+                            return UserDetailFragment.newInstance();
                         case 1:
+                            return ListMovieInterestsFragment.newInstance();
+                        case 2:
                             return ListMovieWatchedFragment.newInstance();
                         default:
                             return null;
@@ -64,15 +67,17 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 
                 @Override
                 public int getCount() {
-                    return 2;
+                    return 3;
                 }
 
                 @Override
                 public CharSequence getPageTitle(int position) {
                     switch (position) {
                         case 0:
-                            return getString(R.string.userprofileactivity_interest);
+                            return getString(R.string.userprofileactivity_general);
                         case 1:
+                            return getString(R.string.userprofileactivity_interest);
+                        case 2:
                             return getString(R.string.userprofileactivity_watched);
                         default:
                             return null;
@@ -80,6 +85,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                 }
             });
         } else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_general, UserDetailFragment.newInstance()).commit();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_interest, ListMovieInterestsFragment.newInstance()).commit();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_classification, ListMovieWatchedFragment.newInstance()).commit();
         }

@@ -156,6 +156,7 @@
         android:layout_alignParentRight="true"
         app:backgroundTint="@color/gray"
         app:borderWidth="0dp"
+        android:elevation="8dp"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
         android:src="@drawable/towatch" />

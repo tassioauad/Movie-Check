@@ -50,6 +50,20 @@ public class MovieInterestDaoImpl extends Dao implements MovieInterestDao {
     }
 
     @Override
+    public List<MovieInterest> listAllUpcoming(User user) {
+        List<MovieInterest> movieInterestList = new ArrayList<>();
+
+        for(Movie movie : movieDao.listAllUpcoming()) {
+            MovieInterest movieInterest = findByMovie(movie, user);
+            if(movieInterest != null) {
+                movieInterestList.add(movieInterest);
+            }
+        }
+
+        return movieInterestList;
+    }
+
+    @Override
     public MovieInterest findByMovie(Movie movie, User user) {
         Cursor cursor = getDatabase().query(TABLE_NAME, COLUMNS, COLUMN_NAME_MOVIE_ID + " = ? AND " + COLUMN_NAME_USER_ID + " = ?",
                 new String[]{String.valueOf(movie.getId()), String.valueOf(user.getId())}, null, null, null);

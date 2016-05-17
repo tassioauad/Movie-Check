@@ -14,7 +14,10 @@ import com.tassioauad.moviecheck.model.entity.MovieWatched;
 import com.tassioauad.moviecheck.model.entity.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MovieWatchedDaoImpl extends Dao implements MovieWatchedDao{
 
@@ -63,6 +66,20 @@ public class MovieWatchedDaoImpl extends Dao implements MovieWatchedDao{
         }
 
         return movieWatchedList.get(0);
+    }
+
+    @Override
+    public List<Long> favoriteGenres(User user) {
+        Set<Long> genreSet = new HashSet<>();
+
+        List<MovieWatched> movieWatchedList = listAll(user);
+        for(MovieWatched movieWatched : movieWatchedList) {
+            for(Long genreId : movieWatched.getMovie().getGenreId()) {
+                genreSet.add(genreId);
+            }
+        }
+
+        return new ArrayList<>(genreSet);
     }
 
     @Override

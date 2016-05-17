@@ -1,5 +1,6 @@
 package com.tassioauad.moviecheck.model.dao;
 
+import com.tassioauad.moviecheck.model.entity.Genre;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.model.entity.MovieWatched;
 import com.tassioauad.moviecheck.model.entity.User;
@@ -10,6 +11,8 @@ public interface MovieWatchedDao {
     List<MovieWatched> listAll(User user);
 
     MovieWatched findByMovie(Movie movie, User user);
+
+    List<Long> favoriteGenres(User user);
 
     void remove(MovieWatched movieWatched);
 

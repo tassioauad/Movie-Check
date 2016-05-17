@@ -14,4 +14,6 @@ public interface MovieDao {
     Movie findById(Long id);
 
     List<Movie> listAll();
+
+    List<Movie> listAllUpcoming();
 }

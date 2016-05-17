@@ -33,6 +33,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextH2"
+                    android:layout_marginBottom="1dp"
+                    android:padding="10dp"
+                    android:background="@color/white"
+                    android:layout_marginTop="1dp"
+                    android:text="Reviews"/>
+
                 <FrameLayout
                     android:id="@+id/fragment_review"
                     android:layout_width="match_parent"

@@ -88,6 +88,13 @@ public class MovieDaoImpl extends Dao implements MovieDao {
         return fromCursor(cursor);
     }
 
+    @Override
+    public List<Movie> listAllUpcoming() {
+        Cursor cursor = getDatabase().query(TABLE_NAME, COLUMNS, COLUMN_NAME_RELEASE_DATE + " > ?", new String[]{String.valueOf(new Date().getTime())}, null, null, COLUMN_NAME_ID + " ASC");
+
+        return fromCursor(cursor);
+    }
+
     public List<Movie> fromCursor(Cursor cursor) {
         List<Movie> movieList = new ArrayList<>();
         while (cursor.moveToNext()) {

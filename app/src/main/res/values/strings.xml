@@ -96,5 +96,6 @@
 
     <!--ListMovieInterestFragment-->
     <string name="listmovieinterestfragment_remove">Remove</string>
+    <string name="userprofileactivity_general">General</string>
 
 </resources>
