@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class MovieWatchedListAdapter extends RecyclerView.Adapter<MovieWatchedListAdapter.ViewHolder> implements View.OnClickListener {
+public class MovieWatchedListAdapter extends RecyclerView.Adapter<MovieWatchedListAdapter.ViewHolder> implements View.OnClickListener, View.OnLongClickListener {
 
     private List<MovieWatched> movieWatchedList;
     private OnItemClickListener<MovieWatched> movieInterestOnItemClickListener;
@@ -36,6 +36,7 @@ public class MovieWatchedListAdapter extends RecyclerView.Adapter<MovieWatchedLi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listviewitem_moviewatched, parent, false);
         view.setOnClickListener(this);
+        view.setOnLongClickListener(this);
         return new ViewHolder(view);
     }
 
@@ -60,6 +61,18 @@ public class MovieWatchedListAdapter extends RecyclerView.Adapter<MovieWatchedLi
     public void onClick(View view) {
         MovieWatched movieWatched = (MovieWatched) view.getTag();
         movieInterestOnItemClickListener.onClick(movieWatched, view);
+    }
+
+    public void remove(int position) {
+        movieWatchedList.remove(position);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        MovieWatched movieWatched = (MovieWatched) view.getTag();
+        movieInterestOnItemClickListener.onLongClick(movieWatched, view);
+        return true;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

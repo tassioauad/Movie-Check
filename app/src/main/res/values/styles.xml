@@ -71,4 +71,8 @@
         <item name="colorControlActivated">@color/red</item>
     </style>
 
+    <style name="DialogLight" parent="AlertDialog.AppCompat.Light">
+        <item name="android:background">@color/primary_dark</item>
+    </style>
+
 </resources>

@@ -164,6 +164,11 @@ public class ListTopRatedMoviesActivity extends AppCompatActivity implements Lis
                     public void onClick(Movie movie, View view) {
                         startActivity(MovieProfileActivity.newIntent(ListTopRatedMoviesActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(ListTopRatedMoviesActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
                     }
+
+                    @Override
+                    public void onLongClick(Movie movie, View view) {
+
+                    }
                 }
                 ),
                 new OnShowMoreListener() {

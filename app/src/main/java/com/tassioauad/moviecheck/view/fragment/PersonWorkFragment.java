@@ -174,6 +174,11 @@ public class PersonWorkFragment extends Fragment implements PersonWorkView {
             public void onClick(Movie movie, View view) {
                 startActivity(MovieProfileActivity.newIntent(getActivity(), movie), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
             }
+
+            @Override
+            public void onLongClick(Movie movie, View view) {
+
+            }
         }));
     }
 
@@ -221,6 +226,11 @@ public class PersonWorkFragment extends Fragment implements PersonWorkView {
             @Override
             public void onClick(Movie movie, View view) {
                 startActivity(MovieProfileActivity.newIntent(getActivity(), movie), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
+            }
+
+            @Override
+            public void onLongClick(Movie movie, View view) {
+
             }
         }));
     }

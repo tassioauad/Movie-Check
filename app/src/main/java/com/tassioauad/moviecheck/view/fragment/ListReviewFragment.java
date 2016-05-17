@@ -163,6 +163,11 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(review.getUrl()));
                         startActivity(browserIntent);
                     }
+
+                    @Override
+                    public void onLongClick(Review review, View view) {
+
+                    }
                 }),
                 new OnShowMoreListener() {
                     @Override

@@ -214,6 +214,11 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
             public void onClick(Genre genre, View view) {
                 startActivity(ListMoviesByGenreActivity.newIntent(getActivity(), genre), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle());
             }
+
+            @Override
+            public void onLongClick(Genre genre, View view) {
+
+            }
         }));
     }
 

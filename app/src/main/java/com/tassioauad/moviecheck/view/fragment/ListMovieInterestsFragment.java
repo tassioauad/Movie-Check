@@ -1,12 +1,15 @@
 package com.tassioauad.moviecheck.view.fragment;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,9 +40,11 @@ public class ListMovieInterestsFragment extends Fragment implements ListMovieInt
     RecyclerView recyclerViewMovieInterests;
     @Bind(R.id.linearlayout_anyfounded)
     LinearLayout linearLayoutAnyFounded;
+    MovieInterestListAdapter movieInterestListAdapter;
 
     @Inject
     ListMovieInterestsPresenter presenter;
+    private List<MovieInterest> movieInterestList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,17 +80,39 @@ public class ListMovieInterestsFragment extends Fragment implements ListMovieInt
 
     @Override
     public void showMovieInterests(List<MovieInterest> movieInterestList) {
+        this.movieInterestList = movieInterestList;
         linearLayoutAnyFounded.setVisibility(View.GONE);
         recyclerViewMovieInterests.setVisibility(View.VISIBLE);
         final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
         recyclerViewMovieInterests.setLayoutManager(layoutManager);
         recyclerViewMovieInterests.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewMovieInterests.setAdapter(new MovieInterestListAdapter(movieInterestList, new OnItemClickListener<MovieInterest>() {
+        movieInterestListAdapter = new MovieInterestListAdapter(movieInterestList, new OnItemClickListener<MovieInterest>() {
             @Override
             public void onClick(MovieInterest movieInterest, View view) {
                 startActivity(MovieProfileActivity.newIntent(getActivity(), movieInterest.getMovie()));
             }
-        }));
+
+            @Override
+            public void onLongClick(final MovieInterest movieInterest, View view) {
+                new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.DialogLight)).setItems(new CharSequence[]{getActivity().getString(R.string.listmovieinterestfragment_remove)}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                removeMovieInterest(movieInterest);
+                                break;
+                        }
+                    }
+                }).create().show();
+            }
+        });
+        recyclerViewMovieInterests.setAdapter(movieInterestListAdapter);
+    }
+
+    private void removeMovieInterest(MovieInterest movieInterest) {
+        presenter.remove(movieInterest);
+        movieInterestListAdapter.remove(movieInterestList.indexOf(movieInterest));
+        movieInterestList.remove(movieInterest);
     }
 
     @Override

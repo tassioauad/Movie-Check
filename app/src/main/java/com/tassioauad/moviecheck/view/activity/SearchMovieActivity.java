@@ -171,6 +171,11 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchMovi
                     public void onClick(Movie movie, View view) {
                         startActivity(MovieProfileActivity.newIntent(SearchMovieActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(SearchMovieActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
                     }
+
+                    @Override
+                    public void onLongClick(Movie movie, View view) {
+
+                    }
                 }
                 ),
                 new OnShowMoreListener() {

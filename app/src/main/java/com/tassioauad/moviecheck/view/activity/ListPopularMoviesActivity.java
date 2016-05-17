@@ -163,6 +163,11 @@ public class ListPopularMoviesActivity extends AppCompatActivity implements List
                     public void onClick(Movie movie, View view) {
                         startActivity(MovieProfileActivity.newIntent(ListPopularMoviesActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(ListPopularMoviesActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
                     }
+
+                    @Override
+                    public void onLongClick(Movie movie, View view) {
+
+                    }
                 }
                 ),
                 new OnShowMoreListener() {

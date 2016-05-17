@@ -169,6 +169,11 @@ public class ListPersonMediaFragment extends Fragment implements ListPersonMedia
                     startActivity(FullImageSliderActivity.newIntent(getActivity(), imageArrayList, imageArrayList.indexOf(media)));
                 }
             }
+
+            @Override
+            public void onLongClick(Media media, View view) {
+
+            }
         }));
     }
 

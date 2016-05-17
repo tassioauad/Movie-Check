@@ -234,6 +234,11 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
             public void onClick(Person person, View view) {
                 startActivity(PersonProfileActivity.newIntent(SearchActivity.this, person), ActivityOptionsCompat.makeSceneTransitionAnimation(SearchActivity.this, view.findViewById(R.id.imageview_photo), "personPhoto").toBundle());
             }
+
+            @Override
+            public void onLongClick(Person person, View view) {
+
+            }
         }));
     }
 
@@ -283,6 +288,11 @@ public class SearchActivity extends AppCompatActivity implements com.tassioauad.
             @Override
             public void onClick(Movie movie, View view) {
                 startActivity(MovieProfileActivity.newIntent(SearchActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(SearchActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
+            }
+
+            @Override
+            public void onLongClick(Movie movie, View view) {
+
             }
         }));
     }

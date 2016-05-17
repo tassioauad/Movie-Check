@@ -176,6 +176,11 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
             public void onClick(Crew crew, View view) {
                 startActivity(PersonProfileActivity.newIntent(getActivity(), crew), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.imageview_profile), "personPhoto").toBundle());
             }
+
+            @Override
+            public void onLongClick(Crew crew, View view) {
+
+            }
         }));
     }
 
@@ -223,6 +228,11 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
             @Override
             public void onClick(Cast cast, View view) {
                 startActivity(PersonProfileActivity.newIntent(getActivity(), cast), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.imageview_poster), "personPhoto").toBundle());
+            }
+
+            @Override
+            public void onLongClick(Cast cast, View view) {
+
             }
         }));
     }

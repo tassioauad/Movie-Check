@@ -320,6 +320,11 @@ public class HomeActivity extends AppCompatActivity implements HomeView, GoogleA
             public void onClick(Movie movie, View view) {
                 startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
             }
+
+            @Override
+            public void onLongClick(Movie movie, View view) {
+
+            }
         }));
     }
 
@@ -388,6 +393,11 @@ public class HomeActivity extends AppCompatActivity implements HomeView, GoogleA
             public void onClick(Movie movie, View view) {
                 startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
             }
+
+            @Override
+            public void onLongClick(Movie movie, View view) {
+
+            }
         }));
     }
 
@@ -417,6 +427,11 @@ public class HomeActivity extends AppCompatActivity implements HomeView, GoogleA
             @Override
             public void onClick(Movie movie, View view) {
                 startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
+            }
+
+            @Override
+            public void onLongClick(Movie movie, View view) {
+
             }
         }));
     }
@@ -465,6 +480,11 @@ public class HomeActivity extends AppCompatActivity implements HomeView, GoogleA
             @Override
             public void onClick(Movie movie, View view) {
                 startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_backdrop), "movieBackdrop").toBundle());
+            }
+
+            @Override
+            public void onLongClick(Movie movie, View view) {
+
             }
         }));
     }

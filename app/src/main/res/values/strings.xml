@@ -91,4 +91,10 @@
     <string name="userprofileactivity_interest">To Watch</string>
     <string name="userprofileactivity_watched">Watched</string>
 
+    <!--ListMovieWatchedFragment-->
+    <string name="listmoviewatchedfragment_remove">Remove</string>
+
+    <!--ListMovieInterestFragment-->
+    <string name="listmovieinterestfragment_remove">Remove</string>
+
 </resources>

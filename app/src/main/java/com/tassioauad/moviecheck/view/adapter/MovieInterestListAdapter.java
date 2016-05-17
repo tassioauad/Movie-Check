@@ -1,10 +1,5 @@
 package com.tassioauad.moviecheck.view.adapter;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.LayerDrawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class MovieInterestListAdapter extends RecyclerView.Adapter<MovieInterestListAdapter.ViewHolder> implements View.OnClickListener {
+public class MovieInterestListAdapter extends RecyclerView.Adapter<MovieInterestListAdapter.ViewHolder> implements View.OnClickListener, View.OnLongClickListener {
 
     private List<MovieInterest> movieInterestList;
     private OnItemClickListener<MovieInterest> movieInterestOnItemClickListener;
@@ -35,6 +30,7 @@ public class MovieInterestListAdapter extends RecyclerView.Adapter<MovieInterest
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listviewitem_movieinterest, parent, false);
         view.setOnClickListener(this);
+        view.setOnLongClickListener(this);
         return new ViewHolder(view);
     }
 
@@ -62,6 +58,18 @@ public class MovieInterestListAdapter extends RecyclerView.Adapter<MovieInterest
     public void onClick(View view) {
         MovieInterest movieInterest = (MovieInterest) view.getTag();
         movieInterestOnItemClickListener.onClick(movieInterest, view);
+    }
+
+    public void remove(int position) {
+        movieInterestList.remove(position);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        MovieInterest movieInterest = (MovieInterest) view.getTag();
+        movieInterestOnItemClickListener.onLongClick(movieInterest, view);
+        return true;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

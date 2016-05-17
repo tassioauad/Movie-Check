@@ -28,4 +28,7 @@ public class ListMovieWatchedPresenter {
         }
     }
 
+    public void remove(MovieWatched movieWatched) {
+        movieWatchedDao.remove(movieWatched);
+    }
 }

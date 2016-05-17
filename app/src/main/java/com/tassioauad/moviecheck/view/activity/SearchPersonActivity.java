@@ -171,6 +171,11 @@ public class SearchPersonActivity extends AppCompatActivity implements SearchPer
                     public void onClick(Person person, View view) {
                         startActivity(PersonProfileActivity.newIntent(SearchPersonActivity.this, person), ActivityOptionsCompat.makeSceneTransitionAnimation(SearchPersonActivity.this, view.findViewById(R.id.imageview_photo), "personPhoto").toBundle());
                     }
+
+                    @Override
+                    public void onLongClick(Person person, View view) {
+
+                    }
                 }
                 ),
                 new OnShowMoreListener() {

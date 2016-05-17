@@ -157,6 +157,11 @@ public class ListNowPlayingMoviesActivity extends AppCompatActivity implements L
                     public void onClick(Movie movie, View view) {
                         startActivity(MovieProfileActivity.newIntent(ListNowPlayingMoviesActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(ListNowPlayingMoviesActivity.this, view.findViewById(R.id.imageview_backdrop), "movieBackdrop").toBundle());
                     }
+
+                    @Override
+                    public void onLongClick(Movie movie, View view) {
+
+                    }
                 }),
                 new OnShowMoreListener() {
                     @Override

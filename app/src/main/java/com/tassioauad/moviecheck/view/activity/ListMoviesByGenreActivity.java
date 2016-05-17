@@ -161,6 +161,11 @@ public class ListMoviesByGenreActivity extends AppCompatActivity implements List
                             public void onClick(Movie movie, View view) {
                                 startActivity(MovieProfileActivity.newIntent(ListMoviesByGenreActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(ListMoviesByGenreActivity.this).toBundle());
                             }
+
+                            @Override
+                            public void onLongClick(Movie movie, View view) {
+
+                            }
                         }
                         ),
                         new OnShowMoreListener() {

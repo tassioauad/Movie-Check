@@ -180,6 +180,11 @@ public class ListMovieMediaFragment extends Fragment implements ListMovieMediaVi
                     startActivity(FullImageSliderActivity.newIntent(getActivity(), imageArrayList, imageArrayList.indexOf(media)));
                 }
             }
+
+            @Override
+            public void onLongClick(Media media, View view) {
+
+            }
         }));
     }
 
