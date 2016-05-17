@@ -16,8 +16,9 @@
         android:background="@color/red"
         style="@style/TextH2White"
         android:padding="10dp"
-        android:drawableLeft="@drawable/google_logo"
-        android:drawableStart="@drawable/google_logo"
+        android:drawableLeft="@drawable/google"
+        android:drawablePadding="10dp"
+        android:drawableStart="@drawable/google"
         android:visibility="visible"/>
 
     <LinearLayout

@@ -50,7 +50,7 @@
                         android:layout_gravity="end"
                         android:layout_weight="0.2"
                         android:drawablePadding="5dp"
-                        android:drawableRight="@drawable/go_arrow"
+                        android:drawableRight="@drawable/next"
                         android:gravity="end|center_vertical"
                         android:onClick="moreNowPlayingMovies"
                         android:text="@string/general_more" />
@@ -113,7 +113,7 @@
                         android:layout_gravity="end"
                         android:layout_weight="0.2"
                         android:drawablePadding="5dp"
-                        android:drawableRight="@drawable/go_arrow"
+                        android:drawableRight="@drawable/next"
                         android:gravity="end|center_vertical"
                         android:onClick="moreUpcomingMovies"
                         android:text="@string/general_more" />
@@ -176,7 +176,7 @@
                         android:layout_gravity="end"
                         android:layout_weight="0.2"
                         android:drawablePadding="5dp"
-                        android:drawableRight="@drawable/go_arrow"
+                        android:drawableRight="@drawable/next"
                         android:gravity="end|center_vertical"
                         android:onClick="moreTopRatedMovies"
                         android:text="@string/general_more" />
@@ -238,7 +238,7 @@
                         android:layout_gravity="end"
                         android:layout_weight="0.2"
                         android:drawablePadding="5dp"
-                        android:drawableRight="@drawable/go_arrow"
+                        android:drawableRight="@drawable/next"
                         android:gravity="end|center_vertical"
                         android:onClick="morePopularMovies"
                         android:text="@string/general_more" />
