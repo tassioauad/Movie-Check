@@ -248,7 +248,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../MobileSistemaZaalQuiosque/app/src/main/java/br/com/zaal/mobilesistemazaalquiosque/model/impl/DispositivoModelImpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../MobileSistemaZaalQuiosque/app/src/main/java/br/com/zaal/mobilesistemazaalquiosque/view/activity/FuncionarioStatusActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../MobileZaalAppMarket/app/src/main/java/br/com/zaal/zaalappmarket/model/dao/impl/AutorizacaoContentProvider.java">
           <value>
             <set />
           </value>

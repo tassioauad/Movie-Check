@@ -12,37 +12,51 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:background="@color/primary_dark"
+        android:orientation="horizontal"
         android:weightSum="4">
 
-        <FrameLayout
-            android:id="@+id/fragment_detail"
+        <ScrollView
             android:layout_width="0dp"
-            android:layout_weight="1.2"
-            android:layout_marginRight="1dp"
+            android:layout_height="match_parent"
             android:layout_marginEnd="1dp"
-            android:layout_height="match_parent" />
+            android:layout_marginRight="1dp"
+            android:layout_weight="2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/fragment_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <FrameLayout
+                    android:id="@+id/fragment_review"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginRight="1dp" />
+
+            </LinearLayout>
+
+        </ScrollView>
 
         <FrameLayout
             android:id="@+id/fragment_castcrew"
             android:layout_width="0dp"
             android:layout_weight="1.2"
-            android:layout_marginRight="1dp"
+            android:layout_height="match_parent"
             android:layout_marginEnd="1dp"
-            android:layout_height="match_parent" />
-
-        <FrameLayout
-            android:id="@+id/fragment_review"
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:layout_height="match_parent" />
+            android:layout_marginRight="1dp" />
 
         <FrameLayout
             android:id="@+id/fragment_media"
             android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="0.8" />
 
     </LinearLayout>
 
