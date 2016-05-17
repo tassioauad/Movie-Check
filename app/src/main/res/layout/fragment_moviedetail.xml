@@ -147,6 +147,6 @@
         app:borderWidth="0dp"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
-        android:src="@drawable/like" />
+        android:src="@drawable/towatch" />
 
 </RelativeLayout>
