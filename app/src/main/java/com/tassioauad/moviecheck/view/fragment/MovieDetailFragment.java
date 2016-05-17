@@ -258,6 +258,12 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         textViewVoteCount.setVisibility(View.INVISIBLE);
         RatingBar newRatingBar = new RatingBar(new ContextThemeWrapper(getActivity(), R.style.RatingBarRed));
         newRatingBar.setRating(classification);
+        newRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                presenter.informUserClassification(rating);
+            }
+        });
         ((ViewGroup)ratingBarVoteAverage.getParent()).addView(newRatingBar, 0);
         ((ViewGroup)ratingBarVoteAverage.getParent()).removeView(ratingBarVoteAverage);
         ratingBarVoteAverage = newRatingBar;
