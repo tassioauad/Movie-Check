@@ -79,42 +79,28 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
         movie = getArguments().getParcelable(KEY_MOVIE);
 
-        if (savedInstanceState == null) {
-            if (castList == null) {
-                presenter.loadCast(movie);
-            } else if (castList.size() == 0) {
-                warnAnyCastFounded();
-            } else {
-                showCasts(castList);
-            }
-            if (crewList == null) {
-                presenter.loadCrew(movie);
-            } else if (crewList.size() == 0) {
-                warnAnyCrewFounded();
-            } else {
-                showCrews(crewList);
-            }
-        } else {
-            crewList = savedInstanceState.getParcelableArrayList(KEY_CREWLIST);
+        if (castList == null && savedInstanceState != null) {
             castList = savedInstanceState.getParcelableArrayList(KEY_CASTLIST);
-            if (castList != null) {
-                if (castList.size() == 0) {
-                    warnAnyCastFounded();
-                } else {
-                    showCasts(castList);
-                }
-            } else {
-                warnFailedToLoadCasts();
-            }
-            if (crewList != null) {
-                if (crewList.size() == 0) {
-                    warnAnyCrewFounded();
-                } else {
-                    showCrews(crewList);
-                }
-            } else {
-                warnFailedToLoadCrews();
-            }
+        }
+
+        if (crewList == null && savedInstanceState != null) {
+            crewList = savedInstanceState.getParcelableArrayList(KEY_CREWLIST);
+        }
+
+        if (castList == null) {
+            presenter.loadCast(movie);
+        } else if (castList.size() == 0) {
+            warnAnyCastFounded();
+        } else {
+            showCasts(castList);
+        }
+
+        if (crewList == null) {
+            presenter.loadCrew(movie);
+        } else if (crewList.size() == 0) {
+            warnAnyCrewFounded();
+        } else {
+            showCrews(crewList);
         }
 
         return view;

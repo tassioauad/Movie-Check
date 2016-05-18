@@ -74,26 +74,17 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
         View view = inflater.inflate(R.layout.fragment_listreview, container, false);
         ButterKnife.bind(this, view);
 
-        if (savedInstanceState == null) {
-            if (reviewList == null) {
-                movie = getArguments().getParcelable(KEY_MOVIE);
-                presenter.loadReviews(movie, page);
-            } else if (reviewList.size() == 0) {
-                warnAnyReviewFounded();
-            } else {
-                showReviews(reviewList);
-            }
+        if (reviewList == null && savedInstanceState != null) {
+            reviewList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_REVIEWLIST);
+        }
+
+        if (reviewList == null) {
+            movie = getArguments().getParcelable(KEY_MOVIE);
+            presenter.loadReviews(movie, page);
+        } else if (reviewList.size() == 0) {
+            warnAnyReviewFounded();
         } else {
-            List<Review> reviewList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_REVIEWLIST);
-            if (reviewList == null) {
-                movie = getArguments().getParcelable(KEY_MOVIE);
-                presenter.loadReviews(movie, page);
-            } else if (reviewList.size() == 0) {
-                warnAnyReviewFounded();
-            } else {
-                page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
-                showReviews(reviewList);
-            }
+            showReviews();
         }
 
         return view;
@@ -150,6 +141,11 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
         } else {
             this.reviewList.addAll(reviewList);
         }
+        showReviews();
+    }
+
+    @Override
+    public void showReviews() {
         linearLayoutAnyFounded.setVisibility(View.GONE);
         linearLayoutLoadFailed.setVisibility(View.GONE);
         recyclerViewReviews.setVisibility(View.VISIBLE);

@@ -16,4 +16,6 @@ public interface UserDao {
     void logout();
 
     User findById(Integer id);
+
+    User findByGoogleId(String googleId);
 }

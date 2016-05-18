@@ -38,7 +38,12 @@ public class UserDaoImpl extends Dao implements UserDao {
     @Override
     public void save(User user) {
         if (user.getId() == null) {
-            insert(user);
+            if(user.getGoogleId() != null && findByGoogleId(user.getGoogleId()) != null) {
+                user.setId(findByGoogleId(user.getGoogleId()).getId());
+                update(user);
+            } else {
+                insert(user);
+            }
         } else {
             update(user);
         }
@@ -81,6 +86,14 @@ public class UserDaoImpl extends Dao implements UserDao {
     @Override
     public User findById(Integer id) {
         Cursor cursor = getDatabase().query(TABLE_NAME, COLUMNS, COLUMN_NAME_ID + " = ?", new String[]{String.valueOf(id)},
+                null, null, null, null);
+
+        return fromCursor(cursor);
+    }
+
+    @Override
+    public User findByGoogleId(String googleId) {
+        Cursor cursor = getDatabase().query(TABLE_NAME, COLUMNS, COLUMN_NAME_GOOGLEID + " = ?", new String[]{googleId},
                 null, null, null, null);
 
         return fromCursor(cursor);

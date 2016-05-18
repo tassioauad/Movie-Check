@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -45,7 +44,10 @@ import butterknife.ButterKnife;
 public class UserDetailFragment extends Fragment implements UserDetailView {
 
     private static final String KEY_GENRELIST = "GENRELIST";
+    private static final String KEY_MOVIEINTEREST = "MOVIEINTEREST";
     private List<Genre> genreList;
+    private List<MovieInterest> movieInterestList;
+
     @Inject
     UserDetailPresenter presenter;
 
@@ -83,17 +85,28 @@ public class UserDetailFragment extends Fragment implements UserDetailView {
         View view = inflater.inflate(R.layout.fragment_userdetail, container, false);
         ButterKnife.bind(this, view);
 
-        if(savedInstanceState == null) {
-            if(genreList == null) {
-                presenter.loadGenres();
-            } else if(genreList.size() > 0) {
-                showGenres(genreList);
-            }
-        } else {
+        if (movieInterestList == null && savedInstanceState != null) {
+            movieInterestList = savedInstanceState.getParcelableArrayList(KEY_MOVIEINTEREST);
+        }
+
+        if (genreList == null && savedInstanceState != null) {
             genreList = savedInstanceState.getParcelableArrayList(KEY_GENRELIST);
-            if(genreList != null) {
-                showGenres(genreList);
-            }
+        }
+
+        if (genreList == null) {
+            presenter.loadGenres();
+        } else if (genreList.size() > 0) {
+            showGenres(genreList);
+        } else {
+            warnAnyGenreFounded();
+        }
+
+        if (movieInterestList == null) {
+            presenter.loadUpcomingInterests();
+        } else if (movieInterestList.size() > 0) {
+            showUpcomingInterests(movieInterestList);
+        } else {
+            warnAnyInterestFound();
         }
 
         fabDiscovery.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +133,9 @@ public class UserDetailFragment extends Fragment implements UserDetailView {
     public void onSaveInstanceState(Bundle outState) {
         if (genreList != null) {
             outState.putParcelableArrayList(KEY_GENRELIST, new ArrayList<>(genreList));
+        }
+        if (movieInterestList != null) {
+            outState.putParcelableArrayList(KEY_MOVIEINTEREST, new ArrayList<>(movieInterestList));
         }
         super.onSaveInstanceState(outState);
     }
@@ -159,6 +175,7 @@ public class UserDetailFragment extends Fragment implements UserDetailView {
 
     @Override
     public void showUpcomingInterests(List<MovieInterest> movieInterests) {
+        this.movieInterestList = movieInterests;
         linearLayoutAnyInterestsFounded.setVisibility(View.GONE);
         recyclerViewInterests.setVisibility(View.VISIBLE);
         recyclerViewInterests.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));

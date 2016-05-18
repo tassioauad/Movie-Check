@@ -27,6 +27,7 @@ import com.tassioauad.moviecheck.view.activity.MovieProfileActivity;
 import com.tassioauad.moviecheck.view.adapter.MovieInterestListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,6 +37,7 @@ import butterknife.ButterKnife;
 
 public class ListMovieInterestsFragment extends Fragment implements ListMovieInterestsView {
 
+    private static final String KEY_MOVIEINTEREST = "MOVIEINTEREST";
     @Bind(R.id.recyclerview_movieinterests)
     RecyclerView recyclerViewMovieInterests;
     @Bind(R.id.linearlayout_anyfounded)
@@ -59,15 +61,24 @@ public class ListMovieInterestsFragment extends Fragment implements ListMovieInt
         View view = inflater.inflate(R.layout.fragment_listmovieinterest, container, false);
         ButterKnife.bind(this, view);
 
+        if(movieInterestList == null && savedInstanceState != null) {
+            movieInterestList = savedInstanceState.getParcelableArrayList(KEY_MOVIEINTEREST);
+        }
+
+        if(movieInterestList == null) {
+            presenter.loadMovieInterests();
+        } else if(movieInterestList.size() > 0) {
+            showMovieInterests(movieInterestList);
+        } else {
+            warnAnyInterestFounded();
+        }
+
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        presenter.loadMovieInterests();
-
         Tracker defaultTracker = ((MovieCheckApplication) getActivity().getApplication()).getDefaultTracker();
         defaultTracker.setScreenName("List Movie Interests of the User Screen");
         defaultTracker.send(new HitBuilders.ScreenViewBuilder().build());
@@ -76,6 +87,14 @@ public class ListMovieInterestsFragment extends Fragment implements ListMovieInt
     public static ListMovieInterestsFragment newInstance() {
         ListMovieInterestsFragment fragment = new ListMovieInterestsFragment();
         return fragment;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if(movieInterestList != null) {
+            outState.putParcelableArrayList(KEY_MOVIEINTEREST, new ArrayList<>(movieInterestList));
+        }
+        super.onSaveInstanceState(outState);
     }
 
     @Override

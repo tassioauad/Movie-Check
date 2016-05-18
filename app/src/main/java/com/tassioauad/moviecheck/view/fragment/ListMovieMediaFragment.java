@@ -70,25 +70,18 @@ public class ListMovieMediaFragment extends Fragment implements ListMovieMediaVi
         View view = inflater.inflate(R.layout.fragment_listmoviemedia, container, false);
         ButterKnife.bind(this, view);
 
-        if (savedInstanceState == null) {
-            if (mediaList == null) {
-                movie = getArguments().getParcelable(KEY_MOVIE);
-                presenter.loadVideos(movie);
-                presenter.loadImages(movie);
-            } else if (mediaList.size() == 0) {
-                warnAnyMediaFounded();
-            } else {
-                showMedias(mediaList);
-            }
+        if (mediaList == null && savedInstanceState != null) {
+            mediaList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MEDIALIST);
+        }
+
+        if (mediaList == null) {
+            movie = getArguments().getParcelable(KEY_MOVIE);
+            presenter.loadVideos(movie);
+            presenter.loadImages(movie);
+        } else if (mediaList.size() == 0) {
+            warnAnyMediaFounded();
         } else {
-            List<Media> mediaList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MEDIALIST);
-            if (mediaList == null) {
-                warnFailedToLoadMedias();
-            } else if (mediaList.size() == 0) {
-                warnAnyMediaFounded();
-            } else {
-                showMedias(mediaList);
-            }
+            showMedias(mediaList);
         }
 
         return view;

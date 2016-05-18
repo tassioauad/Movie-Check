@@ -33,6 +33,9 @@ public class UserDetailPresenter {
 
     public void init() {
         view.showUser(userDao.getLoggedUser());
+    }
+
+    public void loadUpcomingInterests() {
         List<MovieInterest> movieInterestList = movieInterestDao.listAllUpcoming(userDao.getLoggedUser());
         if (movieInterestList == null || movieInterestList.size() == 0) {
             view.warnAnyInterestFound();

@@ -89,18 +89,16 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
 
         presenter.init((Movie) getArguments().getParcelable(KEY_MOVIE));
 
-        if(savedInstanceState == null) {
-            if(genreList == null) {
-                presenter.loadGenres();
-            } else if(genreList.size() > 0) {
-                showGenres(genreList);
-            }
-        } else {
+        if(genreList == null && savedInstanceState != null) {
             genreList = savedInstanceState.getParcelableArrayList(KEY_GENRELIST);
-            if(genreList != null) {
-                showGenres(genreList);
-            }
         }
+
+        if(genreList == null) {
+            presenter.loadGenres();
+        } else if(genreList.size() > 0) {
+            showGenres(genreList);
+        }
+
 
         fabInterest.setOnClickListener(new View.OnClickListener() {
             @Override

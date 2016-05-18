@@ -4,6 +4,7 @@ package com.tassioauad.moviecheck.view.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -27,6 +28,7 @@ import com.tassioauad.moviecheck.view.activity.MovieProfileActivity;
 import com.tassioauad.moviecheck.view.adapter.MovieWatchedListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,6 +38,7 @@ import butterknife.ButterKnife;
 
 public class ListMovieWatchedFragment extends Fragment implements ListMovieWatchedView {
 
+    private static final String KEY_MOVIEWATCHEDLIST = "MOVIEWATCHEDLIST";
     @Bind(R.id.recyclerview_moviewatched)
     RecyclerView recyclerViewMovieWatched;
     @Bind(R.id.linearlayout_anyfounded)
@@ -59,6 +62,18 @@ public class ListMovieWatchedFragment extends Fragment implements ListMovieWatch
         View view = inflater.inflate(R.layout.fragment_listmoviewatched, container, false);
         ButterKnife.bind(this, view);
 
+        if (movieWatchedList == null && savedInstanceState != null) {
+            movieWatchedList = savedInstanceState.getParcelableArrayList(KEY_MOVIEWATCHEDLIST);
+        }
+
+        if (movieWatchedList == null) {
+            presenter.loadMovieInterests();
+        } else if (movieWatchedList.size() > 0) {
+            showWatchedMovies(movieWatchedList);
+        } else {
+            warnAnyWatchedMovieFounded();
+        }
+
         return view;
     }
 
@@ -71,6 +86,14 @@ public class ListMovieWatchedFragment extends Fragment implements ListMovieWatch
         Tracker defaultTracker = ((MovieCheckApplication) getActivity().getApplication()).getDefaultTracker();
         defaultTracker.setScreenName("List Movie Watched by the User Screen");
         defaultTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if(movieWatchedList != null) {
+            outState.putParcelableArrayList(KEY_MOVIEWATCHEDLIST, new ArrayList<>(movieWatchedList));
+        }
+        super.onSaveInstanceState(outState);
     }
 
     public static ListMovieWatchedFragment newInstance() {
