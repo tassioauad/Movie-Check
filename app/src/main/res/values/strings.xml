@@ -102,4 +102,9 @@
     <string name="userdetailfragment_watchedgenres">Most Watched Genres</string>
     <string name="userdetailfragment_dontforget">Don\'t Forget To Watch!</string>
 
+    <!--DiscoveryActivity-->
+    <string name="discoveryactivity_title">Discovery</string>
+    <string name="discoveryactivity_nextmovie">Next Movie</string>
+    <string name="discoveryactivity_tryagain">Ops! Something bad has happened! Please, try again!</string>
+
 </resources>

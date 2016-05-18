@@ -15,6 +15,10 @@ public interface MovieResource {
     @GET("movie/upcoming")
     Call<List<Movie>> listUpComing(@Query("api_key") String apiKey, @Query("page") Integer page);
 
+    @GET("discover/movie")
+    Call<List<Movie>> discover(@Query("api_key") String apiKey, @Query("page") Integer page);
+
+
     @GET("movie/popular")
     Call<List<Movie>> listPopular(@Query("api_key") String apiKey, @Query("page") Integer page);
 
