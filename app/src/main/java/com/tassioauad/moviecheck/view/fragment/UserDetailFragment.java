@@ -158,12 +158,6 @@ public class UserDetailFragment extends Fragment implements UserDetailView {
     @Override
     public void showPhoto(final String photoUrl) {
         Picasso.with(getActivity()).load(photoUrl).into(imageViewPhoto);
-        imageViewPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(FullImageSliderActivity.newIntent(getActivity(), photoUrl));
-            }
-        });
     }
 
     @Override
