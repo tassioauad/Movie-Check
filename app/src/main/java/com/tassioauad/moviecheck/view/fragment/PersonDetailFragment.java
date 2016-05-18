@@ -67,12 +67,16 @@ public class PersonDetailFragment extends Fragment implements PersonDetailView {
         View view = inflater.inflate(R.layout.fragment_persondetail, container, false);
         ButterKnife.bind(this, view);
 
-        if(savedInstanceState == null) {
-            presenter.loadPerson(((Person) getArguments().getParcelable(KEY_PERSON)).getId());
-            showPerson((Person) getArguments().getParcelable(KEY_PERSON));
-        } else {
-            showPerson((Person) savedInstanceState.getParcelable(KEY_PERSON));
+        if(savedInstanceState != null) {
+            person = savedInstanceState.getParcelable(KEY_PERSON);
         }
+
+        if(person == null) {
+            person = getArguments().getParcelable(KEY_PERSON);
+            presenter.loadPerson(person.getId());
+        }
+
+        showPerson(person);
 
         return view;
     }
