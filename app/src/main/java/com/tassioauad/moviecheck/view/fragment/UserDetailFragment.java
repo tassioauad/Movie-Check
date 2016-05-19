@@ -117,6 +117,13 @@ public class UserDetailFragment extends Fragment implements UserDetailView {
             }
         });
 
+        linearLayoutFailedToLoadGenre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.loadGenres();
+            }
+        });
+
         presenter.init();
 
         return view;
