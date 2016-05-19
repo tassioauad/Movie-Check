@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -35,10 +36,13 @@ public class PersonProfileActivity extends AppCompatActivity implements PersonPr
     @Inject
     PersonProfilePresenter presenter;
 
-    @Nullable @Bind(R.id.viewpager)
+    @Nullable
+    @Bind(R.id.viewpager)
     ViewPager viewPager;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.tabs)
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +94,7 @@ public class PersonProfileActivity extends AppCompatActivity implements PersonPr
                     }
                 }
             });
+            tabLayout.setupWithViewPager(viewPager);
         } else {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_detail, PersonDetailFragment.newInstance(person)).commit();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_work, PersonWorkFragment.newInstance(person)).commit();
@@ -107,7 +112,7 @@ public class PersonProfileActivity extends AppCompatActivity implements PersonPr
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
         }

@@ -168,6 +168,7 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
             }
         }));
+        recyclerViewCrew.setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -221,6 +222,7 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
             }
         }));
+        recyclerViewCast.setNestedScrollingEnabled(false);
     }
 
     @Override

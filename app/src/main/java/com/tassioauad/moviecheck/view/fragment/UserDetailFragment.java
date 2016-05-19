@@ -185,6 +185,7 @@ public class UserDetailFragment extends Fragment implements UserDetailView {
 
             }
         }));
+        recyclerViewInterests.setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -223,6 +224,7 @@ public class UserDetailFragment extends Fragment implements UserDetailView {
 
             }
         }));
+        recyclerViewGenres.setNestedScrollingEnabled(false);
     }
 
     @Override

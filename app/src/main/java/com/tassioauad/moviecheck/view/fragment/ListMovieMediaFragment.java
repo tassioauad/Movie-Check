@@ -179,6 +179,7 @@ public class ListMovieMediaFragment extends Fragment implements ListMovieMediaVi
 
             }
         }));
+        recyclerViewMedia.setNestedScrollingEnabled(false);
     }
 
     @Override

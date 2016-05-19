@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -37,6 +38,8 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     ViewPager viewPager;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.tabs)
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +87,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                     }
                 }
             });
+            tabLayout.setupWithViewPager(viewPager);
         } else {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_general, UserDetailFragment.newInstance()).commit();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_interest, ListMovieInterestsFragment.newInstance()).commit();
