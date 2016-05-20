@@ -1,14 +1,11 @@
 package com.tassioauad.moviecheck.view.fragment;
 
 import android.content.res.ColorStateList;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.ContextThemeWrapper;
@@ -53,6 +50,7 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     MovieDetailPresenter presenter;
     private static final String KEY_MOVIE = "MOVIE";
     private static final String KEY_GENRELIST = "GENRELIST";
+    private static final String KEY_ALLOWINTEREST = "ALLOWINTEREST";
     private List<Genre> genreList;
 
     @Bind(R.id.textview_votecount)
@@ -89,16 +87,15 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
 
         presenter.init((Movie) getArguments().getParcelable(KEY_MOVIE));
 
-        if(genreList == null && savedInstanceState != null) {
+        if (genreList == null && savedInstanceState != null) {
             genreList = savedInstanceState.getParcelableArrayList(KEY_GENRELIST);
         }
 
-        if(genreList == null) {
+        if (genreList == null) {
             presenter.loadGenres();
-        } else if(genreList.size() > 0) {
+        } else if (genreList.size() > 0) {
             showGenres(genreList);
         }
-
 
         fabInterest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,9 +136,10 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         super.onSaveInstanceState(outState);
     }
 
-    public static MovieDetailFragment newInstance(Movie movie) {
+    public static MovieDetailFragment newInstance(Movie movie, boolean allowInterest) {
         Bundle args = new Bundle();
         args.putParcelable(KEY_MOVIE, movie);
+        args.putBoolean(KEY_ALLOWINTEREST, allowInterest);
         MovieDetailFragment fragment = new MovieDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -238,7 +236,9 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
 
     @Override
     public void enableToCheckInterest() {
-        fabInterest.setVisibility(View.VISIBLE);
+        if (getArguments().getBoolean(KEY_ALLOWINTEREST)) {
+            fabInterest.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -262,8 +262,8 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
                 presenter.informUserClassification(rating);
             }
         });
-        ((ViewGroup)ratingBarVoteAverage.getParent()).addView(newRatingBar, 0);
-        ((ViewGroup)ratingBarVoteAverage.getParent()).removeView(ratingBarVoteAverage);
+        ((ViewGroup) ratingBarVoteAverage.getParent()).addView(newRatingBar, 0);
+        ((ViewGroup) ratingBarVoteAverage.getParent()).removeView(ratingBarVoteAverage);
         ratingBarVoteAverage = newRatingBar;
 
     }

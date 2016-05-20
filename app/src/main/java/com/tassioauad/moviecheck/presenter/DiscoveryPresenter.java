@@ -7,6 +7,7 @@ import com.tassioauad.moviecheck.model.dao.MovieNotInterestDao;
 import com.tassioauad.moviecheck.model.dao.MovieWatchedDao;
 import com.tassioauad.moviecheck.model.dao.UserDao;
 import com.tassioauad.moviecheck.model.entity.Movie;
+import com.tassioauad.moviecheck.model.entity.MovieInterest;
 import com.tassioauad.moviecheck.model.entity.MovieNotInterest;
 import com.tassioauad.moviecheck.view.DiscoveryView;
 
@@ -96,5 +97,20 @@ public class DiscoveryPresenter {
 
     public void stop() {
         movieApi.cancelAllServices();
+    }
+
+    public void checkInterest(int index) {
+        MovieInterest movieInterest = movieInterestDao.findByMovie(movieList.get(index), userDao.getLoggedUser());
+        if (movieInterest == null) {
+            movieInterest = new MovieInterest();
+            movieInterest.setMovie(movieList.get(index));
+            movieInterest.setUser(userDao.getLoggedUser());
+
+            movieInterestDao.insert(movieInterest);
+            view.checkInterest();
+        } else {
+            movieInterestDao.remove(movieInterest);
+            view.uncheckInterest();
+        }
     }
 }

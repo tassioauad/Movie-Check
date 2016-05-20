@@ -23,8 +23,6 @@ public class MovieDetailPresenter {
     private MovieWatchedDao movieWatchedDao;
     private UserDao userDao;
     private Movie movie;
-    private MovieInterest movieInterest;
-    private MovieWatched movieWatched;
 
     public MovieDetailPresenter(MovieDetailView view, GenreApi genreApi, MovieInterestDao movieInterestDao, MovieWatchedDao movieWatchedDao, UserDao userDao) {
         this.view = view;
@@ -50,13 +48,11 @@ public class MovieDetailPresenter {
         if (userDao.getLoggedUser() == null || movieWatchedDao.findByMovie(movie, userDao.getLoggedUser()) != null) {
             view.disableToCheckInterest();
             if (userDao.getLoggedUser() != null && movieWatchedDao.findByMovie(movie, userDao.getLoggedUser()) != null) {
-                movieWatched = movieWatchedDao.findByMovie(movie, userDao.getLoggedUser());
-                view.showUserClassification(movieWatched.getVote());
+                view.showUserClassification(movieWatchedDao.findByMovie(movie, userDao.getLoggedUser()).getVote());
             }
         } else {
             view.enableToCheckInterest();
-            movieInterest = movieInterestDao.findByMovie(movie, userDao.getLoggedUser());
-            if (movieInterest != null) {
+            if (movieInterestDao.findByMovie(movie, userDao.getLoggedUser()) != null) {
                 view.checkInterest();
             }
         }
@@ -101,6 +97,7 @@ public class MovieDetailPresenter {
     }
 
     public void checkInterest() {
+        MovieInterest movieInterest = movieInterestDao.findByMovie(movie, userDao.getLoggedUser());
         if (movieInterest == null) {
             movieInterest = new MovieInterest();
             movieInterest.setMovie(movie);
@@ -110,12 +107,12 @@ public class MovieDetailPresenter {
             view.checkInterest();
         } else {
             movieInterestDao.remove(movieInterest);
-            movieInterest = null;
             view.uncheckInterest();
         }
     }
 
     public void informUserClassification(float rating) {
+        MovieWatched movieWatched = movieWatchedDao.findByMovie(movie, userDao.getLoggedUser());
         if(movieWatched == null) {
             movieWatched = new MovieWatched();
             movieWatched.setMovie(movie);

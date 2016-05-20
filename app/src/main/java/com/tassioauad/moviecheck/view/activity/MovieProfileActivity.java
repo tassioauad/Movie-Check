@@ -66,7 +66,7 @@ public class MovieProfileActivity extends AppCompatActivity implements MovieProf
                 public Fragment getItem(int position) {
                     switch (position) {
                         case 0:
-                            return MovieDetailFragment.newInstance(movie);
+                            return MovieDetailFragment.newInstance(movie, true);
                         case 1:
                             return CastCrewFragment.newInstance(movie);
                         case 2:
@@ -102,7 +102,7 @@ public class MovieProfileActivity extends AppCompatActivity implements MovieProf
             tabLayout.setupWithViewPager(viewPager);
         } else {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_media, ListMovieMediaFragment.newInstance(movie)).commit();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_detail, MovieDetailFragment.newInstance(movie)).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_detail, MovieDetailFragment.newInstance(movie, true)).commit();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_castcrew, CastCrewFragment.newInstance(movie)).commit();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_review, ListReviewFragment.newInstance(movie)).commit();
         }

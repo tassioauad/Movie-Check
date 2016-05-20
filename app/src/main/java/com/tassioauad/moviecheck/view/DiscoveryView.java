@@ -16,4 +16,8 @@ public interface DiscoveryView {
     void showLoading();
 
     void hideLoading();
+
+    void checkInterest();
+
+    void uncheckInterest();
 }

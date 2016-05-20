@@ -3,7 +3,9 @@ package com.tassioauad.moviecheck.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -45,6 +47,8 @@ public class DiscoveryActivity extends AppCompatActivity implements DiscoveryVie
     Toolbar toolbar;
     @Bind(R.id.progressbar)
     ProgressBar progressbar;
+    @Bind(R.id.fab_interest)
+    FloatingActionButton fabInterest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,13 @@ public class DiscoveryActivity extends AppCompatActivity implements DiscoveryVie
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.discoveryactivity_title));
+
+        fabInterest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.checkInterest(index);
+            }
+        });
 
         if(savedInstanceState == null) {
             presenter.loadAllMoviesFromPage(page);
@@ -110,7 +121,8 @@ public class DiscoveryActivity extends AppCompatActivity implements DiscoveryVie
     public void showMovie(Movie movie, int index) {
         this.index = index;
         getSupportActionBar().setSubtitle(movie.getTitle());
-        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_detail, MovieDetailFragment.newInstance(movie)).commit();
+        uncheckInterest();
+        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_detail, MovieDetailFragment.newInstance(movie, false)).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_castcrew, CastCrewFragment.newInstance(movie)).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_media, ListMovieMediaFragment.newInstance(movie)).commit();
     }
@@ -141,5 +153,15 @@ public class DiscoveryActivity extends AppCompatActivity implements DiscoveryVie
     @Override
     public void hideLoading() {
         progressbar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void checkInterest() {
+        fabInterest.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.accent)));
+    }
+
+    @Override
+    public void uncheckInterest() {
+        fabInterest.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gray)));
     }
 }

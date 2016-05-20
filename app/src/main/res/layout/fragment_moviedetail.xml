@@ -159,6 +159,7 @@
         android:elevation="8dp"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
-        android:src="@drawable/towatch" />
+        android:src="@drawable/towatch"
+        android:visibility="gone"/>
 
 </RelativeLayout>
