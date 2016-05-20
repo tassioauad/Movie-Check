@@ -41,7 +41,7 @@ public class PersonProfileActivity extends AppCompatActivity implements PersonPr
     ViewPager viewPager;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.tabs)
+    @Nullable @Bind(R.id.tabs)
     TabLayout tabLayout;
 
     @Override

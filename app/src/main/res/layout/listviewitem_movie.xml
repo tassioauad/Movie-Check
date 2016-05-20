@@ -12,6 +12,7 @@
         android:transitionName="moviePhoto"
         android:layout_height="match_parent"
         android:src="@drawable/noimage"
+        android:scaleType="fitXY"
         android:adjustViewBounds="true" />
 
 </LinearLayout>

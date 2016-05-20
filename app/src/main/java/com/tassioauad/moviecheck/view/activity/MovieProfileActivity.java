@@ -42,7 +42,7 @@ public class MovieProfileActivity extends AppCompatActivity implements MovieProf
     ViewPager viewPager;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.tabs)
+    @Nullable @Bind(R.id.tabs)
     TabLayout tabLayout;
 
     @Override

@@ -28,6 +28,13 @@
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
+    <style name="TextH4">
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">@dimen/text_h4</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
     <style name="TextBigWarn">
         <item name="android:textColor">@color/accent</item>
         <item name="android:textSize">@dimen/text_h2</item>

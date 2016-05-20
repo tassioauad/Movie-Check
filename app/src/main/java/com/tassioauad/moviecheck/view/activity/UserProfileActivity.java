@@ -38,7 +38,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     ViewPager viewPager;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.tabs)
+    @Nullable @Bind(R.id.tabs)
     TabLayout tabLayout;
 
     @Override

@@ -11,9 +11,10 @@
     <ImageView
         android:id="@+id/imageview_movieposter"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/poster_height"
+        android:layout_height="@dimen/smallposter_height"
         android:adjustViewBounds="true"
         android:src="@drawable/noimage"
+        android:scaleType="fitXY"
         android:transitionName="moviePhoto" />
 
     <LinearLayout
@@ -38,7 +39,7 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/TextH3"
+                style="@style/TextH4"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
@@ -46,7 +47,7 @@
 
             <TextView
                 android:id="@+id/textview_moviereleasedate"
-                style="@style/TextH3"
+                style="@style/TextH4"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"

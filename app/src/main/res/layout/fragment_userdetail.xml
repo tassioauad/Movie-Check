@@ -7,12 +7,14 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primary_dark">
+        android:background="@color/white">
 
-        <LinearLayout
+
+    <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/primary_dark">
 
             <LinearLayout
                 android:id="@+id/linearlayout_header"
@@ -25,7 +27,7 @@
                 <ImageView
                     android:id="@+id/imageview_photo"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/poster_height"
                     android:adjustViewBounds="true"
                     android:background="@drawable/scrim"
                     android:scaleType="fitXY"
@@ -79,7 +81,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview_genres"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
 
                 <ProgressBar
                     android:id="@+id/progressbar_genre"
@@ -112,7 +114,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:padding="10dp"
@@ -122,7 +124,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview_interests"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
 
                 <include
                     android:id="@+id/linearlayout_interests_anyfounded"

@@ -8,6 +8,8 @@
     <dimen name="text_h6">18sp</dimen>
     <dimen name="text_normal">16sp</dimen>
 
-    <dimen name="poster_width">250dp</dimen>
-    <dimen name="poster_height">375dp</dimen>
+    <dimen name="poster_width">200dp</dimen>
+    <dimen name="poster_height">300dp</dimen>
+    <dimen name="smallposter_width">100dp</dimen>
+    <dimen name="smallposter_height">150dp</dimen>
 </resources>
