@@ -55,7 +55,7 @@ public class DiscoveryActivity extends AppCompatActivity implements DiscoveryVie
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setSubtitle(getString(R.string.discoveryactivity_title));
+        getSupportActionBar().setTitle(getString(R.string.discoveryactivity_title));
 
         if(savedInstanceState == null) {
             presenter.loadAllMoviesFromPage(page);

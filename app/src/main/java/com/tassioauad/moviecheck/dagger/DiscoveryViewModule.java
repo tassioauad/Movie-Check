@@ -2,6 +2,7 @@ package com.tassioauad.moviecheck.dagger;
 
 import com.tassioauad.moviecheck.model.api.MovieApi;
 import com.tassioauad.moviecheck.model.dao.MovieInterestDao;
+import com.tassioauad.moviecheck.model.dao.MovieNotInterestDao;
 import com.tassioauad.moviecheck.model.dao.MovieWatchedDao;
 import com.tassioauad.moviecheck.model.dao.UserDao;
 import com.tassioauad.moviecheck.presenter.DiscoveryPresenter;
@@ -22,7 +23,8 @@ public class DiscoveryViewModule {
 
     @Provides
     public DiscoveryPresenter provideDiscoveryPresenter(MovieApi movieApi, MovieWatchedDao movieWatchedDao,
-                                                        MovieInterestDao movieInterestDao, UserDao userDao) {
-        return new DiscoveryPresenter(view, movieApi, movieWatchedDao, movieInterestDao, userDao);
+                                                        MovieInterestDao movieInterestDao, UserDao userDao,
+                                                        MovieNotInterestDao movieNotInterestDao) {
+        return new DiscoveryPresenter(view, movieApi, movieWatchedDao, movieInterestDao, movieNotInterestDao, userDao);
     }
 }

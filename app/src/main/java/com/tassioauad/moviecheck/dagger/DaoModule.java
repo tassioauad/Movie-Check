@@ -6,10 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 import com.tassioauad.moviecheck.model.SqliteConnection;
 import com.tassioauad.moviecheck.model.dao.MovieDao;
 import com.tassioauad.moviecheck.model.dao.MovieInterestDao;
+import com.tassioauad.moviecheck.model.dao.MovieNotInterestDao;
 import com.tassioauad.moviecheck.model.dao.MovieWatchedDao;
 import com.tassioauad.moviecheck.model.dao.UserDao;
 import com.tassioauad.moviecheck.model.dao.impl.MovieDaoImpl;
 import com.tassioauad.moviecheck.model.dao.impl.MovieInterestDaoImpl;
+import com.tassioauad.moviecheck.model.dao.impl.MovieNotInterestDaoImpl;
 import com.tassioauad.moviecheck.model.dao.impl.MovieWatchedDaoImpl;
 import com.tassioauad.moviecheck.model.dao.impl.UserDaoImpl;
 
@@ -37,6 +39,12 @@ public class DaoModule {
     @Provides
     public MovieInterestDao provideMovieInterestDao(Context context) {
         return new MovieInterestDaoImpl(context, provideSqLiteDatabase(context),
+                provideMovieDao(context), provideUserDao(context));
+    }
+
+    @Provides
+    public MovieNotInterestDao provideMovieNotInterestDao(Context context) {
+        return new MovieNotInterestDaoImpl(context, provideSqLiteDatabase(context),
                 provideMovieDao(context), provideUserDao(context));
     }
 

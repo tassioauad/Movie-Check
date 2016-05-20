@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.tassioauad.moviecheck.model.dao.impl.MovieDaoImpl;
 import com.tassioauad.moviecheck.model.dao.impl.MovieInterestDaoImpl;
+import com.tassioauad.moviecheck.model.dao.impl.MovieNotInterestDaoImpl;
 import com.tassioauad.moviecheck.model.dao.impl.MovieWatchedDaoImpl;
 import com.tassioauad.moviecheck.model.dao.impl.UserDaoImpl;
 
@@ -24,6 +25,7 @@ public class SqliteConnection extends SQLiteOpenHelper {
         db.execSQL(MovieInterestDaoImpl.CREATE_TABLE);
         db.execSQL(MovieDaoImpl.CREATE_TABLE);
         db.execSQL(MovieWatchedDaoImpl.CREATE_TABLE);
+        db.execSQL(MovieNotInterestDaoImpl.CREATE_TABLE);
     }
 
     @Override
