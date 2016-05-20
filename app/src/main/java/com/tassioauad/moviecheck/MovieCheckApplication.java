@@ -1,6 +1,6 @@
 package com.tassioauad.moviecheck;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
@@ -10,7 +10,7 @@ import com.tassioauad.moviecheck.dagger.DaoModule;
 
 import dagger.ObjectGraph;
 
-public class MovieCheckApplication extends Application {
+public class MovieCheckApplication extends MultiDexApplication {
 
     private ObjectGraph objectGraph;
     private Tracker mTracker;
