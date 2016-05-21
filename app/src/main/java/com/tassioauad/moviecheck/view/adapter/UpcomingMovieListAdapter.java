@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.model.entity.Movie;
@@ -33,14 +35,25 @@ public class UpcomingMovieListAdapter extends RecyclerView.Adapter<UpcomingMovie
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Movie movie = movieList.get(position);
         SimpleDateFormat simpleDateFormat =
                 new SimpleDateFormat(holder.itemView.getContext().getString(R.string.general_date), Locale.getDefault());
         String posterUrl = holder.itemView.getContext().getString(R.string.imagetmdb_baseurl) + movie.getPosterUrl();
 
         holder.itemView.setTag(movie);
-        Picasso.with(holder.itemView.getContext()).load(posterUrl).placeholder(R.drawable.noimage).into(holder.imageViewPoster);
+        holder.progressBar.setVisibility(View.VISIBLE);
+        Picasso.with(holder.itemView.getContext()).load(posterUrl).placeholder(R.drawable.noimage).into(holder.imageViewPoster, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+                holder.progressBar.setVisibility(View.GONE);
+            }
+        });
         holder.textViewDate.setText(simpleDateFormat.format(movie.getReleaseDate()));
     }
 
@@ -59,11 +72,13 @@ public class UpcomingMovieListAdapter extends RecyclerView.Adapter<UpcomingMovie
 
         private ImageView imageViewPoster;
         private TextView textViewDate;
+        private ProgressBar progressBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imageViewPoster = (ImageView) itemView.findViewById(R.id.imageview_poster);
             textViewDate = (TextView) itemView.findViewById(R.id.textview_date);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressbar);
         }
     }
 
