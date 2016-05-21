@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -49,6 +50,8 @@ public class DiscoveryActivity extends AppCompatActivity implements DiscoveryVie
     ProgressBar progressbar;
     @Bind(R.id.fab_interest)
     FloatingActionButton fabInterest;
+    @Bind(R.id.linearlayout_loadfailed)
+    LinearLayout linearLayoutLoadFailed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,13 @@ public class DiscoveryActivity extends AppCompatActivity implements DiscoveryVie
             page = savedInstanceState.getInt(KEY_PAGE);
             presenter.init(movieList, page, index);
         }
+
+        linearLayoutLoadFailed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.loadAllMoviesFromPage(page);
+            }
+        });
 
     }
 
@@ -142,12 +152,14 @@ public class DiscoveryActivity extends AppCompatActivity implements DiscoveryVie
 
     @Override
     public void warnFailedToLoadMoreMovies() {
-        Toast.makeText(this, R.string.discoveryactivity_tryagain, Toast.LENGTH_SHORT).show();
+        linearLayoutLoadFailed.setVisibility(View.VISIBLE);
+
     }
 
     @Override
     public void showLoading() {
         progressbar.setVisibility(View.VISIBLE);
+        linearLayoutLoadFailed.setVisibility(View.GONE);
     }
 
     @Override

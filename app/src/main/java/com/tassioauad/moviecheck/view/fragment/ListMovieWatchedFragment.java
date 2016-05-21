@@ -76,15 +76,15 @@ public class ListMovieWatchedFragment extends Fragment implements ListMovieWatch
             warnAnyWatchedMovieFounded();
         }
 
+        presenter.loadMovieInterests();
+
+
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        presenter.loadMovieInterests();
-
         Tracker defaultTracker = ((MovieCheckApplication) getActivity().getApplication()).getDefaultTracker();
         defaultTracker.setScreenName("List Movie Watched by the User Screen");
         defaultTracker.send(new HitBuilders.ScreenViewBuilder().build());
