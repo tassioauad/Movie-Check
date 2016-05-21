@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.model.entity.Image;
@@ -32,7 +34,7 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Media media = mediaList.get(position);
 
         holder.itemView.setTag(media);
@@ -43,7 +45,20 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.View
         } else if( media instanceof Image) {
             thumbnailUrl = holder.itemView.getContext().getString(R.string.imagetmdb_baseurl) + ((Image) media).getFilePath();
         }
-        Picasso.with(holder.itemView.getContext()).load(thumbnailUrl).into(holder.imageViewThumbnail);
+
+        holder.progressBar.setVisibility(View.VISIBLE);
+        Picasso.with(holder.itemView.getContext()).load(thumbnailUrl).into(holder.imageViewThumbnail, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+                holder.progressBar.setVisibility(View.GONE);
+                Picasso.with(holder.itemView.getContext()).load(R.drawable.noimage).into(holder.imageViewThumbnail);
+            }
+        });
     }
 
     @Override
@@ -60,10 +75,12 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageViewThumbnail;
+        ProgressBar progressBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imageViewThumbnail = (ImageView) itemView.findViewById(R.id.imageview_thumbnail);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressbar);
         }
     }
 
