@@ -135,5 +135,6 @@ public class HomePresenter {
 
     public void logout() {
         userDao.logout();
+        view.warnUserDesconnected();
     }
 }

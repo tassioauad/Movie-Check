@@ -49,4 +49,6 @@ public interface HomeView {
     void warnFailedToLoadNowPlayingMovies();
 
     void showLoggedUser(User user);
+
+    void warnUserDesconnected();
 }

@@ -287,8 +287,8 @@
         android:layout_gravity="start"
         android:background="@color/white"
         app:itemBackground="@drawable/selector_row_accent"
-        app:itemTextColor="@color/primary_text"
-        app:itemIconTint="@color/primary_text"
+        app:itemTextColor="@color/gray_dark"
+        app:itemIconTint="@color/gray_dark"
         app:headerLayout="@layout/navigationview_header"
         app:menu="@menu/drawer" />
 

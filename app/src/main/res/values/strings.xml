@@ -20,9 +20,12 @@
     <string name="generic_opendrawer">Open Drawer</string>
     <string name="generic_closedrawer">Close Drawer</string>
     <string name="generic_movies">Movies</string>
+    <string name="generic_ok">OK!</string>
 
     <!--HomeActivity-->
     <string name="homeactivity_search">Search</string>
+    <string name="homeactivity_discovermoviestitle">It takes one second</string>
+    <string name="homeactivity_discovermoviesdetails">Log in with your Google account to use the Discover! We promise that it\'s fast!</string>
 
     <!--NavigationView-->
     <string name="navigationview_signingoogle">Sign In with Google</string>
