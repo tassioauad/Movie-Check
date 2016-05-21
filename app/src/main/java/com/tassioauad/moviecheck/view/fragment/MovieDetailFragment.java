@@ -234,7 +234,6 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     @Override
     public void warnAnyGenreFounded() {
         genreList = new ArrayList<>();
-        Toast.makeText(getActivity(), getActivity().getString(R.string.moviedetailfragment_failedtoloadgenre), Toast.LENGTH_SHORT).show();
     }
 
     @Override
