@@ -71,8 +71,8 @@ public class ListMoviesByGenreActivity extends AppCompatActivity implements List
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        genre = getIntent().getParcelableExtra(KEY_GENRE);
         if (savedInstanceState == null) {
-            genre = getIntent().getParcelableExtra(KEY_GENRE);
             presenter.loadMovies(genre, page);
         } else {
             List<Movie> movieList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MOVIELIST);
