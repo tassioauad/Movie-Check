@@ -18,4 +18,8 @@ public interface UserDao {
     User findById(Integer id);
 
     User findByGoogleId(String googleId);
+
+    boolean hasReadTutorial();
+
+    void informHasReadTutorial();
 }

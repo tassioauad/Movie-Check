@@ -19,6 +19,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.analytics.HitBuilders;
@@ -569,6 +571,38 @@ public class HomeActivity extends AppCompatActivity implements HomeView, GoogleA
         SpannableString spannableString = new SpannableString(getString(R.string.discoveryactivity_title));
         spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.gray_light)), 0, spannableString.length(), 0);
         menuItemDiscovery.setTitle(spannableString);
+    }
+
+    @Override
+    public void showTutorial() {
+        new ShowcaseView.Builder(HomeActivity.this)
+                .setTarget(new ViewTarget(toolbar))
+                .setStyle(R.style.CustomShowcaseTheme)
+                .setContentTitle(getString(R.string.homeactivity_welcometitle))
+                .setContentText(getString(R.string.homeactivity_welcomedetail))
+                .hideOnTouchOutside()
+                .setShowcaseEventListener(new OnShowcaseEventListener() {
+                    @Override
+                    public void onShowcaseViewHide(ShowcaseView showcaseView) {
+                        presenter.informUserHasReadTutorial();
+                    }
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+                    }
+
+                    @Override
+                    public void onShowcaseViewShow(ShowcaseView showcaseView) {
+
+                    }
+
+                    @Override
+                    public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+
+                    }
+                })
+                .build();
     }
 
     public void morePopularMovies(View view) {

@@ -51,4 +51,6 @@ public interface HomeView {
     void showLoggedUser(User user);
 
     void warnUserDesconnected();
+
+    void showTutorial();
 }

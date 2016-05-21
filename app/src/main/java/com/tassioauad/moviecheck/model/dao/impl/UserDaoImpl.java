@@ -99,6 +99,20 @@ public class UserDaoImpl extends Dao implements UserDao {
         return fromCursor(cursor);
     }
 
+    @Override
+    public boolean hasReadTutorial() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(getContext().getString(R.string.sharedpreferences), Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(getContext().getString(R.string.sharedpreferences_hasreadtutorial), false);
+    }
+
+    @Override
+    public void informHasReadTutorial() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(getContext().getString(R.string.sharedpreferences), Context.MODE_PRIVATE);
+        sharedPreferences.edit()
+                .putBoolean(getContext().getString(R.string.sharedpreferences_hasreadtutorial), true)
+                .apply();
+    }
+
     public User fromCursor(Cursor cursor) {
        if( cursor.moveToNext()) {
            User user = new User();

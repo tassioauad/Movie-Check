@@ -26,6 +26,10 @@ public class HomePresenter {
         if (loggedUser != null) {
             view.showLoggedUser(userDao.getLoggedUser());
         }
+
+        if(!userDao.hasReadTutorial()) {
+            view.showTutorial();
+        }
     }
 
     public void listUpcomingMovies() {
@@ -136,5 +140,9 @@ public class HomePresenter {
     public void logout() {
         userDao.logout();
         view.warnUserDesconnected();
+    }
+
+    public void informUserHasReadTutorial() {
+        userDao.informHasReadTutorial();
     }
 }
