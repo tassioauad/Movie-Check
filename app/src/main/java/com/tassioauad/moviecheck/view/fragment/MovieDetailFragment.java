@@ -52,6 +52,7 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     private static final String KEY_GENRELIST = "GENRELIST";
     private static final String KEY_ALLOWINTEREST = "ALLOWINTEREST";
     private List<Genre> genreList;
+    RatingBar.OnRatingBarChangeListener onRatingBarChangeListener;
 
     @Bind(R.id.textview_votecount)
     TextView textViewVoteCount;
@@ -104,12 +105,18 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
             }
         });
 
-        ratingBarVoteAverage.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+        onRatingBarChangeListener = new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                presenter.informUserClassification(rating);
+                if (rating == 0f) {
+                    presenter.removeClassification();
+                } else {
+                    presenter.informUserClassification(rating);
+                }
             }
-        });
+        };
+
+        ratingBarVoteAverage.setOnRatingBarChangeListener(onRatingBarChangeListener);
 
         return view;
     }
@@ -152,7 +159,13 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
 
     @Override
     public void showVoteAverage(float voteAverage) {
-        ratingBarVoteAverage.setRating(voteAverage / 2);
+        textViewVoteCount.setVisibility(View.VISIBLE);
+        RatingBar newRatingBar = new RatingBar(new ContextThemeWrapper(getActivity(), R.style.RatingBarAccent));
+        newRatingBar.setRating(voteAverage / 2);
+        newRatingBar.setOnRatingBarChangeListener(onRatingBarChangeListener);
+        ((ViewGroup) ratingBarVoteAverage.getParent()).addView(newRatingBar, 0);
+        ((ViewGroup) ratingBarVoteAverage.getParent()).removeView(ratingBarVoteAverage);
+        ratingBarVoteAverage = newRatingBar;
     }
 
     @Override
@@ -256,12 +269,7 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         textViewVoteCount.setVisibility(View.INVISIBLE);
         RatingBar newRatingBar = new RatingBar(new ContextThemeWrapper(getActivity(), R.style.RatingBarRed));
         newRatingBar.setRating(classification);
-        newRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                presenter.informUserClassification(rating);
-            }
-        });
+        newRatingBar.setOnRatingBarChangeListener(onRatingBarChangeListener);
         ((ViewGroup) ratingBarVoteAverage.getParent()).addView(newRatingBar, 0);
         ((ViewGroup) ratingBarVoteAverage.getParent()).removeView(ratingBarVoteAverage);
         ratingBarVoteAverage = newRatingBar;
@@ -271,5 +279,25 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     @Override
     public void enableToClassify() {
         ratingBarVoteAverage.setIsIndicator(false);
+    }
+
+    @Override
+    public void warnRemovedFromWatched() {
+        Toast.makeText(getActivity(), R.string.moviedetailsfragment_removedfromwatched, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void warnAddedAsWatched() {
+        Toast.makeText(getActivity(), R.string.moviedetailsfragment_addedaswatched, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void warmAddedAsInteresting() {
+        Toast.makeText(getActivity(), R.string.moviedetailsfragment_addedtowatchlater, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void removedFromInteresting() {
+        Toast.makeText(getActivity(), R.string.moviedetailfragment_movieremovedwatchlater, Toast.LENGTH_SHORT).show();
     }
 }

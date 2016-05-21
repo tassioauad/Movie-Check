@@ -30,5 +30,6 @@ public class ListMovieInterestsPresenter {
 
     public void remove(MovieInterest movieInterest) {
         movieInterestDao.remove(movieInterest);
+        view.warnMovieRemoved(movieInterest.getMovie());
     }
 }

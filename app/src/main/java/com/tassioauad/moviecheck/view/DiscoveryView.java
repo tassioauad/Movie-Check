@@ -20,4 +20,8 @@ public interface DiscoveryView {
     void checkInterest();
 
     void uncheckInterest();
+
+    void removedFromInteresting();
+
+    void warmAddedAsInteresting();
 }

@@ -30,5 +30,6 @@ public class ListMovieWatchedPresenter {
 
     public void remove(MovieWatched movieWatched) {
         movieWatchedDao.remove(movieWatched);
+        view.warnMovieRemoved(movieWatched.getMovie());
     }
 }

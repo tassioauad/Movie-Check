@@ -108,6 +108,11 @@ public class MovieWatchedDaoImpl extends Dao implements MovieWatchedDao {
     }
 
     @Override
+    public void remove(Movie movie, User user) {
+        getDatabase().delete(TABLE_NAME, COLUMN_NAME_MOVIE_ID + " = ? AND " + COLUMN_NAME_USER_ID + " = ?", new String[]{String.valueOf(movie.getId()), String.valueOf(user.getId())});
+    }
+
+    @Override
     public void insert(MovieWatched movieWatched) {
         long id = getDatabase().insert(TABLE_NAME, null, toContentValues(movieWatched));
         movieWatched.setId(id);

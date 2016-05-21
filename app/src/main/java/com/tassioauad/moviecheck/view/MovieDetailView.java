@@ -39,4 +39,12 @@ public interface MovieDetailView {
     void showUserClassification(Float classification);
 
     void enableToClassify();
+
+    void warnRemovedFromWatched();
+
+    void warnAddedAsWatched();
+
+    void warmAddedAsInteresting();
+
+    void removedFromInteresting();
 }

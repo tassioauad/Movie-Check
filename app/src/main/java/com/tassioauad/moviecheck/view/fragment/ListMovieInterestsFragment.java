@@ -14,12 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.ListMovieInterestViewModule;
+import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.model.entity.MovieInterest;
 import com.tassioauad.moviecheck.presenter.ListMovieInterestsPresenter;
 import com.tassioauad.moviecheck.view.ListMovieInterestsView;
@@ -138,5 +140,10 @@ public class ListMovieInterestsFragment extends Fragment implements ListMovieInt
     public void warnAnyInterestFounded() {
         recyclerViewMovieInterests.setVisibility(View.GONE);
         linearLayoutAnyFounded.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void warnMovieRemoved(Movie movie) {
+        Toast.makeText(getActivity(), String.format(getString(R.string.listmovieinterestfragment_movieremoved), movie.getTitle()), Toast.LENGTH_SHORT).show();
     }
 }

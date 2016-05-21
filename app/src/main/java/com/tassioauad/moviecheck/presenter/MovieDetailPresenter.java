@@ -41,7 +41,7 @@ public class MovieDetailPresenter {
         view.showPoster(movie.getPosterUrl());
         view.showBackdrop(movie.getBackdropUrl());
 
-        if(userDao.getLoggedUser() != null) {
+        if (userDao.getLoggedUser() != null) {
             view.enableToClassify();
         }
 
@@ -59,7 +59,7 @@ public class MovieDetailPresenter {
     }
 
     public void loadGenres() {
-        if(movie.getGenreId() == null || movie.getGenreId().size() == 0) {
+        if (movie.getGenreId() == null || movie.getGenreId().size() == 0) {
             view.warnAnyGenreFounded();
             return;
         }
@@ -105,15 +105,17 @@ public class MovieDetailPresenter {
 
             movieInterestDao.insert(movieInterest);
             view.checkInterest();
+            view.warmAddedAsInteresting();
         } else {
             movieInterestDao.remove(movieInterest);
             view.uncheckInterest();
+            view.removedFromInteresting();
         }
     }
 
     public void informUserClassification(float rating) {
         MovieWatched movieWatched = movieWatchedDao.findByMovie(movie, userDao.getLoggedUser());
-        if(movieWatched == null) {
+        if (movieWatched == null) {
             movieWatched = new MovieWatched();
             movieWatched.setMovie(movie);
             movieWatched.setUser(userDao.getLoggedUser());
@@ -123,5 +125,14 @@ public class MovieDetailPresenter {
         movieInterestDao.remove(movieWatched.getMovie(), userDao.getLoggedUser());
         view.disableToCheckInterest();
         view.showUserClassification(rating);
+        view.warnAddedAsWatched();
+    }
+
+    public void removeClassification() {
+        movieWatchedDao.remove(movie, userDao.getLoggedUser());
+        view.enableToCheckInterest();
+        view.uncheckInterest();
+        view.showVoteAverage(movie.getVoteAverage());
+        view.warnRemovedFromWatched();
     }
 }

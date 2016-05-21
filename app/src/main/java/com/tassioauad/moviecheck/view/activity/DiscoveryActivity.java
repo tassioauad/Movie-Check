@@ -164,4 +164,14 @@ public class DiscoveryActivity extends AppCompatActivity implements DiscoveryVie
     public void uncheckInterest() {
         fabInterest.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gray)));
     }
+
+    @Override
+    public void warmAddedAsInteresting() {
+        Toast.makeText(this, R.string.discoveryactivity_addedtowatchlater, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void removedFromInteresting() {
+        Toast.makeText(this, R.string.discoveryactivity_movieremovedwatchlater, Toast.LENGTH_SHORT).show();
+    }
 }

@@ -108,9 +108,11 @@ public class DiscoveryPresenter {
 
             movieInterestDao.insert(movieInterest);
             view.checkInterest();
+            view.warmAddedAsInteresting();
         } else {
             movieInterestDao.remove(movieInterest);
             view.uncheckInterest();
+            view.removedFromInteresting();
         }
     }
 }

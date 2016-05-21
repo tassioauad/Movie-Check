@@ -16,6 +16,8 @@ public interface MovieWatchedDao {
 
     void remove(MovieWatched movieWatched);
 
+    void remove(Movie movie, User user);
+
     void insert(MovieWatched movieWatched);
 
     void update(MovieWatched movieWatched);

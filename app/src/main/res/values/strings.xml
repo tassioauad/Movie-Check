@@ -50,6 +50,10 @@
     <string name="moviedetailfragment_releasedate">Release Date:</string>
     <string name="moviedetailfragment_votecount">%1$d votes</string>
     <string name="moviedetailfragment_failedtoloadgenre">Ops! Failed to load genres!</string>
+    <string name="moviedetailsfragment_removedfromwatched">Movie removed from \'Watched List\'</string>
+    <string name="moviedetailsfragment_addedaswatched">Movied added as watched!</string>
+    <string name="moviedetailsfragment_addedtowatchlater">Movie added to watch later!</string>
+    <string name="moviedetailfragment_movieremovedwatchlater">Movie removed from \'To Watch List\'</string>
 
     <!--CastCrewFragment-->
     <string name="castcrewfragment_cast">Cast</string>
@@ -90,13 +94,15 @@
     <string name="userprofileactivity_title">%1$s Profile</string>
     <string name="userprofileactivity_interest">To Watch</string>
     <string name="userprofileactivity_watched">Watched</string>
+    <string name="userprofileactivity_general">General</string>
 
     <!--ListMovieWatchedFragment-->
     <string name="listmoviewatchedfragment_remove">Remove</string>
+    <string name="listmoviewatchedfragment_movieremoved">%1$s removed from \'Watched List\'</string>
 
     <!--ListMovieInterestFragment-->
     <string name="listmovieinterestfragment_remove">Remove</string>
-    <string name="userprofileactivity_general">General</string>
+    <string name="listmovieinterestfragment_movieremoved">%1$s removed from \'To Watch List\'</string>
 
     <!--UserDetailFragment-->
     <string name="userdetailfragment_watchedgenres">Most Watched Genres</string>
@@ -106,5 +112,7 @@
     <string name="discoveryactivity_title">Discovery</string>
     <string name="discoveryactivity_nextmovie">Next Movie</string>
     <string name="discoveryactivity_tryagain">Ops! Something bad has happened! Please, try again!</string>
+    <string name="discoveryactivity_addedtowatchlater">Movie added to watch later!</string>
+    <string name="discoveryactivity_movieremovedwatchlater">Movie removed from \'To Watch List\'</string>
 
 </resources>

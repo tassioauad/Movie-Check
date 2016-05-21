@@ -15,12 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.ListMovieWatchedViewModule;
+import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.model.entity.MovieWatched;
 import com.tassioauad.moviecheck.presenter.ListMovieWatchedPresenter;
 import com.tassioauad.moviecheck.view.ListMovieWatchedView;
@@ -142,5 +144,10 @@ public class ListMovieWatchedFragment extends Fragment implements ListMovieWatch
     public void warnAnyWatchedMovieFounded() {
         recyclerViewMovieWatched.setVisibility(View.GONE);
         linearLayoutAnyFounded.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void warnMovieRemoved(Movie movie) {
+        Toast.makeText(getActivity(), String.format(getString(R.string.listmoviewatchedfragment_movieremoved), movie.getTitle()), Toast.LENGTH_SHORT).show();
     }
 }
