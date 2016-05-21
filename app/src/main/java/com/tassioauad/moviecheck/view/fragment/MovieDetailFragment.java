@@ -1,11 +1,14 @@
 package com.tassioauad.moviecheck.view.fragment;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +50,9 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     MovieDetailPresenter presenter;
     private static final String KEY_MOVIE = "MOVIE";
     private static final String KEY_GENRELIST = "GENRELIST";
+    private static final String KEY_ALLOWINTEREST = "ALLOWINTEREST";
     private List<Genre> genreList;
+    RatingBar.OnRatingBarChangeListener onRatingBarChangeListener;
 
     @Bind(R.id.textview_votecount)
     TextView textViewVoteCount;
@@ -65,6 +70,8 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     RecyclerView recyclerViewGenres;
     @Bind(R.id.progressbar_genre)
     ProgressBar progressBarGenre;
+    @Bind(R.id.fab_interest)
+    FloatingActionButton fabInterest;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,18 +88,35 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
 
         presenter.init((Movie) getArguments().getParcelable(KEY_MOVIE));
 
-        if(savedInstanceState == null) {
-            if(genreList == null) {
-                presenter.loadGenres();
-            } else if(genreList.size() > 0) {
-                showGenres(genreList);
-            }
-        } else {
+        if (genreList == null && savedInstanceState != null) {
             genreList = savedInstanceState.getParcelableArrayList(KEY_GENRELIST);
-            if(genreList != null) {
-                showGenres(genreList);
-            }
         }
+
+        if (genreList == null) {
+            presenter.loadGenres();
+        } else if (genreList.size() > 0) {
+            showGenres(genreList);
+        }
+
+        fabInterest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.checkInterest();
+            }
+        });
+
+        onRatingBarChangeListener = new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if (rating == 0f) {
+                    presenter.removeClassification();
+                } else {
+                    presenter.informUserClassification(rating);
+                }
+            }
+        };
+
+        ratingBarVoteAverage.setOnRatingBarChangeListener(onRatingBarChangeListener);
 
         return view;
     }
@@ -119,9 +143,10 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         super.onSaveInstanceState(outState);
     }
 
-    public static MovieDetailFragment newInstance(Movie movie) {
+    public static MovieDetailFragment newInstance(Movie movie, boolean allowInterest) {
         Bundle args = new Bundle();
         args.putParcelable(KEY_MOVIE, movie);
+        args.putBoolean(KEY_ALLOWINTEREST, allowInterest);
         MovieDetailFragment fragment = new MovieDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -134,7 +159,13 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
 
     @Override
     public void showVoteAverage(float voteAverage) {
-        ratingBarVoteAverage.setRating(voteAverage / 2);
+        textViewVoteCount.setVisibility(View.VISIBLE);
+        RatingBar newRatingBar = new RatingBar(new ContextThemeWrapper(getActivity(), R.style.RatingBarAccent));
+        newRatingBar.setRating(voteAverage / 2);
+        newRatingBar.setOnRatingBarChangeListener(onRatingBarChangeListener);
+        ((ViewGroup) ratingBarVoteAverage.getParent()).addView(newRatingBar, 0);
+        ((ViewGroup) ratingBarVoteAverage.getParent()).removeView(ratingBarVoteAverage);
+        ratingBarVoteAverage = newRatingBar;
     }
 
     @Override
@@ -192,6 +223,11 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
             public void onClick(Genre genre, View view) {
                 startActivity(ListMoviesByGenreActivity.newIntent(getActivity(), genre), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle());
             }
+
+            @Override
+            public void onLongClick(Genre genre, View view) {
+
+            }
         }));
     }
 
@@ -204,5 +240,64 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     @Override
     public void hideLoadingGenres() {
         progressBarGenre.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void disableToCheckInterest() {
+        fabInterest.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void enableToCheckInterest() {
+        if (getArguments().getBoolean(KEY_ALLOWINTEREST)) {
+            fabInterest.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void checkInterest() {
+        fabInterest.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.accent)));
+    }
+
+    @Override
+    public void uncheckInterest() {
+        fabInterest.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gray)));
+    }
+
+    @Override
+    public void showUserClassification(Float classification) {
+        textViewVoteCount.setVisibility(View.INVISIBLE);
+        RatingBar newRatingBar = new RatingBar(new ContextThemeWrapper(getActivity(), R.style.RatingBarRed));
+        newRatingBar.setRating(classification);
+        newRatingBar.setOnRatingBarChangeListener(onRatingBarChangeListener);
+        ((ViewGroup) ratingBarVoteAverage.getParent()).addView(newRatingBar, 0);
+        ((ViewGroup) ratingBarVoteAverage.getParent()).removeView(ratingBarVoteAverage);
+        ratingBarVoteAverage = newRatingBar;
+
+    }
+
+    @Override
+    public void enableToClassify() {
+        ratingBarVoteAverage.setIsIndicator(false);
+    }
+
+    @Override
+    public void warnRemovedFromWatched() {
+        Toast.makeText(getActivity(), R.string.moviedetailsfragment_removedfromwatched, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void warnAddedAsWatched() {
+        Toast.makeText(getActivity(), R.string.moviedetailsfragment_addedaswatched, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void warmAddedAsInteresting() {
+        Toast.makeText(getActivity(), R.string.moviedetailsfragment_addedtowatchlater, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void removedFromInteresting() {
+        Toast.makeText(getActivity(), R.string.moviedetailfragment_movieremovedwatchlater, Toast.LENGTH_SHORT).show();
     }
 }

@@ -79,42 +79,28 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
 
         movie = getArguments().getParcelable(KEY_MOVIE);
 
-        if (savedInstanceState == null) {
-            if (castList == null) {
-                presenter.loadCast(movie);
-            } else if (castList.size() == 0) {
-                warnAnyCastFounded();
-            } else {
-                showCasts(castList);
-            }
-            if (crewList == null) {
-                presenter.loadCrew(movie);
-            } else if (crewList.size() == 0) {
-                warnAnyCrewFounded();
-            } else {
-                showCrews(crewList);
-            }
-        } else {
-            crewList = savedInstanceState.getParcelableArrayList(KEY_CREWLIST);
+        if (castList == null && savedInstanceState != null) {
             castList = savedInstanceState.getParcelableArrayList(KEY_CASTLIST);
-            if (castList != null) {
-                if (castList.size() == 0) {
-                    warnAnyCastFounded();
-                } else {
-                    showCasts(castList);
-                }
-            } else {
-                warnFailedToLoadCasts();
-            }
-            if (crewList != null) {
-                if (crewList.size() == 0) {
-                    warnAnyCrewFounded();
-                } else {
-                    showCrews(crewList);
-                }
-            } else {
-                warnFailedToLoadCrews();
-            }
+        }
+
+        if (crewList == null && savedInstanceState != null) {
+            crewList = savedInstanceState.getParcelableArrayList(KEY_CREWLIST);
+        }
+
+        if (castList == null) {
+            presenter.loadCast(movie);
+        } else if (castList.size() == 0) {
+            warnAnyCastFounded();
+        } else {
+            showCasts(castList);
+        }
+
+        if (crewList == null) {
+            presenter.loadCrew(movie);
+        } else if (crewList.size() == 0) {
+            warnAnyCrewFounded();
+        } else {
+            showCrews(crewList);
         }
 
         return view;
@@ -176,7 +162,13 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
             public void onClick(Crew crew, View view) {
                 startActivity(PersonProfileActivity.newIntent(getActivity(), crew), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.imageview_profile), "personPhoto").toBundle());
             }
+
+            @Override
+            public void onLongClick(Crew crew, View view) {
+
+            }
         }));
+        recyclerViewCrew.setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -224,7 +216,13 @@ public class CastCrewFragment extends Fragment implements CastCrewView {
             public void onClick(Cast cast, View view) {
                 startActivity(PersonProfileActivity.newIntent(getActivity(), cast), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.imageview_poster), "personPhoto").toBundle());
             }
+
+            @Override
+            public void onLongClick(Cast cast, View view) {
+
+            }
         }));
+        recyclerViewCast.setNestedScrollingEnabled(false);
     }
 
     @Override

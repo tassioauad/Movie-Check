@@ -2,7 +2,9 @@ package com.tassioauad.moviecheck.presenter;
 
 import com.tassioauad.moviecheck.model.api.MovieApi;
 import com.tassioauad.moviecheck.model.api.asynctask.ApiResultListener;
+import com.tassioauad.moviecheck.model.dao.UserDao;
 import com.tassioauad.moviecheck.model.entity.Movie;
+import com.tassioauad.moviecheck.model.entity.User;
 import com.tassioauad.moviecheck.view.HomeView;
 
 import java.util.List;
@@ -11,10 +13,23 @@ public class HomePresenter {
 
     HomeView view;
     private MovieApi movieApi;
+    private UserDao userDao;
 
-    public HomePresenter(HomeView view, MovieApi movieApi) {
+    public HomePresenter(HomeView view, MovieApi movieApi, UserDao userDao) {
         this.view = view;
         this.movieApi = movieApi;
+        this.userDao = userDao;
+    }
+
+    public void init() {
+        User loggedUser = userDao.getLoggedUser();
+        if (loggedUser != null) {
+            view.showLoggedUser(userDao.getLoggedUser());
+        }
+
+        if(!userDao.hasReadTutorial()) {
+            view.showTutorial();
+        }
     }
 
     public void listUpcomingMovies() {
@@ -113,7 +128,21 @@ public class HomePresenter {
         movieApi.listNowPlayingMovies();
     }
 
+    public void login(User user) {
+        userDao.login(user);
+        view.showLoggedUser(user);
+    }
+
     public void stop() {
         movieApi.cancelAllServices();
+    }
+
+    public void logout() {
+        userDao.logout();
+        view.warnUserDesconnected();
+    }
+
+    public void informUserHasReadTutorial() {
+        userDao.informHasReadTutorial();
     }
 }

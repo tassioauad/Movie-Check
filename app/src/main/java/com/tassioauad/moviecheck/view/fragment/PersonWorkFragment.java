@@ -39,7 +39,7 @@ public class PersonWorkFragment extends Fragment implements PersonWorkView {
     PersonWorkPresenter presenter;
 
     private List<Movie> workAsCastList;
-    private List<Movie> workAscrewList;
+    private List<Movie> workAsCrewList;
     private Person person;
     private static final String KEY_WORKASCREWLIST = "WORKASCREWLIST";
     private static final String KEY_WORKASCASTLIST = "WORKASCASTLIST";
@@ -77,42 +77,28 @@ public class PersonWorkFragment extends Fragment implements PersonWorkView {
 
         person = getArguments().getParcelable(KEY_PERSON);
 
-        if (savedInstanceState == null) {
-            if (workAsCastList == null) {
-                presenter.loadCastWorks(person);
-            } else if (workAsCastList.size() == 0) {
-                warnAnyWorkAsCastFounded();
-            } else {
-                showWorksAsCast(workAsCastList);
-            }
-            if (workAscrewList == null) {
-                presenter.loadCrewWorks(person);
-            } else if (workAscrewList.size() == 0) {
-                warnAnyWorkAsCrewFounded();
-            } else {
-                showWorksAsCrew(workAscrewList);
-            }
-        } else {
-            workAscrewList = savedInstanceState.getParcelableArrayList(KEY_WORKASCREWLIST);
+        if (workAsCastList == null && savedInstanceState != null) {
             workAsCastList = savedInstanceState.getParcelableArrayList(KEY_WORKASCASTLIST);
-            if (workAsCastList != null) {
-                if (workAsCastList.size() == 0) {
-                    warnAnyWorkAsCastFounded();
-                } else {
-                    showWorksAsCast(workAsCastList);
-                }
-            } else {
-                warnFailedToLoadWorkAsCast();
-            }
-            if (workAscrewList != null) {
-                if (workAscrewList.size() == 0) {
-                    warnAnyWorkAsCrewFounded();
-                } else {
-                    showWorksAsCrew(workAscrewList);
-                }
-            } else {
-                warnFailedToLoadWorkAsCrew();
-            }
+        }
+
+        if (workAsCrewList == null && savedInstanceState != null){
+            workAsCrewList = savedInstanceState.getParcelableArrayList(KEY_WORKASCREWLIST);
+        }
+
+        if (workAsCastList == null) {
+            presenter.loadCastWorks(person);
+        } else if (workAsCastList.size() == 0) {
+            warnAnyWorkAsCastFounded();
+        } else {
+            showWorksAsCast(workAsCastList);
+        }
+
+        if (workAsCrewList == null) {
+            presenter.loadCrewWorks(person);
+        } else if (workAsCrewList.size() == 0) {
+            warnAnyWorkAsCrewFounded();
+        } else {
+            showWorksAsCrew(workAsCrewList);
         }
 
         return view;
@@ -134,8 +120,8 @@ public class PersonWorkFragment extends Fragment implements PersonWorkView {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        if (workAscrewList != null) {
-            outState.putParcelableArrayList(KEY_WORKASCREWLIST, new ArrayList<>(workAscrewList));
+        if (workAsCrewList != null) {
+            outState.putParcelableArrayList(KEY_WORKASCREWLIST, new ArrayList<>(workAsCrewList));
         }
         if (workAsCastList != null) {
             outState.putParcelableArrayList(KEY_WORKASCASTLIST, new ArrayList<>(workAsCastList));
@@ -164,7 +150,7 @@ public class PersonWorkFragment extends Fragment implements PersonWorkView {
 
     @Override
     public void showWorksAsCrew(List<Movie> movieList) {
-        this.workAscrewList = movieList;
+        this.workAsCrewList = movieList;
         linearLayoutCrewLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCrewFounded.setVisibility(View.GONE);
         recyclerViewCrew.setVisibility(View.VISIBLE);
@@ -174,12 +160,17 @@ public class PersonWorkFragment extends Fragment implements PersonWorkView {
             public void onClick(Movie movie, View view) {
                 startActivity(MovieProfileActivity.newIntent(getActivity(), movie), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
             }
+
+            @Override
+            public void onLongClick(Movie movie, View view) {
+
+            }
         }));
     }
 
     @Override
     public void warnAnyWorkAsCrewFounded() {
-        workAscrewList = new ArrayList<>();
+        workAsCrewList = new ArrayList<>();
         linearLayoutCrewLoadFailed.setVisibility(View.GONE);
         linearLayoutAnyCrewFounded.setVisibility(View.VISIBLE);
         recyclerViewCrew.setVisibility(View.GONE);
@@ -221,6 +212,11 @@ public class PersonWorkFragment extends Fragment implements PersonWorkView {
             @Override
             public void onClick(Movie movie, View view) {
                 startActivity(MovieProfileActivity.newIntent(getActivity(), movie), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
+            }
+
+            @Override
+            public void onLongClick(Movie movie, View view) {
+
             }
         }));
     }

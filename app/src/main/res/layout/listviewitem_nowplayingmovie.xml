@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/poster_height"
-    android:background="@drawable/selector_row"
+    android:background="@drawable/selector_row_accent"
     android:orientation="vertical">
 
     <ImageView

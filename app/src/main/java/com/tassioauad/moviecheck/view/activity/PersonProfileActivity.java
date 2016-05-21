@@ -3,6 +3,8 @@ package com.tassioauad.moviecheck.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -34,10 +36,13 @@ public class PersonProfileActivity extends AppCompatActivity implements PersonPr
     @Inject
     PersonProfilePresenter presenter;
 
+    @Nullable
     @Bind(R.id.viewpager)
     ViewPager viewPager;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Nullable @Bind(R.id.tabs)
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,40 +59,47 @@ public class PersonProfileActivity extends AppCompatActivity implements PersonPr
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                switch (position) {
-                    case 0:
-                        return PersonDetailFragment.newInstance(person);
-                    case 1:
-                        return PersonWorkFragment.newInstance(person);
-                    case 2:
-                        return ListPersonMediaFragment.newInstance(person);
-                    default:
-                        return null;
+        if (viewPager != null) {
+            viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+                @Override
+                public Fragment getItem(int position) {
+                    switch (position) {
+                        case 0:
+                            return PersonDetailFragment.newInstance(person);
+                        case 1:
+                            return PersonWorkFragment.newInstance(person);
+                        case 2:
+                            return ListPersonMediaFragment.newInstance(person);
+                        default:
+                            return null;
+                    }
                 }
-            }
 
-            @Override
-            public int getCount() {
-                return 3;
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                switch (position) {
-                    case 0:
-                        return getString(R.string.personprofileactivity_general);
-                    case 1:
-                        return getString(R.string.personprofileactivity_works);
-                    case 2:
-                        return getString(R.string.personprofileactivity_media);
-                    default:
-                        return null;
+                @Override
+                public int getCount() {
+                    return 3;
                 }
-            }
-        });
+
+                @Override
+                public CharSequence getPageTitle(int position) {
+                    switch (position) {
+                        case 0:
+                            return getString(R.string.personprofileactivity_general);
+                        case 1:
+                            return getString(R.string.personprofileactivity_works);
+                        case 2:
+                            return getString(R.string.personprofileactivity_media);
+                        default:
+                            return null;
+                    }
+                }
+            });
+            tabLayout.setupWithViewPager(viewPager);
+        } else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_detail, PersonDetailFragment.newInstance(person)).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_work, PersonWorkFragment.newInstance(person)).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_media, ListPersonMediaFragment.newInstance(person)).commit();
+        }
     }
 
     @Override
@@ -100,7 +112,7 @@ public class PersonProfileActivity extends AppCompatActivity implements PersonPr
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
         }

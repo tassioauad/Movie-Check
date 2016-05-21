@@ -27,4 +27,24 @@ public interface MovieDetailView {
     void warnAnyGenreFounded();
 
     void hideLoadingGenres();
+
+    void disableToCheckInterest();
+
+    void enableToCheckInterest();
+
+    void checkInterest();
+
+    void uncheckInterest();
+
+    void showUserClassification(Float classification);
+
+    void enableToClassify();
+
+    void warnRemovedFromWatched();
+
+    void warnAddedAsWatched();
+
+    void warmAddedAsInteresting();
+
+    void removedFromInteresting();
 }

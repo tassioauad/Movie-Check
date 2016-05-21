@@ -8,7 +8,7 @@
     </style>
 
     <style name="TextH2">
-        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textColor">@color/gray_dark</item>
         <item name="android:textSize">@dimen/text_h2</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">sans-serif-light</item>
@@ -22,8 +22,15 @@
     </style>
 
     <style name="TextH3">
-        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textColor">@color/gray_dark</item>
         <item name="android:textSize">@dimen/text_h3</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="TextH4">
+        <item name="android:textColor">@color/gray_dark</item>
+        <item name="android:textSize">@dimen/text_h4</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
@@ -43,7 +50,7 @@
     </style>
 
     <style name="TextNormal">
-        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textColor">@color/gray_dark</item>
         <item name="android:textSize">@dimen/text_normal</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
@@ -59,6 +66,36 @@
         <item name="android:textSize">@dimen/text_normal</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+    <style name="RatingBarAccent" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/accent_alpha</item>
+        <item name="colorControlActivated">@color/accent</item>
+    </style>
+
+    <style name="RatingBarRed" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/accent_alpha</item>
+        <item name="colorControlActivated">@color/red</item>
+    </style>
+
+    <style name="DialogLight" parent="AlertDialog.AppCompat.Light">
+        <item name="android:background">@color/primary_dark</item>
+    </style>
+
+    <style name="CustomShowcaseTheme" parent="ShowcaseView">
+        <item name="sv_backgroundColor">@color/white</item>
+        <item name="sv_showcaseColor">@color/accent</item>
+        <item name="sv_buttonText">@string/generic_ok</item>
+        <item name="sv_titleTextAppearance">@style/CustomShowcaseTitleTheme</item>
+        <item name="sv_detailTextAppearance">@style/CustomShowcaseDetailTextTheme</item>
+    </style>
+
+    <style name="CustomShowcaseTitleTheme" parent="TextAppearance.ShowcaseView.Title">
+        <item name="android:textColor">@color/primary</item>
+    </style>
+
+    <style name="CustomShowcaseDetailTextTheme" parent="TextAppearance.ShowcaseView.Title.Light">
+        <item name="android:textColor">@color/gray_dark</item>
     </style>
 
 </resources>

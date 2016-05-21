@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import com.tassioauad.moviecheck.model.api.GenericApi;
 import com.tassioauad.moviecheck.model.api.MovieApi;
+import com.tassioauad.moviecheck.model.api.asynctask.DiscoverMoviesAsyncTask;
 import com.tassioauad.moviecheck.model.api.asynctask.ListMovieByGenreAsyncTask;
 import com.tassioauad.moviecheck.model.api.asynctask.ListMoviesByNameAsyncTask;
 import com.tassioauad.moviecheck.model.api.asynctask.ListNowPlayingMoviesAsyncTask;
@@ -23,6 +24,7 @@ public class MovieApiImpl extends GenericApi implements MovieApi {
     private ListNowPlayingMoviesAsyncTask listNowPlayingMoviesAsyncTask;
     private ListMovieByGenreAsyncTask listMovieByGenreAsyncTask;
     private ListMoviesByNameAsyncTask listMoviesByNameAsyncTask;
+    private DiscoverMoviesAsyncTask discoverMoviesAsyncTask;
     private MovieResource movieResource;
 
     public MovieApiImpl(Context context, MovieResource movieResource) {
@@ -36,6 +38,14 @@ public class MovieApiImpl extends GenericApi implements MovieApi {
         listUpComingMovieAsyncTask = new ListUpComingMovieAsyncTask(getContext(), movieResource, 1);
         listUpComingMovieAsyncTask.setApiResultListener(getApiResultListener());
         listUpComingMovieAsyncTask.execute();
+    }
+
+    @Override
+    public void discoverMovies(int page) {
+        verifyServiceResultListener();
+        discoverMoviesAsyncTask = new DiscoverMoviesAsyncTask(getContext(), movieResource, page);
+        discoverMoviesAsyncTask.setApiResultListener(getApiResultListener());
+        discoverMoviesAsyncTask.execute();
     }
 
     @Override
@@ -137,6 +147,9 @@ public class MovieApiImpl extends GenericApi implements MovieApi {
         }
         if(listMoviesByNameAsyncTask != null && listMoviesByNameAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
             listMoviesByNameAsyncTask.cancel(true);
+        }
+        if(discoverMoviesAsyncTask != null && discoverMoviesAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
+            discoverMoviesAsyncTask.cancel(true);
         }
     }
 }

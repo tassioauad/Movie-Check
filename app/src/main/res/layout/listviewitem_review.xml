@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/selector_row"
-    android:layout_marginBottom="3dp"
+    android:background="@drawable/selector_row_primarylight"
+    android:layout_marginBottom="1dp"
     android:padding="10dp">
 
     <TextView

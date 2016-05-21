@@ -32,6 +32,8 @@
         <activity android:name=".view.activity.SearchMovieActivity" />
         <activity android:name=".view.activity.SearchPersonActivity" />
         <activity android:name=".view.activity.FullImageSliderActivity"/>
+        <activity android:name=".view.activity.UserProfileActivity"/>
+        <activity android:name=".view.activity.DiscoveryActivity"/>
         <activity android:name=".view.activity.SearchActivity" android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

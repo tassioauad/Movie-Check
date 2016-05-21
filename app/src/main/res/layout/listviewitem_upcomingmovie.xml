@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="3dp"
-    android:background="@drawable/selector_row"
+    android:background="@drawable/selector_row_accent"
     android:orientation="vertical">
 
     <ImageView
@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/noimage"
+        android:scaleType="fitXY"
         android:transitionName="moviePhoto"
         android:adjustViewBounds="true" />
 

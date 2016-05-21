@@ -10,6 +10,12 @@
             android:title="@string/homeactivity_search"/>
 
         <item
+            android:id="@+id/drawer_discovery"
+            android:checked="true"
+            android:icon="@drawable/compass"
+            android:title="@string/discoveryactivity_title"/>
+
+        <item
             android:id="@+id/drawer_nowplaying"
             android:icon="@drawable/play"
             android:title="@string/general_nowplaying"/>

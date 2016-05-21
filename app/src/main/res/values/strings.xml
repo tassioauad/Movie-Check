@@ -2,6 +2,9 @@
 
     <!--General-->
     <string name="app_name">Movie Check</string>
+    <string name="sharedpreferences">sharedpreferences_moviecheck</string>
+    <string name="sharedpreferences_loggeduser">sharedpreferences_loggeduser_moviecheck</string>
+    <string name="sharedpreferences_hasreadtutorial">sharedpreferences_hasreadtutorial_moviecheck</string>
     <string name="themoviedbapi_baseurl">http://api.themoviedb.org/3/</string>
     <string name="imagetmdb_baseurl">http://image.tmdb.org/t/p/w500</string>
     <string name="themoviedbapi_key">b4537e21984eb259d2c2b093b7980570</string>
@@ -18,10 +21,18 @@
     <string name="generic_opendrawer">Open Drawer</string>
     <string name="generic_closedrawer">Close Drawer</string>
     <string name="generic_movies">Movies</string>
+    <string name="generic_ok">OK!</string>
 
     <!--HomeActivity-->
     <string name="homeactivity_search">Search</string>
+    <string name="homeactivity_welcometitle">Welcome to the Movie Check!</string>
+    <string name="homeactivity_welcomedetail">Search for a specific movie or actor, see photos, videos, know about cast, crew and receive movie recommendations!
+        Just don\'t forget to log in to be able to classify a movie or check as interested in watch!</string>
+    <string name="homeactivity_discovermoviestitle">It takes one second</string>
+    <string name="homeactivity_discovermoviesdetails">Log in with your Google account to use the Discover! We promise that it\'s fast!</string>
 
+    <!--NavigationView-->
+    <string name="navigationview_signingoogle">Sign In with Google</string>
 
     <!--ListPopularMoviesActivity -->
     <string name="listpopularmoviesactivity_title">Popular Movies</string>
@@ -46,6 +57,10 @@
     <string name="moviedetailfragment_releasedate">Release Date:</string>
     <string name="moviedetailfragment_votecount">%1$d votes</string>
     <string name="moviedetailfragment_failedtoloadgenre">Ops! Failed to load genres!</string>
+    <string name="moviedetailsfragment_removedfromwatched">Movie removed from \'Watched List\'</string>
+    <string name="moviedetailsfragment_addedaswatched">Movied added as watched!</string>
+    <string name="moviedetailsfragment_addedtowatchlater">Movie added to watch later!</string>
+    <string name="moviedetailfragment_movieremovedwatchlater">Movie removed from \'To Watch List\'</string>
 
     <!--CastCrewFragment-->
     <string name="castcrewfragment_cast">Cast</string>
@@ -81,5 +96,30 @@
 
     <!--SearchMovieActivity-->
     <string name="searchmovieactivity_movies">Movies</string>
+
+    <!--UserProfileActivity-->
+    <string name="userprofileactivity_title">%1$s Profile</string>
+    <string name="userprofileactivity_interest">To Watch</string>
+    <string name="userprofileactivity_watched">Watched</string>
+    <string name="userprofileactivity_general">General</string>
+
+    <!--ListMovieWatchedFragment-->
+    <string name="listmoviewatchedfragment_remove">Remove</string>
+    <string name="listmoviewatchedfragment_movieremoved">%1$s removed from \'Watched List\'</string>
+
+    <!--ListMovieInterestFragment-->
+    <string name="listmovieinterestfragment_remove">Remove</string>
+    <string name="listmovieinterestfragment_movieremoved">%1$s removed from \'To Watch List\'</string>
+
+    <!--UserDetailFragment-->
+    <string name="userdetailfragment_watchedgenres">Most Watched Genres</string>
+    <string name="userdetailfragment_dontforget">Don\'t Forget To Watch!</string>
+
+    <!--DiscoveryActivity-->
+    <string name="discoveryactivity_title">Discovery</string>
+    <string name="discoveryactivity_nextmovie">Next Movie</string>
+    <string name="discoveryactivity_tryagain">Ops! Something bad has happened! Please, try again!</string>
+    <string name="discoveryactivity_addedtowatchlater">Movie added to watch later!</string>
+    <string name="discoveryactivity_movieremovedwatchlater">Movie removed from \'To Watch List\'</string>
 
 </resources>

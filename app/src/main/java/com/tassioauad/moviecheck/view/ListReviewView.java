@@ -11,6 +11,8 @@ public interface ListReviewView {
 
     void showReviews(List<Review> reviewList);
 
+    void showReviews();
+
     void hideLoadingReviews();
 
     void warnFailedToLoadReviews();

@@ -5,6 +5,8 @@ import com.tassioauad.moviecheck.model.entity.Genre;
 public interface MovieApi extends AsyncService {
     void listUpcomingMovies();
 
+    void discoverMovies(int page);
+
     void listUpcomingMovies(int page);
 
     void listPopularMovies();

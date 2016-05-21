@@ -164,6 +164,11 @@ public class ListUpcomingMoviesActivity extends AppCompatActivity implements Lis
                     public void onClick(Movie movie, View view) {
                         startActivity(MovieProfileActivity.newIntent(ListUpcomingMoviesActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(ListUpcomingMoviesActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
                     }
+
+                    @Override
+                    public void onLongClick(Movie movie, View view) {
+
+                    }
                 }
                 ),
                 new OnShowMoreListener() {

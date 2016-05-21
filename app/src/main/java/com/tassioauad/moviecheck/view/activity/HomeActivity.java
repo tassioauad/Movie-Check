@@ -15,19 +15,37 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.squareup.picasso.Picasso;
 import com.tassioauad.moviecheck.MovieCheckApplication;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.HomeViewModule;
 import com.tassioauad.moviecheck.model.entity.Movie;
+import com.tassioauad.moviecheck.model.entity.User;
 import com.tassioauad.moviecheck.presenter.HomePresenter;
+import com.tassioauad.moviecheck.util.PicassoCircleTransform;
 import com.tassioauad.moviecheck.view.HomeView;
 import com.tassioauad.moviecheck.view.adapter.MovieListAdapter;
 import com.tassioauad.moviecheck.view.adapter.NowPlayingMovieListAdapter;
@@ -43,7 +61,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends AppCompatActivity implements HomeView {
+public class HomeActivity extends AppCompatActivity implements HomeView, GoogleApiClient.OnConnectionFailedListener {
 
     @Inject
     HomePresenter presenter;
@@ -55,6 +73,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     private static final String KEY_TOPRATEMOVIELIST = "TOPRATEMOVIELIST";
     private static final String KEY_UPCOMINGMOVIELIST = "UPCOMINGMOVIELIST";
     private static final String KEY_NOWPLAYINGMOVIELIST = "NOWPLAYINGMOVIELIST";
+    private static final int RC_SIGN_IN = 27832;
+    private GoogleApiClient googleApiClient;
 
     @Bind(R.id.recyclerview_nowplaying)
     RecyclerView recyclerViewNowPlaying;
@@ -94,6 +114,11 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     NavigationView navigationView;
     @Bind(R.id.drawer)
     DrawerLayout drawerLayout;
+    TextView textViewGoogleSignIn;
+    LinearLayout linearLayoutUser;
+    TextView textViewUserName;
+    ImageView imageViewUserPhoto;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +128,15 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         ((MovieCheckApplication) getApplication()).getObjectGraph().plus(new HomeViewModule(this)).inject(this);
 
         setSupportActionBar(toolbar);
+
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
+                .build();
 
         if (savedInstanceState == null) {
             presenter.listPopularMovies();
@@ -158,24 +192,41 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
                 switch (item.getItemId()) {
                     case R.id.drawer_search:
                         startActivity(SearchActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
+                        drawerLayout.closeDrawers();
+                        break;
+                    case R.id.drawer_discovery:
+                        new ShowcaseView.Builder(HomeActivity.this)
+                                .setTarget(new ViewTarget(navigationView.getHeaderView(0).findViewById(R.id.textview_signingoogle)))
+                                .setStyle(R.style.CustomShowcaseTheme)
+                                .setContentTitle(getString(R.string.homeactivity_discovermoviestitle))
+                                .setContentText(getString(R.string.homeactivity_discovermoviesdetails))
+                                .hideOnTouchOutside()
+                                .build();
                         break;
                     case R.id.drawer_nowplaying:
                         startActivity(ListNowPlayingMoviesActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
+                        drawerLayout.closeDrawers();
                         break;
                     case R.id.drawer_upcoming:
                         startActivity(ListUpcomingMoviesActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
+                        drawerLayout.closeDrawers();
                         break;
                     case R.id.drawer_toprated:
                         startActivity(ListTopRatedMoviesActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
+                        drawerLayout.closeDrawers();
                         break;
                     case R.id.drawer_popular:
                         startActivity(ListPopularMoviesActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
+                        drawerLayout.closeDrawers();
                         break;
                 }
-                drawerLayout.closeDrawers();
                 return false;
             }
         });
+        MenuItem menuItemDiscovery = navigationView.getMenu().getItem(1);
+        SpannableString spannableString = new SpannableString(getString(R.string.discoveryactivity_title));
+        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.gray_light)), 0, spannableString.length(), 0);
+        menuItemDiscovery.setTitle(spannableString);
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.generic_opendrawer, R.string.generic_closedrawer) {
 
@@ -193,6 +244,14 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+
+        View headerView = navigationView.getHeaderView(0);
+        textViewGoogleSignIn = (TextView) headerView.findViewById(R.id.textview_signingoogle);
+        linearLayoutUser = (LinearLayout) headerView.findViewById(R.id.linearlayout_user);
+        textViewUserName = (TextView) headerView.findViewById(R.id.textview_username);
+        imageViewUserPhoto = (ImageView) headerView.findViewById(R.id.imageview_userphoto);
+
+        presenter.init();
     }
 
     @Override
@@ -246,6 +305,19 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         super.onSaveInstanceState(outState);
     }
 
+    @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                GoogleSignInAccount googleSignInAccount = result.getSignInAccount();
+                User user = new User(googleSignInAccount.getId(), googleSignInAccount.getDisplayName(),
+                        googleSignInAccount.getEmail(), googleSignInAccount.getPhotoUrl().toString());
+                presenter.login(user);
+            }
+        }
+    }
+
     @Override
     public void showLoadingUpcomingMovies() {
         progressBarUpcoming.setVisibility(View.VISIBLE);
@@ -270,6 +342,11 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
             @Override
             public void onClick(Movie movie, View view) {
                 startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
+            }
+
+            @Override
+            public void onLongClick(Movie movie, View view) {
+
             }
         }));
     }
@@ -339,6 +416,11 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
             public void onClick(Movie movie, View view) {
                 startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
             }
+
+            @Override
+            public void onLongClick(Movie movie, View view) {
+
+            }
         }));
     }
 
@@ -368,6 +450,11 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
             @Override
             public void onClick(Movie movie, View view) {
                 startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_poster), "moviePoster").toBundle());
+            }
+
+            @Override
+            public void onLongClick(Movie movie, View view) {
+
             }
         }));
     }
@@ -415,7 +502,13 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerViewNowPlaying.setAdapter(new NowPlayingMovieListAdapter(movieList, new OnItemClickListener<Movie>() {
             @Override
             public void onClick(Movie movie, View view) {
-                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_backdrop), "movieBackdrop").toBundle());            }
+                startActivity(MovieProfileActivity.newIntent(HomeActivity.this, movie), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, view.findViewById(R.id.imageview_backdrop), "movieBackdrop").toBundle());
+            }
+
+            @Override
+            public void onLongClick(Movie movie, View view) {
+
+            }
         }));
     }
 
@@ -437,6 +530,81 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         });
     }
 
+    @Override
+    public void showLoggedUser(User user) {
+        textViewGoogleSignIn.setVisibility(View.GONE);
+        linearLayoutUser.setVisibility(View.VISIBLE);
+        textViewUserName.setText(user.getName());
+        Picasso.with(this).load(user.getPhotoUrl()).transform(new PicassoCircleTransform()).into(imageViewUserPhoto);
+
+        MenuItem menuItemDiscovery = navigationView.getMenu().getItem(1);
+        menuItemDiscovery.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                startActivity(DiscoveryActivity.newIntent(HomeActivity.this), ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this).toBundle());
+                return true;
+            }
+        });
+        SpannableString spannableString = new SpannableString(getString(R.string.discoveryactivity_title));
+        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.gray_dark)), 0, spannableString.length(), 0);
+        menuItemDiscovery.setTitle(spannableString);
+    }
+
+    @Override
+    public void warnUserDesconnected() {
+        textViewGoogleSignIn.setVisibility(View.VISIBLE);
+        linearLayoutUser.setVisibility(View.GONE);
+        MenuItem menuItemDiscovery = navigationView.getMenu().getItem(1);
+        menuItemDiscovery.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(final MenuItem item) {
+                new ShowcaseView.Builder(HomeActivity.this)
+                        .setTarget(new ViewTarget(navigationView.getHeaderView(0).findViewById(R.id.textview_signingoogle)))
+                        .setStyle(R.style.CustomShowcaseTheme)
+                        .setContentTitle(getString(R.string.homeactivity_discovermoviestitle))
+                        .setContentText(getString(R.string.homeactivity_discovermoviesdetails))
+                        .hideOnTouchOutside()
+                        .build();
+                return true;
+            }
+        });
+        SpannableString spannableString = new SpannableString(getString(R.string.discoveryactivity_title));
+        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.gray_light)), 0, spannableString.length(), 0);
+        menuItemDiscovery.setTitle(spannableString);
+    }
+
+    @Override
+    public void showTutorial() {
+        new ShowcaseView.Builder(HomeActivity.this)
+                .setTarget(new ViewTarget(toolbar))
+                .setStyle(R.style.CustomShowcaseTheme)
+                .setContentTitle(getString(R.string.homeactivity_welcometitle))
+                .setContentText(getString(R.string.homeactivity_welcomedetail))
+                .hideOnTouchOutside()
+                .setShowcaseEventListener(new OnShowcaseEventListener() {
+                    @Override
+                    public void onShowcaseViewHide(ShowcaseView showcaseView) {
+                        presenter.informUserHasReadTutorial();
+                    }
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+                    }
+
+                    @Override
+                    public void onShowcaseViewShow(ShowcaseView showcaseView) {
+
+                    }
+
+                    @Override
+                    public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+
+                    }
+                })
+                .build();
+    }
+
     public void morePopularMovies(View view) {
         startActivity(ListPopularMoviesActivity.newIntent(this), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
@@ -451,5 +619,23 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     public void moreTopRatedMovies(View view) {
         startActivity(ListTopRatedMoviesActivity.newIntent(this), ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Toast.makeText(this, connectionResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    public void googleSignIn(View view) {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    public void logout(View view) {
+        presenter.logout();
+    }
+
+    public void showUserProfile(View view) {
+        startActivity(UserProfileActivity.newIntent(this));
     }
 }

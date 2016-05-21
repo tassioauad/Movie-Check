@@ -3,6 +3,8 @@ package com.tassioauad.moviecheck.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -19,8 +21,8 @@ import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.presenter.MovieProfilePresenter;
 import com.tassioauad.moviecheck.view.MovieProfileView;
 import com.tassioauad.moviecheck.view.fragment.CastCrewFragment;
-import com.tassioauad.moviecheck.view.fragment.ListReviewFragment;
 import com.tassioauad.moviecheck.view.fragment.ListMovieMediaFragment;
+import com.tassioauad.moviecheck.view.fragment.ListReviewFragment;
 import com.tassioauad.moviecheck.view.fragment.MovieDetailFragment;
 
 import javax.inject.Inject;
@@ -35,10 +37,13 @@ public class MovieProfileActivity extends AppCompatActivity implements MovieProf
     @Inject
     MovieProfilePresenter presenter;
 
+    @Nullable
     @Bind(R.id.viewpager)
     ViewPager viewPager;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Nullable @Bind(R.id.tabs)
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,44 +60,52 @@ public class MovieProfileActivity extends AppCompatActivity implements MovieProf
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                switch (position) {
-                    case 0:
-                        return MovieDetailFragment.newInstance(movie);
-                    case 1:
-                        return CastCrewFragment.newInstance(movie);
-                    case 2:
-                        return ListReviewFragment.newInstance(movie);
-                    case 3:
-                        return ListMovieMediaFragment.newInstance(movie);
-                    default:
-                        return null;
+        if (viewPager != null) {
+            viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+                @Override
+                public Fragment getItem(int position) {
+                    switch (position) {
+                        case 0:
+                            return MovieDetailFragment.newInstance(movie, true);
+                        case 1:
+                            return CastCrewFragment.newInstance(movie);
+                        case 2:
+                            return ListReviewFragment.newInstance(movie);
+                        case 3:
+                            return ListMovieMediaFragment.newInstance(movie);
+                        default:
+                            return null;
+                    }
                 }
-            }
 
-            @Override
-            public int getCount() {
-                return 4;
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                switch (position) {
-                    case 0:
-                        return getString(R.string.movieprofileactivity_general);
-                    case 1:
-                        return getString(R.string.movieprofileactivity_castcrew);
-                    case 2:
-                        return getString(R.string.movieprofileactivity_reviews);
-                    case 3:
-                        return getString(R.string.movieprofileactivity_media);
-                    default:
-                        return null;
+                @Override
+                public int getCount() {
+                    return 4;
                 }
-            }
-        });
+
+                @Override
+                public CharSequence getPageTitle(int position) {
+                    switch (position) {
+                        case 0:
+                            return getString(R.string.movieprofileactivity_general);
+                        case 1:
+                            return getString(R.string.movieprofileactivity_castcrew);
+                        case 2:
+                            return getString(R.string.movieprofileactivity_reviews);
+                        case 3:
+                            return getString(R.string.movieprofileactivity_media);
+                        default:
+                            return null;
+                    }
+                }
+            });
+            tabLayout.setupWithViewPager(viewPager);
+        } else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_media, ListMovieMediaFragment.newInstance(movie)).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_detail, MovieDetailFragment.newInstance(movie, true)).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_castcrew, CastCrewFragment.newInstance(movie)).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_review, ListReviewFragment.newInstance(movie)).commit();
+        }
     }
 
     @Override
@@ -105,7 +118,7 @@ public class MovieProfileActivity extends AppCompatActivity implements MovieProf
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
         }
