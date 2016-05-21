@@ -42,6 +42,16 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+
+        <provider
+            android:name=".model.dao.impl.MovieCheckContentProvider"
+            android:authorities="com.tassioauad.moviecheck.model.dao.contentprovider.moviecheckcontentprovider"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:label="MovieCheckContentProvider"
+            android:readPermission="com.tassioauad.moviecheck.model.dao.contentprovider.moviecheckcontentprovider.READ"
+            android:writePermission="com.tassioauad.moviecheck.model.dao.contentprovider.moviecheckcontentprovider.WRITE" />
+
     </application>
 
 </manifest>
