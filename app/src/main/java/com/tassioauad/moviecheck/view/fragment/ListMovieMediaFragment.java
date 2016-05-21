@@ -43,6 +43,12 @@ import butterknife.ButterKnife;
 
 public class ListMovieMediaFragment extends Fragment implements ListMovieMediaView {
 
+    private static final String BUNDLE_KEY_PAGE = "bundle_key_page";
+    private final int itensPerPage = 10;
+    private int scrollToItem;
+    private Integer page = 1;
+    private Integer numberOfColumns = 2;
+
     @Bind(R.id.recyclerview_media)
     RecyclerView recyclerViewMedia;
     @Bind(R.id.progressbar)
@@ -51,11 +57,7 @@ public class ListMovieMediaFragment extends Fragment implements ListMovieMediaVi
     LinearLayout linearLayoutAnyFounded;
     @Bind(R.id.linearlayout_loadfailed)
     LinearLayout linearLayoutLoadFailed;
-    private static final String BUNDLE_KEY_PAGE = "bundle_key_page";
-    private final int itensPerPage = 20;
-    private int scrollToItem;
-    private Integer page = 1;
-    private Integer numberOfColumns = 2;
+
 
     @Inject
     ListMovieMediaPresenter presenter;
@@ -161,10 +163,8 @@ public class ListMovieMediaFragment extends Fragment implements ListMovieMediaVi
     public void showMedias(final List<Media> mediaList) {
         this.mediaList = mediaList;
 
-        //paging
         final ArrayList<Media> mediaListOfPage = new ArrayList<>();
-        int initialIndex = page == 1 ? 0 : (page - 1) * itensPerPage;
-        for (int i = initialIndex; i < page * itensPerPage && i < this.mediaList.size(); i++) {
+        for (int i = 0; i < page * itensPerPage && i < this.mediaList.size(); i++) {
             mediaListOfPage.add(this.mediaList.get(i));
         }
 
@@ -180,35 +180,38 @@ public class ListMovieMediaFragment extends Fragment implements ListMovieMediaVi
         });
         recyclerViewMedia.setLayoutManager(layoutManager);
         recyclerViewMedia.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewMedia.setAdapter(new ListViewAdapterWithPagination(new MediaListAdapter(mediaListOfPage, new OnItemClickListener<Media>() {
-            @Override
-            public void onClick(Media media, View view) {
-                if (media instanceof Video) {
-                    Intent intent = YouTubeStandalonePlayer.createVideoIntent(getActivity(), getString(R.string.youtube_credential), ((Video) media).getKey());
-                    startActivity(intent);
-                } else if (media instanceof Image) {
-                    ArrayList<Image> imageArrayList = new ArrayList<Image>();
-                    for (Media mediaOfList : mediaListOfPage) {
-                        if (mediaOfList instanceof Image) {
-                            imageArrayList.add((Image) mediaOfList);
+        recyclerViewMedia.setAdapter(new ListViewAdapterWithPagination(
+            new MediaListAdapter(mediaListOfPage, new OnItemClickListener<Media>() {
+                @Override
+                public void onClick(Media media, View view) {
+                    if (media instanceof Video) {
+                        Intent intent = YouTubeStandalonePlayer.createVideoIntent(getActivity(), getString(R.string.youtube_credential), ((Video) media).getKey());
+                        startActivity(intent);
+                    } else if (media instanceof Image) {
+                        ArrayList<Image> imageArrayList = new ArrayList<>();
+                        for (Media mediaOfList : mediaListOfPage) {
+                            if (mediaOfList instanceof Image) {
+                                imageArrayList.add((Image) mediaOfList);
+                            }
                         }
+                        startActivity(FullImageSliderActivity.newIntent(getActivity(), imageArrayList, imageArrayList.indexOf(media)));
                     }
-                    startActivity(FullImageSliderActivity.newIntent(getActivity(), imageArrayList, imageArrayList.indexOf(media)));
                 }
-            }
 
-            @Override
-            public void onLongClick(Media media, View view) {
-            }
-        }), new OnShowMoreListener() {
-            @Override
-            public void showMore() {
-                scrollToItem = layoutManager.findFirstVisibleItemPosition();
-                page++;
-                showMedias(mediaList);
-            }
-        }, itensPerPage));
+                @Override
+                public void onLongClick(Media media, View view) {}
+
+            }), new OnShowMoreListener() {
+                    @Override
+                    public void showMore() {
+                        scrollToItem = layoutManager.findFirstVisibleItemPosition();
+                        page++;
+                        showMedias(mediaList);
+                    }
+            }, itensPerPage)
+        );
         recyclerViewMedia.setNestedScrollingEnabled(false);
+        recyclerViewMedia.scrollToPosition(scrollToItem);
     }
 
     @Override
