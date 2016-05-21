@@ -9,11 +9,11 @@ import java.util.List;
 public interface ListMovieMediaView {
     void warnAnyMediaFounded();
 
-    void showMedias(List<Media> mediaList);
-
     void showLoadingMedias();
 
     void showVideos(List<Video> videoList);
+
+    void showMedias(List<Media> mediaList);
 
     void hideLoadingMedias();
 

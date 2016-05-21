@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.model.entity.Movie;
@@ -31,12 +33,24 @@ public class NowPlayingMovieListAdapter extends RecyclerView.Adapter<NowPlayingM
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Movie movie = movieList.get(position);
 
         holder.itemView.setTag(movie);
         String posterUrl = holder.itemView.getContext().getString(R.string.imagetmdb_baseurl) + movie.getBackdropUrl();
         Picasso.with(holder.itemView.getContext()).load(posterUrl).placeholder(R.drawable.noimage).into(holder.imageViewBackdrop);
+        holder.progressBar.setVisibility(View.VISIBLE);
+        Picasso.with(holder.itemView.getContext()).load(posterUrl).placeholder(R.drawable.noimage).into(holder.imageViewBackdrop, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+                holder.progressBar.setVisibility(View.GONE);
+            }
+        });
         holder.textViewName.setText(movie.getTitle());
     }
 
@@ -55,11 +69,13 @@ public class NowPlayingMovieListAdapter extends RecyclerView.Adapter<NowPlayingM
 
         private ImageView imageViewBackdrop;
         private TextView textViewName;
+        private ProgressBar progressBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imageViewBackdrop = (ImageView) itemView.findViewById(R.id.imageview_backdrop);
             textViewName = (TextView) itemView.findViewById(R.id.textview_name);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressbar);
         }
     }
 

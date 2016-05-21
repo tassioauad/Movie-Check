@@ -128,11 +128,11 @@ public class PersonDetailFragment extends Fragment implements PersonDetailView {
     @Override
     public void showPhoto(String photoUrl) {
         final String pathUrl = getString(R.string.imagetmdb_baseurl) + photoUrl;
-        Picasso.with(getActivity()).load(pathUrl).into(imageViewPhoto);
+        Picasso.with(getContext()).load(pathUrl).into(imageViewPhoto);
         imageViewPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(FullImageSliderActivity.newIntent(getActivity(), pathUrl));
+                startActivity(FullImageSliderActivity.newIntent(getContext(), pathUrl));
             }
         });
     }
@@ -149,12 +149,12 @@ public class PersonDetailFragment extends Fragment implements PersonDetailView {
 
     @Override
     public void warnPersonNotFound() {
-        Toast.makeText(getActivity(), R.string.persondetailfragment_notfound, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.persondetailfragment_notfound, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void warnFailedToLoadPerson() {
-        Toast.makeText(getActivity(), R.string.persondetailfragment_failedtoload, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.persondetailfragment_failedtoload, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="3dp"
-    android:background="@drawable/selector_row_accent"
-    android:orientation="vertical">
+    android:background="@drawable/selector_row_accent">
 
     <ImageView
         android:id="@+id/imageview_poster"
@@ -15,4 +14,12 @@
         android:scaleType="fitXY"
         android:adjustViewBounds="true" />
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>

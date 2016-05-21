@@ -162,6 +162,7 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         textViewVoteCount.setVisibility(View.VISIBLE);
         RatingBar newRatingBar = new RatingBar(new ContextThemeWrapper(getActivity(), R.style.RatingBarAccent));
         newRatingBar.setRating(voteAverage / 2);
+        newRatingBar.setIsIndicator(true);
         newRatingBar.setOnRatingBarChangeListener(onRatingBarChangeListener);
         ((ViewGroup) ratingBarVoteAverage.getParent()).addView(newRatingBar, 0);
         ((ViewGroup) ratingBarVoteAverage.getParent()).removeView(ratingBarVoteAverage);
@@ -234,7 +235,6 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
     @Override
     public void warnAnyGenreFounded() {
         genreList = new ArrayList<>();
-        Toast.makeText(getActivity(), getActivity().getString(R.string.moviedetailfragment_failedtoloadgenre), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -269,6 +269,7 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         textViewVoteCount.setVisibility(View.INVISIBLE);
         RatingBar newRatingBar = new RatingBar(new ContextThemeWrapper(getActivity(), R.style.RatingBarRed));
         newRatingBar.setRating(classification);
+        newRatingBar.setIsIndicator(false);
         newRatingBar.setOnRatingBarChangeListener(onRatingBarChangeListener);
         ((ViewGroup) ratingBarVoteAverage.getParent()).addView(newRatingBar, 0);
         ((ViewGroup) ratingBarVoteAverage.getParent()).removeView(ratingBarVoteAverage);
