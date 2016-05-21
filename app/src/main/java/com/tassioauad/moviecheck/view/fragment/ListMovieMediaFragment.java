@@ -28,8 +28,10 @@ import com.tassioauad.moviecheck.model.entity.Video;
 import com.tassioauad.moviecheck.presenter.ListMovieMediaPresenter;
 import com.tassioauad.moviecheck.view.ListMovieMediaView;
 import com.tassioauad.moviecheck.view.activity.FullImageSliderActivity;
+import com.tassioauad.moviecheck.view.adapter.ListViewAdapterWithPagination;
 import com.tassioauad.moviecheck.view.adapter.MediaListAdapter;
 import com.tassioauad.moviecheck.view.adapter.OnItemClickListener;
+import com.tassioauad.moviecheck.view.adapter.OnShowMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +51,11 @@ public class ListMovieMediaFragment extends Fragment implements ListMovieMediaVi
     LinearLayout linearLayoutAnyFounded;
     @Bind(R.id.linearlayout_loadfailed)
     LinearLayout linearLayoutLoadFailed;
+    private static final String BUNDLE_KEY_PAGE = "bundle_key_page";
+    private final int itensPerPage = 20;
+    private int scrollToItem;
+    private Integer page = 1;
+    private Integer numberOfColumns = 2;
 
     @Inject
     ListMovieMediaPresenter presenter;
@@ -72,6 +79,7 @@ public class ListMovieMediaFragment extends Fragment implements ListMovieMediaVi
 
         if (mediaList == null && savedInstanceState != null) {
             mediaList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MEDIALIST);
+            page = savedInstanceState.getInt(BUNDLE_KEY_PAGE);
         }
 
         if (mediaList == null) {
@@ -106,6 +114,7 @@ public class ListMovieMediaFragment extends Fragment implements ListMovieMediaVi
         if (mediaList != null) {
             outState.putParcelableArrayList(BUNDLE_KEY_MEDIALIST, new ArrayList<>(mediaList));
         }
+        outState.putInt(BUNDLE_KEY_PAGE, page);
         super.onSaveInstanceState(outState);
     }
 
@@ -151,13 +160,27 @@ public class ListMovieMediaFragment extends Fragment implements ListMovieMediaVi
     @Override
     public void showMedias(final List<Media> mediaList) {
         this.mediaList = mediaList;
+
+        //paging
+        final ArrayList<Media> mediaListOfPage = new ArrayList<>();
+        int initialIndex = page == 1 ? 0 : (page - 1) * itensPerPage;
+        for (int i = initialIndex; i < page * itensPerPage && i < this.mediaList.size(); i++) {
+            mediaListOfPage.add(this.mediaList.get(i));
+        }
+
         linearLayoutAnyFounded.setVisibility(View.GONE);
         linearLayoutLoadFailed.setVisibility(View.GONE);
         recyclerViewMedia.setVisibility(View.VISIBLE);
-        final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns, GridLayoutManager.VERTICAL, false);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return position >= mediaListOfPage.size() ? numberOfColumns : 1;
+            }
+        });
         recyclerViewMedia.setLayoutManager(layoutManager);
         recyclerViewMedia.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewMedia.setAdapter(new MediaListAdapter(mediaList, new OnItemClickListener<Media>() {
+        recyclerViewMedia.setAdapter(new ListViewAdapterWithPagination(new MediaListAdapter(mediaListOfPage, new OnItemClickListener<Media>() {
             @Override
             public void onClick(Media media, View view) {
                 if (media instanceof Video) {
@@ -165,7 +188,7 @@ public class ListMovieMediaFragment extends Fragment implements ListMovieMediaVi
                     startActivity(intent);
                 } else if (media instanceof Image) {
                     ArrayList<Image> imageArrayList = new ArrayList<Image>();
-                    for (Media mediaOfList : mediaList) {
+                    for (Media mediaOfList : mediaListOfPage) {
                         if (mediaOfList instanceof Image) {
                             imageArrayList.add((Image) mediaOfList);
                         }
@@ -176,9 +199,15 @@ public class ListMovieMediaFragment extends Fragment implements ListMovieMediaVi
 
             @Override
             public void onLongClick(Media media, View view) {
-
             }
-        }));
+        }), new OnShowMoreListener() {
+            @Override
+            public void showMore() {
+                scrollToItem = layoutManager.findFirstVisibleItemPosition();
+                page++;
+                showMedias(mediaList);
+            }
+        }, itensPerPage));
         recyclerViewMedia.setNestedScrollingEnabled(false);
     }
 

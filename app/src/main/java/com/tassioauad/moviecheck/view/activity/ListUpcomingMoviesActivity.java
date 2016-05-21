@@ -169,8 +169,7 @@ public class ListUpcomingMoviesActivity extends AppCompatActivity implements Lis
                     public void onLongClick(Movie movie, View view) {
 
                     }
-                }
-                ),
+                }),
                 new OnShowMoreListener() {
                     @Override
                     public void showMore() {
