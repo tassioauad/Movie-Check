@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.model.entity.Person;
@@ -31,13 +33,25 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Person person = personList.get(position);
 
         holder.itemView.setTag(person);
         holder.textViewName.setText(person.getName());
         String posterUrl = holder.itemView.getContext().getString(R.string.imagetmdb_baseurl) + person.getProfilePath();
-        Picasso.with(holder.itemView.getContext()).load(posterUrl).placeholder(R.drawable.noimage).into(holder.imageViewPoster);
+        holder.progressBar.setVisibility(View.VISIBLE);
+        Picasso.with(holder.itemView.getContext()).load(posterUrl).placeholder(R.drawable.noimage).into(holder.imageViewPoster, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+                holder.progressBar.setVisibility(View.GONE);
+                Picasso.with(holder.itemView.getContext()).load(R.drawable.noimage).into(holder.imageViewPoster);
+            }
+        });
     }
 
     @Override
@@ -55,11 +69,13 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Vi
 
         private ImageView imageViewPoster;
         private TextView textViewName;
+        private ProgressBar progressBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imageViewPoster = (ImageView) itemView.findViewById(R.id.imageview_photo);
             textViewName = (TextView) itemView.findViewById(R.id.textview_name);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressbar);
         }
     }
 

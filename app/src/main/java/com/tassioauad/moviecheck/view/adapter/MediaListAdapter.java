@@ -74,8 +74,8 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imageViewThumbnail;
-        ProgressBar progressBar;
+        private ImageView imageViewThumbnail;
+        private ProgressBar progressBar;
 
         public ViewHolder(View itemView) {
             super(itemView);

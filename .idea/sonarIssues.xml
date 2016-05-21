@@ -133,12 +133,32 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/adapter/CastListAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/adapter/CrewListAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/adapter/ListViewAdapterWithPagination.java">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/adapter/MediaListAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/adapter/MovieListAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/tassioauad/moviecheck/view/adapter/PersonListAdapter.java">
           <value>
             <set />
           </value>
@@ -274,6 +294,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/listviewitem_media.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/listviewitem_movie.xml">
           <value>
             <set />
           </value>

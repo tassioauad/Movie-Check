@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.model.entity.Movie;
@@ -30,12 +32,24 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Movie movie = movieList.get(position);
 
         holder.itemView.setTag(movie);
         String posterUrl = holder.itemView.getContext().getString(R.string.imagetmdb_baseurl) + movie.getPosterUrl();
-        Picasso.with(holder.itemView.getContext()).load(posterUrl).placeholder(R.drawable.noimage).into(holder.imageViewPoster);
+        holder.progressBar.setVisibility(View.VISIBLE);
+        Picasso.with(holder.itemView.getContext()).load(posterUrl).placeholder(R.drawable.noimage).into(holder.imageViewPoster, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+                holder.progressBar.setVisibility(View.GONE);
+                Picasso.with(holder.itemView.getContext()).load(R.drawable.noimage).into(holder.imageViewPoster);
+            }
+        });
     }
 
     @Override
@@ -52,10 +66,12 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageViewPoster;
+        private ProgressBar progressBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imageViewPoster = (ImageView) itemView.findViewById(R.id.imageview_poster);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressbar);
         }
     }
 

@@ -84,7 +84,6 @@
                 android:id="@+id/linearlayout_crew_loadfailed"
                 layout="@layout/failedtoload"/>
 
-
             <ProgressBar
                 android:id="@+id/progressbar_crew"
                 android:layout_width="wrap_content"
