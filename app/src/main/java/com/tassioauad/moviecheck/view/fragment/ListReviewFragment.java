@@ -136,7 +136,7 @@ public class ListReviewFragment extends Fragment implements ListReviewView {
 
     @Override
     public void showReviews(final List<Review> reviewList) {
-        if (this.reviewList == null || reviewList.get(0).equals(this.reviewList.get(0)) ) {
+        if (this.reviewList == null || reviewList.get(0).equals(this.reviewList.get(0))) {
             this.reviewList = reviewList;
         } else {
             this.reviewList.addAll(reviewList);
