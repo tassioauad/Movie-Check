@@ -1,5 +1,7 @@
 package com.tassioauad.moviecheck.dagger;
 
+import android.support.v4.app.FragmentActivity;
+
 import com.tassioauad.moviecheck.model.dao.MovieInterestDao;
 import com.tassioauad.moviecheck.model.dao.UserDao;
 import com.tassioauad.moviecheck.presenter.ListMovieInterestsPresenter;
@@ -13,13 +15,16 @@ import dagger.Provides;
 public class ListMovieInterestViewModule {
 
     private ListMovieInterestsView view;
+    private FragmentActivity activity;
 
-    public ListMovieInterestViewModule(ListMovieInterestsView view) {
+    public ListMovieInterestViewModule(ListMovieInterestsView view, FragmentActivity activity) {
         this.view = view;
+        this.activity = activity;
     }
 
     @Provides
     public ListMovieInterestsPresenter provideListMovieInterestsPresenter(MovieInterestDao movieInterestDao, UserDao userDao) {
+        movieInterestDao.setActivity(activity);
         return new ListMovieInterestsPresenter(view, movieInterestDao, userDao);
     }
 }

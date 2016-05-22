@@ -54,7 +54,11 @@ public class ListMovieInterestsFragment extends Fragment implements ListMovieInt
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MovieCheckApplication) getActivity().getApplication()).getObjectGraph()
-                .plus(new ListMovieInterestViewModule(this)).inject(this);
+                .plus(new ListMovieInterestViewModule(this, getActivity())).inject(this);
+
+        if(movieInterestList == null && savedInstanceState != null) {
+            movieInterestList = savedInstanceState.getParcelableArrayList(KEY_MOVIEINTEREST);
+        }
     }
 
     @Nullable
@@ -62,10 +66,6 @@ public class ListMovieInterestsFragment extends Fragment implements ListMovieInt
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_listmovieinterest, container, false);
         ButterKnife.bind(this, view);
-
-        if(movieInterestList == null && savedInstanceState != null) {
-            movieInterestList = savedInstanceState.getParcelableArrayList(KEY_MOVIEINTEREST);
-        }
 
         if(movieInterestList == null) {
             presenter.loadMovieInterests();

@@ -4,7 +4,6 @@ package com.tassioauad.moviecheck.view.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -55,7 +54,11 @@ public class ListMovieWatchedFragment extends Fragment implements ListMovieWatch
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MovieCheckApplication) getActivity().getApplication()).getObjectGraph()
-                .plus(new ListMovieWatchedViewModule(this)).inject(this);
+                .plus(new ListMovieWatchedViewModule(this, getActivity())).inject(this);
+
+        if (movieWatchedList == null && savedInstanceState != null) {
+            movieWatchedList = savedInstanceState.getParcelableArrayList(KEY_MOVIEWATCHEDLIST);
+        }
     }
 
     @Nullable
@@ -64,10 +67,6 @@ public class ListMovieWatchedFragment extends Fragment implements ListMovieWatch
         View view = inflater.inflate(R.layout.fragment_listmoviewatched, container, false);
         ButterKnife.bind(this, view);
 
-        if (movieWatchedList == null && savedInstanceState != null) {
-            movieWatchedList = savedInstanceState.getParcelableArrayList(KEY_MOVIEWATCHEDLIST);
-        }
-
         if (movieWatchedList == null) {
             presenter.loadMovieInterests();
         } else if (movieWatchedList.size() > 0) {
@@ -75,9 +74,6 @@ public class ListMovieWatchedFragment extends Fragment implements ListMovieWatch
         } else {
             warnAnyWatchedMovieFounded();
         }
-
-        presenter.loadMovieInterests();
-
 
         return view;
     }

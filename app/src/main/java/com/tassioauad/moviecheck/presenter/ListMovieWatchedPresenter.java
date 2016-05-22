@@ -1,5 +1,6 @@
 package com.tassioauad.moviecheck.presenter;
 
+import com.tassioauad.moviecheck.model.dao.DaoListener;
 import com.tassioauad.moviecheck.model.dao.MovieWatchedDao;
 import com.tassioauad.moviecheck.model.dao.UserDao;
 import com.tassioauad.moviecheck.model.entity.MovieWatched;
@@ -20,12 +21,18 @@ public class ListMovieWatchedPresenter {
     }
 
     public void loadMovieInterests() {
-        List<MovieWatched> movieWatchedList = movieWatchedDao.listAll(userDao.getLoggedUser());
-        if(movieWatchedList.size() == 0) {
-            view.warnAnyWatchedMovieFounded();
-        } else {
-            view.showWatchedMovies(movieWatchedList);
-        }
+        movieWatchedDao.setDaoListener(new DaoListener() {
+            @Override
+            public void onLoad(Object object) {
+                List<MovieWatched> movieWatchedList = (List<MovieWatched>) object;
+                if(movieWatchedList.size() == 0) {
+                    view.warnAnyWatchedMovieFounded();
+                } else {
+                    view.showWatchedMovies(movieWatchedList);
+                }
+            }
+        });
+        movieWatchedDao.listAll(userDao.getLoggedUser());
     }
 
     public void remove(MovieWatched movieWatched) {

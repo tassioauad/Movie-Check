@@ -26,6 +26,12 @@ public class MovieCheckContentProvider extends ContentProvider {
     private static final int CODE_MOVIE_WATCHED = 3;
     private static final int CODE_MOVIE_INTEREST = 4;
     private static final int CODE_MOVIE_NOT_INTEREST = 5;
+    public static final Uri MOVIE_URI = Uri.parse("content://" + PROVIDER_NAME + "/" + PATH_MOVIE);
+    public static final Uri MOVIEWATCHED_URI = Uri.parse("content://" + PROVIDER_NAME + "/" + PATH_MOVIE_WATCHED);
+    public static final Uri MOVIEINTEREST_URI = Uri.parse("content://" + PROVIDER_NAME + "/" + PATH_MOVIE_INTEREST);
+    public static final Uri MOVIENOTINTEREST_URI = Uri.parse("content://" + PROVIDER_NAME + "/" + PATH_MOVIE_NOT_INTEREST);
+    public static final Uri USER_URI = Uri.parse("content://" + PROVIDER_NAME + "/" + PATH_USER);
+
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(PROVIDER_NAME, PATH_MOVIE, CODE_MOVIE);

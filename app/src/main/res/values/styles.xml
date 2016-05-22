@@ -98,4 +98,8 @@
         <item name="android:textColor">@color/gray_dark</item>
     </style>
 
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+
+    </style>
+
 </resources>

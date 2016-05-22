@@ -2,6 +2,7 @@ package com.tassioauad.moviecheck.view.activity;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -9,6 +10,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
@@ -17,9 +19,9 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,7 +29,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.analytics.HitBuilders;
@@ -305,7 +306,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView, GoogleA
         super.onSaveInstanceState(outState);
     }
 
-    @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
@@ -575,34 +577,20 @@ public class HomeActivity extends AppCompatActivity implements HomeView, GoogleA
 
     @Override
     public void showTutorial() {
-        new ShowcaseView.Builder(HomeActivity.this)
-                .setTarget(new ViewTarget(toolbar))
-                .setStyle(R.style.CustomShowcaseTheme)
-                .setContentTitle(getString(R.string.homeactivity_welcometitle))
-                .setContentText(getString(R.string.homeactivity_welcomedetail))
-                .hideOnTouchOutside()
-                .setShowcaseEventListener(new OnShowcaseEventListener() {
+        new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AlertDialogTheme))
+                .setTitle(getString(R.string.homeactivity_welcometitle))
+                .setMessage(getString(R.string.homeactivity_welcomedetail))
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
-                    public void onShowcaseViewHide(ShowcaseView showcaseView) {
+                    public void onDismiss(DialogInterface dialog) {
                         presenter.informUserHasReadTutorial();
                     }
+                }).setPositiveButton(getString(R.string.generic_ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                    @Override
-                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-
-                    }
-
-                    @Override
-                    public void onShowcaseViewShow(ShowcaseView showcaseView) {
-
-                    }
-
-                    @Override
-                    public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
-
-                    }
-                })
-                .build();
+                        }
+                }).create().show();
     }
 
     public void morePopularMovies(View view) {

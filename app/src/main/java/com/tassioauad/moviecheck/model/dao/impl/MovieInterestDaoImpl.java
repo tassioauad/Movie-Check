@@ -4,6 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 
 import com.tassioauad.moviecheck.model.dao.Dao;
 import com.tassioauad.moviecheck.model.dao.MovieDao;
@@ -16,7 +20,11 @@ import com.tassioauad.moviecheck.model.entity.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieInterestDaoImpl extends Dao implements MovieInterestDao {
+public class MovieInterestDaoImpl extends Dao implements MovieInterestDao, LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final int MOVIEINTEREST_LISTALL_CODE = 4820;
+    private static final String BUNDLE_ARG_USER = "bundlearguser";
+
 
     public static final String TABLE_NAME = "movie_interest";
     public static final String COLUMN_NAME_ID = "id";
@@ -42,11 +50,11 @@ public class MovieInterestDaoImpl extends Dao implements MovieInterestDao {
     }
 
     @Override
-    public List<MovieInterest> listAll(User user) {
-        Cursor cursor = getDatabase().query(TABLE_NAME, COLUMNS, COLUMN_NAME_USER_ID + " = ?",
-                new String[]{String.valueOf(String.valueOf(user.getId()))}, null, null, null);
-
-        return fromCursor(cursor);
+    public void listAll(User user) {
+        checkDaoListener();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(BUNDLE_ARG_USER, user);
+        getActivity().getSupportLoaderManager().initLoader(MOVIEINTEREST_LISTALL_CODE, bundle, this);
     }
 
     @Override
@@ -117,6 +125,27 @@ public class MovieInterestDaoImpl extends Dao implements MovieInterestDao {
         }
 
         return movieInterestList;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        switch (id) {
+            case MOVIEINTEREST_LISTALL_CODE:
+                User user = args.getParcelable(BUNDLE_ARG_USER);
+                return new CursorLoader(getActivity(), MovieCheckContentProvider.MOVIEINTEREST_URI,
+                        COLUMNS, COLUMN_NAME_USER_ID + " = ?", new String[]{String.valueOf(String.valueOf(user.getId()))}, null);
+        }
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        getDaoListener().onLoad(fromCursor(cursor));
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 
 }

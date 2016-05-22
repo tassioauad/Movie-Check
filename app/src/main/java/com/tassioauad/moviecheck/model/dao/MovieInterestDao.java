@@ -6,8 +6,8 @@ import com.tassioauad.moviecheck.model.entity.User;
 
 import java.util.List;
 
-public interface MovieInterestDao {
-    List<MovieInterest> listAll(User user);
+public interface MovieInterestDao extends DaoLoader {
+    void listAll(User user);
 
     List<MovieInterest> listAllUpcoming(User user);
 
