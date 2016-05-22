@@ -25,9 +25,8 @@
 
     <!--HomeActivity-->
     <string name="homeactivity_search">Search</string>
-    <string name="homeactivity_welcometitle">Welcome to the Movie Check!</string>
-    <string name="homeactivity_welcomedetail">Search for a specific movie or actor, see photos, videos, know about cast, crew and receive movie recommendations!
-        Just don\'t forget to log in to be able to classify a movie or check as interested in watch!</string>
+    <string name="homeactivity_welcometitle">Welcome to Movie Check!</string>
+    <string name="homeactivity_welcomedetail">Search for specific movies or actor, see photos and videos, learn about the cast and crew, and receive movie recommendations.\nDon\'t forget to login to be able to create a queue of movies to watch later and also rate movies you have already seen.</string>
     <string name="homeactivity_discovermoviestitle">It takes one second</string>
     <string name="homeactivity_discovermoviesdetails">Log in with your Google account to use the Discover! We promise that it\'s fast!</string>
 
