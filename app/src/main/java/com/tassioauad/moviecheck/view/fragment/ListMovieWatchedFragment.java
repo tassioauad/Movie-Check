@@ -55,6 +55,10 @@ public class ListMovieWatchedFragment extends Fragment implements ListMovieWatch
         super.onCreate(savedInstanceState);
         ((MovieCheckApplication) getActivity().getApplication()).getObjectGraph()
                 .plus(new ListMovieWatchedViewModule(this, getActivity())).inject(this);
+
+        if (movieWatchedList == null && savedInstanceState != null) {
+            movieWatchedList = savedInstanceState.getParcelableArrayList(KEY_MOVIEWATCHEDLIST);
+        }
     }
 
     @Nullable
@@ -62,10 +66,6 @@ public class ListMovieWatchedFragment extends Fragment implements ListMovieWatch
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_listmoviewatched, container, false);
         ButterKnife.bind(this, view);
-
-        if (movieWatchedList == null && savedInstanceState != null) {
-            movieWatchedList = savedInstanceState.getParcelableArrayList(KEY_MOVIEWATCHEDLIST);
-        }
 
         if (movieWatchedList == null) {
             presenter.loadMovieInterests();

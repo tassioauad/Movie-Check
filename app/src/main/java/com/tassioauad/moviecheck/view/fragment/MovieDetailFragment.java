@@ -78,6 +78,10 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         super.onCreate(savedInstanceState);
         ((MovieCheckApplication) getActivity().getApplication())
                 .getObjectGraph().plus(new MovieDetailViewModule(this)).inject(this);
+
+        if (genreList == null && savedInstanceState != null) {
+            genreList = savedInstanceState.getParcelableArrayList(KEY_GENRELIST);
+        }
     }
 
     @Nullable
@@ -87,10 +91,6 @@ public class MovieDetailFragment extends Fragment implements MovieDetailView {
         ButterKnife.bind(this, view);
 
         presenter.init((Movie) getArguments().getParcelable(KEY_MOVIE));
-
-        if (genreList == null && savedInstanceState != null) {
-            genreList = savedInstanceState.getParcelableArrayList(KEY_GENRELIST);
-        }
 
         if (genreList == null) {
             presenter.loadGenres();
