@@ -1,12 +1,56 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tassioauad.moviecheck">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
+        android:name=".MovieCheckApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".view.activity.HomeActivity" android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.SEARCH" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity android:name=".view.activity.ListPopularMoviesActivity" />
+        <activity android:name=".view.activity.ListTopRatedMoviesActivity" />
+        <activity android:name=".view.activity.ListUpcomingMoviesActivity" />
+        <activity android:name=".view.activity.ListNowPlayingMoviesActivity" />
+        <activity android:name=".view.activity.MovieProfileActivity" />
+        <activity android:name=".view.activity.ListMoviesByGenreActivity" />
+        <activity android:name=".view.activity.PersonProfileActivity" />
+        <activity android:name=".view.activity.SearchMovieActivity" />
+        <activity android:name=".view.activity.SearchPersonActivity" />
+        <activity android:name=".view.activity.FullImageSliderActivity"/>
+        <activity android:name=".view.activity.UserProfileActivity"/>
+        <activity android:name=".view.activity.DiscoveryActivity"/>
+        <activity android:name=".view.activity.SearchActivity" android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
+        <provider
+            android:name=".model.dao.impl.MovieCheckContentProvider"
+            android:authorities="com.tassioauad.moviecheck.model.dao.contentprovider.moviecheckcontentprovider"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:label="MovieCheckContentProvider"
+            android:readPermission="com.tassioauad.moviecheck.model.dao.contentprovider.moviecheckcontentprovider.READ"
+            android:writePermission="com.tassioauad.moviecheck.model.dao.contentprovider.moviecheckcontentprovider.WRITE" />
 
     </application>
 

@@ -1,0 +1,39 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/drawer_search"
+            android:checked="true"
+            android:icon="@drawable/search"
+            android:title="@string/homeactivity_search"/>
+
+        <item
+            android:id="@+id/drawer_discovery"
+            android:checked="true"
+            android:icon="@drawable/compass"
+            android:title="@string/discoveryactivity_title"/>
+
+        <item
+            android:id="@+id/drawer_nowplaying"
+            android:icon="@drawable/play"
+            android:title="@string/general_nowplaying"/>
+
+        <item
+            android:id="@+id/drawer_upcoming"
+            android:icon="@drawable/film"
+            android:title="@string/general_upcoming"/>
+
+        <item
+            android:id="@+id/drawer_toprated"
+            android:icon="@drawable/oscar"
+            android:title="@string/general_toprated"/>
+
+        <item
+            android:id="@+id/drawer_popular"
+            android:icon="@drawable/white_star"
+            android:title="@string/general_popular"/>
+
+    </group>
+</menu>

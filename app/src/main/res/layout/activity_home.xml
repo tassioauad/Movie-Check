@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawer">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toobar" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextH2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:text="@string/general_nowplaying" />
+
+                    <TextView
+                        android:id="@+id/textview_morenowplaying"
+                        style="@style/TextNormal"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_weight="0.2"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@drawable/next"
+                        android:gravity="end|center_vertical"
+                        android:onClick="moreNowPlayingMovies"
+                        android:text="@string/general_more" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/poster_height">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerview_nowplaying"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible" />
+
+                    <include
+                        android:id="@+id/linearlayout_nowplaying_anyfounded"
+                        layout="@layout/anyfounded" />
+
+                    <include
+                        android:id="@+id/linearlayout_nowplaying_loadfailed"
+                        layout="@layout/failedtoload" />
+
+
+                    <ProgressBar
+                        android:id="@+id/progressbar_nowplaying"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:indeterminate="true"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextH2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:text="@string/general_upcoming" />
+
+                    <TextView
+                        android:id="@+id/textview_moreupcoming"
+                        style="@style/TextNormal"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_weight="0.2"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@drawable/next"
+                        android:gravity="end|center_vertical"
+                        android:onClick="moreUpcomingMovies"
+                        android:text="@string/general_more" />
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/poster_height"
+                    android:gravity="center">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerview_upcoming"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        android:id="@+id/linearlayout_upcoming_anyfounded"
+                        layout="@layout/anyfounded" />
+
+                    <include
+                        android:id="@+id/linearlayout_upcoming_loadfailed"
+                        layout="@layout/failedtoload" />
+
+                    <ProgressBar
+                        android:id="@+id/progressbar_upcoming"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:indeterminate="true"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextH2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:text="@string/general_toprated" />
+
+                    <TextView
+                        android:id="@+id/textview_moretoprated"
+                        style="@style/TextNormal"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_weight="0.2"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@drawable/next"
+                        android:gravity="end|center_vertical"
+                        android:onClick="moreTopRatedMovies"
+                        android:text="@string/general_more" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/poster_height"
+                    android:gravity="center">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerview_toprated"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        android:id="@+id/linearlayout_toprated_anyfounded"
+                        layout="@layout/anyfounded" />
+
+                    <include
+                        android:id="@+id/linearlayout_toprated_loadfailed"
+                        layout="@layout/failedtoload" />
+
+                    <ProgressBar
+                        android:id="@+id/progressbar_toprated"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:indeterminate="true"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextH2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:text="@string/general_popular" />
+
+                    <TextView
+                        android:id="@+id/textview_morepopular"
+                        style="@style/TextNormal"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_weight="0.2"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@drawable/next"
+                        android:gravity="end|center_vertical"
+                        android:onClick="morePopularMovies"
+                        android:text="@string/general_more" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/poster_height"
+                    android:gravity="center">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerview_popular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        android:id="@+id/linearlayout_popular_anyfounded"
+                        layout="@layout/anyfounded" />
+
+                    <include
+                        android:id="@+id/linearlayout_popular_loadfailed"
+                        layout="@layout/failedtoload" />
+
+                    <ProgressBar
+                        android:id="@+id/progressbar_popular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:indeterminate="true"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_gravity="start"
+        android:background="@color/white"
+        app:itemBackground="@drawable/selector_row_accent"
+        app:itemTextColor="@color/gray_dark"
+        app:itemIconTint="@color/gray_dark"
+        app:headerLayout="@layout/navigationview_header"
+        app:menu="@menu/drawer" />
+
+</android.support.v4.widget.DrawerLayout>

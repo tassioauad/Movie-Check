@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@drawable/selector_row_accent"
+    android:orientation="vertical"
+    android:paddingBottom="3dp"
+    android:paddingEnd="3dp"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
+    android:paddingStart="3dp"
+    android:paddingTop="3dp">
+
+    <ImageView
+        android:id="@+id/imageview_profile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:transitionName="personPhoto"
+        android:background="@drawable/scrim"
+        android:src="@drawable/noimage" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignLeft="@id/imageview_profile"
+        android:layout_alignStart="@id/imageview_profile"
+        android:layout_alignRight="@id/imageview_profile"
+        android:layout_alignEnd="@id/imageview_profile"
+        android:background="@color/accent_alpha"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textview_job"
+            style="@style/TextNormalWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="false" />
+
+        <TextView
+            android:id="@+id/textview_name"
+            style="@style/TextImageLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="false" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>
