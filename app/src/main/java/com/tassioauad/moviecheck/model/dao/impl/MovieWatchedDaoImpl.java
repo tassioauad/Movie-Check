@@ -4,6 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 
 import com.tassioauad.moviecheck.model.dao.Dao;
 import com.tassioauad.moviecheck.model.dao.MovieDao;
@@ -20,7 +24,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MovieWatchedDaoImpl extends Dao implements MovieWatchedDao {
+public class MovieWatchedDaoImpl extends Dao implements MovieWatchedDao, LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final int MOVIEWATCHED_LISTALL_CODE = 12109;
+    private static final String BUNDLE_ARG_USER = "bundlearguser";
 
     public static final String TABLE_NAME = "movie_watched";
     public static final String COLUMN_NAME_ID = "id";
@@ -49,11 +56,11 @@ public class MovieWatchedDaoImpl extends Dao implements MovieWatchedDao {
     }
 
     @Override
-    public List<MovieWatched> listAll(User user) {
-        Cursor cursor = getDatabase().query(TABLE_NAME, COLUMNS, COLUMN_NAME_USER_ID + " = ?",
-                new String[]{String.valueOf(String.valueOf(user.getId()))}, null, null, null);
-
-        return fromCursor(cursor);
+    public void listAll(User user) {
+        checkDaoListener();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(BUNDLE_ARG_USER, user);
+        getActivity().getSupportLoaderManager().initLoader(MOVIEWATCHED_LISTALL_CODE, bundle, this);
     }
 
     @Override
@@ -75,7 +82,10 @@ public class MovieWatchedDaoImpl extends Dao implements MovieWatchedDao {
         HashMap<Long, Integer> genreHasMap = new HashMap();
         ArrayList<Long> arrayList = new ArrayList<>();
 
-        List<MovieWatched> movieWatchedList = listAll(user);
+        Cursor cursor = getDatabase().query(TABLE_NAME, COLUMNS, COLUMN_NAME_USER_ID + " = ?",
+                new String[]{String.valueOf(String.valueOf(user.getId()))}, null, null, null);
+
+        List<MovieWatched> movieWatchedList = fromCursor(cursor);
         for (MovieWatched movieWatched : movieWatchedList) {
             for (Long genreId : movieWatched.getMovie().getGenreId()) {
                 if (genreHasMap.get(genreId) == null) {
@@ -162,4 +172,24 @@ public class MovieWatchedDaoImpl extends Dao implements MovieWatchedDao {
         return movieWatchedList;
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        switch (id) {
+            case MOVIEWATCHED_LISTALL_CODE:
+                User user = args.getParcelable(BUNDLE_ARG_USER);
+                return new CursorLoader(getActivity(), MovieCheckContentProvider.MOVIEWATCHED_URI,
+                        COLUMNS, COLUMN_NAME_USER_ID + " = ?", new String[]{String.valueOf(String.valueOf(user.getId()))}, null);
+        }
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        getDaoListener().onLoad(fromCursor(cursor));
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
 }

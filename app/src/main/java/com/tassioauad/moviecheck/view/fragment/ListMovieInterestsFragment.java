@@ -54,7 +54,7 @@ public class ListMovieInterestsFragment extends Fragment implements ListMovieInt
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MovieCheckApplication) getActivity().getApplication()).getObjectGraph()
-                .plus(new ListMovieInterestViewModule(this)).inject(this);
+                .plus(new ListMovieInterestViewModule(this, getActivity())).inject(this);
     }
 
     @Nullable

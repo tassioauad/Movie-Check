@@ -1,5 +1,6 @@
 package com.tassioauad.moviecheck.presenter;
 
+import com.tassioauad.moviecheck.model.dao.DaoListener;
 import com.tassioauad.moviecheck.model.dao.MovieInterestDao;
 import com.tassioauad.moviecheck.model.dao.UserDao;
 import com.tassioauad.moviecheck.model.entity.MovieInterest;
@@ -20,12 +21,18 @@ public class ListMovieInterestsPresenter {
     }
 
     public void loadMovieInterests() {
-        List<MovieInterest> movieInterestList = movieInterestDao.listAll(userDao.getLoggedUser());
-        if(movieInterestList.size() == 0) {
-            view.warnAnyInterestFounded();
-        } else {
-            view.showMovieInterests(movieInterestList);
-        }
+        movieInterestDao.setDaoListener(new DaoListener() {
+            @Override
+            public void onLoad(Object object) {
+                List<MovieInterest> movieInterestList = (List<MovieInterest>) object;
+                if(movieInterestList.size() == 0) {
+                    view.warnAnyInterestFounded();
+                } else {
+                    view.showMovieInterests(movieInterestList);
+                }
+            }
+        });
+        movieInterestDao.listAll(userDao.getLoggedUser());
     }
 
     public void remove(MovieInterest movieInterest) {

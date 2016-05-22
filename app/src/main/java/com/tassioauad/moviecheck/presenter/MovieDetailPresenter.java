@@ -37,7 +37,9 @@ public class MovieDetailPresenter {
         view.showVoteCount(movie.getVoteCount());
         view.showVoteAverage(movie.getVoteAverage());
         view.showOverview(movie.getOverview());
-        view.showReleaseDate(movie.getReleaseDate());
+        if (movie.getReleaseDate() != null) {
+            view.showReleaseDate(movie.getReleaseDate());
+        }
         view.showPoster(movie.getPosterUrl());
         view.showBackdrop(movie.getBackdropUrl());
 

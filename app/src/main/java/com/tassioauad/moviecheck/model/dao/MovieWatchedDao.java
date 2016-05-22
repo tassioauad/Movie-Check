@@ -7,8 +7,8 @@ import com.tassioauad.moviecheck.model.entity.User;
 
 import java.util.List;
 
-public interface MovieWatchedDao {
-    List<MovieWatched> listAll(User user);
+public interface MovieWatchedDao extends DaoLoader {
+    void listAll(User user);
 
     MovieWatched findByMovie(Movie movie, User user);
 
