@@ -13,47 +13,21 @@ import com.tassioauad.moviecheck.R;
 import com.tassioauad.moviecheck.dagger.ApiModule;
 import com.tassioauad.moviecheck.model.api.MovieApi;
 import com.tassioauad.moviecheck.model.api.asynctask.ApiResultListener;
+import com.tassioauad.moviecheck.model.api.asynctask.AsyncTaskResult;
+import com.tassioauad.moviecheck.model.api.asynctask.ListUpComingMovieAsyncTask;
 import com.tassioauad.moviecheck.model.entity.Movie;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class UpcomingMoviesWidget extends AppWidgetProvider {
 
-
     @Override
-    public void onUpdate(final Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
+        Intent intent = new Intent(context.getApplicationContext(), UpcomingMovieUpdateService.class);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
 
-        ComponentName thisWidget = new ComponentName(context, UpcomingMoviesWidget.class);
-        int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-
-        for (int widgetId : allWidgetIds) {
-
-            final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_upcomingmovies);
-
-            MovieApi movieApi = new ApiModule().provideMovieApi(context);
-
-            movieApi.setApiResultListener(new ApiResultListener() {
-                @Override
-                public void onResult(Object object) {
-                    remoteViews.setViewVisibility(R.id.progressbar, View.GONE);
-                    remoteViews.setViewVisibility(R.id.linearlayout_loadfailed, View.GONE);
-                    remoteViews.setViewVisibility(R.id.recyclerview_movies, View.VISIBLE);
-                    remoteViews.setRemoteAdapter(R.id.recyclerview_movies, UpcomingMovieWidgetRemoteViewsService.newIntent(context, (List<Movie>) object));
-                }
-
-                @Override
-                public void onException(Exception exception) {
-                    remoteViews.setViewVisibility(R.id.progressbar, View.GONE);
-                    remoteViews.setViewVisibility(R.id.recyclerview_movies, View.GONE);
-                    remoteViews.setViewVisibility(R.id.linearlayout_loadfailed, View.VISIBLE);
-                }
-            });
-            movieApi.listUpcomingMovies();
-
-            appWidgetManager.updateAppWidget(widgetId, remoteViews);
-
-        }
-
+        context.startService(intent);
     }
 }
