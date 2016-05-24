@@ -120,5 +120,6 @@
     <string name="discoveryactivity_tryagain">Ops! Something bad has happened! Please, try again!</string>
     <string name="discoveryactivity_addedtowatchlater">Movie added to watch later!</string>
     <string name="discoveryactivity_movieremovedwatchlater">Movie removed from \'To Watch List\'</string>
+    <string name="upcomingmovieswidget_title">Upcoming Movies</string>
 
 </resources>
