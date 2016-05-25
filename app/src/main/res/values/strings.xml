@@ -18,6 +18,7 @@
     <string name="general_date">MM-dd-yyyy</string>
     <string name="general_failedtoload">Ops! Failed to Load! :´( \n Touch to try again</string>
     <string name="general_anyfounded">Ops! Any founded! :´(</string>
+    <string name="general_loading">Loading…</string>
     <string name="generic_opendrawer">Open Drawer</string>
     <string name="generic_closedrawer">Close Drawer</string>
     <string name="generic_movies">Movies</string>

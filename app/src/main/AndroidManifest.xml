@@ -58,8 +58,7 @@
             android:writePermission="com.tassioauad.moviecheck.model.dao.contentprovider.moviecheckcontentprovider.WRITE" />
 
         <service
-            android:name=".widget.UpcomingMovieWidgetRemoteViewsService"
-            android:exported="false"
+            android:name="com.tassioauad.moviecheck.widget.UpcomingMovieWidgetRemoteViewsService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <service android:name=".widget.UpcomingMovieUpdateService" />
