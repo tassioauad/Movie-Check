@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/upcomingmovieswidget_title"
+        style="@style/TextH2White"
+        android:elevation="10dp"
+        android:background="@color/primary"
+        android:padding="20dp"/>
+
+    <ListView
+        android:id="@+id/listview_movies"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/primary_dark"
+        android:dividerHeight="1dp"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/linearlayout_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+
+        <TextView
+            style="@style/TextBigWarn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/general_loading" />
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/linearlayout_anyfounded"
+        layout="@layout/anyfounded" />
+
+    <include
+        android:id="@+id/linearlayout_loadfailed"
+        layout="@layout/failedtoload" />
+
+</LinearLayout>
