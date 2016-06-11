@@ -58,7 +58,7 @@
         </LinearLayout>
 
         <RatingBar
-            android:id="@+id/ratingbar_vote"
+            android:id="@+id/ratingbar_userclassification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

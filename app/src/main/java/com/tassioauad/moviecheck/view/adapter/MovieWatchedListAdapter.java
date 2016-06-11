@@ -1,11 +1,5 @@
 package com.tassioauad.moviecheck.view.adapter;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,7 +81,7 @@ public class MovieWatchedListAdapter extends RecyclerView.Adapter<MovieWatchedLi
             imageViewMoviePoster = (ImageView) itemView.findViewById(R.id.imageview_movieposter);
             textViewMovieName = (TextView) itemView.findViewById(R.id.textview_moviename);
             textViewMovieReleaseDate = (TextView) itemView.findViewById(R.id.textview_moviereleasedate);
-            ratingBarVote = (RatingBar) itemView.findViewById(R.id.ratingbar_vote);
+            ratingBarVote = (RatingBar) itemView.findViewById(R.id.ratingbar_userclassification);
         }
     }
 
