@@ -11,12 +11,22 @@ android {
         versionCode 1
         versionName "0.1"
     }
+    signingConfigs {
+        config {
+            keyAlias 'moviecheck'
+            keyPassword 'u7i8o9p0'
+            storeFile file('../moviecheck.jks')
+            storePassword 'p0o9i8u7'
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.config
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
+            signingConfig signingConfigs.config
             testCoverageEnabled true
         }
     }
