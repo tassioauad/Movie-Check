@@ -13,6 +13,16 @@
         android:adjustViewBounds="true"
         android:scaleType="fitXY"/>
 
+    <ImageView
+        android:id="@+id/imageview_type"
+        android:layout_width="@dimen/smallicon_width"
+        android:layout_height="@dimen/smallicon_height"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="3dp"
+        android:padding="5dp"
+        android:background="@color/accent_alpha"/>
+
     <ProgressBar
         android:id="@+id/progressbar"
         android:layout_width="wrap_content"

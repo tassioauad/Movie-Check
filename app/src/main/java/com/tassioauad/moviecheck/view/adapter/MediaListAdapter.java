@@ -42,8 +42,10 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.View
         String thumbnailUrl = null;
         if(media instanceof Video) {
             thumbnailUrl = String.format(holder.itemView.getContext().getString(R.string.youtube_image_url), ((Video)media).getKey());
+            holder.imageViewType.setImageDrawable(holder.itemView.getContext().getResources().getDrawable(R.drawable.video));
         } else if( media instanceof Image) {
             thumbnailUrl = holder.itemView.getContext().getString(R.string.imagetmdb_baseurl) + ((Image) media).getFilePath();
+            holder.imageViewType.setImageDrawable(holder.itemView.getContext().getResources().getDrawable(R.drawable.picture));
         }
 
         holder.progressBar.setVisibility(View.VISIBLE);
@@ -74,12 +76,14 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        private ImageView imageViewType;
         private ImageView imageViewThumbnail;
         private ProgressBar progressBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imageViewThumbnail = (ImageView) itemView.findViewById(R.id.imageview_thumbnail);
+            imageViewType = (ImageView) itemView.findViewById(R.id.imageview_type);
             progressBar = (ProgressBar) itemView.findViewById(R.id.progressbar);
         }
     }
