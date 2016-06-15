@@ -7,6 +7,7 @@ import com.tassioauad.moviecheck.model.api.resource.MovieResource;
 import com.tassioauad.moviecheck.model.entity.Movie;
 
 import java.util.List;
+import java.util.Locale;
 
 import retrofit.Response;
 
@@ -27,7 +28,7 @@ public class DiscoverMoviesAsyncTask extends GenericAsyncTask<Void, Void, List<M
     protected AsyncTaskResult<List<Movie>> doInBackground(Void... params) {
 
         try {
-            Response<List<Movie>> response = movieResource.discover(getApiKey(), page).execute();
+            Response<List<Movie>> response = movieResource.discover(getApiKey(), page, Locale.getDefault().getLanguage()).execute();
             switch (response.code()) {
                 case HTTP_OK:
                     return new AsyncTaskResult<>(response.body());

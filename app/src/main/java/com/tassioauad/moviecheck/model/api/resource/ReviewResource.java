@@ -12,6 +12,6 @@ import retrofit.http.Query;
 public interface ReviewResource {
 
     @GET("movie/{id}/reviews")
-    Call<List<Review>> listByMovie(@Path("id") Long movieId, @Query("api_key") String apiKey, @Query("page") Integer page);
+    Call<List<Review>> listByMovie(@Path("id") Long movieId, @Query("api_key") String apiKey, @Query("page") Integer page, @Query("language") String language);
 
 }

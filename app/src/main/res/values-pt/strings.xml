@@ -40,11 +40,11 @@
     <string name="moviedetailfragment_failedtoloadgenre">Ops! Falha ao carregar gêneros!</string>
     <string name="moviedetailfragment_movieremovedwatchlater">Filme removido da sua lista de interesses</string>
     <string name="moviedetailfragment_overview">Visão geral</string>
-    <string name="moviedetailfragment_releasedate">Data de Lançamento</string>
+    <string name="moviedetailfragment_releasedate">Estréia</string>
     <string name="moviedetailfragment_votecount">%1$d votos</string>
-    <string name="moviedetailsfragment_addedaswatched">Filmes adicionado a sua lista de filmes assistidos</string>
-    <string name="moviedetailsfragment_addedtowatchlater">Filmes adicionado a sua lista de interesse</string>
-    <string name="moviedetailsfragment_removedfromwatched">Filmes removido da sua lista de filmes assistidos</string>
+    <string name="moviedetailsfragment_addedaswatched">Filme adicionado a sua lista de filmes assistidos</string>
+    <string name="moviedetailsfragment_addedtowatchlater">Filme adicionado a sua lista de interesse</string>
+    <string name="moviedetailsfragment_removedfromwatched">Filme removido da sua lista de filmes assistidos</string>
     <string name="movieprofileactivity_castcrew">Elenco &amp; Equipe</string>
     <string name="movieprofileactivity_general">Geral</string>
     <string name="movieprofileactivity_media">Mídias</string>

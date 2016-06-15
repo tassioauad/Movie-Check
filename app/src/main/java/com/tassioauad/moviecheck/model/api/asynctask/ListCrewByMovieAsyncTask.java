@@ -8,6 +8,7 @@ import com.tassioauad.moviecheck.model.entity.Crew;
 import com.tassioauad.moviecheck.model.entity.Movie;
 
 import java.util.List;
+import java.util.Locale;
 
 import retrofit.Response;
 
@@ -28,7 +29,7 @@ public class ListCrewByMovieAsyncTask extends GenericAsyncTask<Void, Void, List<
     protected AsyncTaskResult<List<Crew>> doInBackground(Void... params) {
 
         try {
-            Response<List<Crew>> response = crewResource.listAllByMovie(movie.getId(), getApiKey()).execute();
+            Response<List<Crew>> response = crewResource.listAllByMovie(movie.getId(), getApiKey(), Locale.getDefault().getLanguage()).execute();
             switch (response.code()) {
                 case HTTP_OK:
                     return new AsyncTaskResult<>(response.body());

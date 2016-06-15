@@ -13,6 +13,7 @@ import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.view.activity.MovieProfileActivity;
 
 import java.util.List;
+import java.util.Locale;
 
 import retrofit.Response;
 
@@ -36,7 +37,7 @@ public class UpcomingMovieUpdateService extends IntentService {
             final RemoteViews remoteViews = new RemoteViews(getApplicationContext().getPackageName(), R.layout.widget_upcomingmovies);
 
             try {
-                Response<List<Movie>> response = new ApiModule().provideMovieResource(this).listUpComing(getString(R.string.themoviedbapi_key), 1).execute();
+                Response<List<Movie>> response = new ApiModule().provideMovieResource(this).listUpComing(getString(R.string.themoviedbapi_key), 1, Locale.getDefault().getLanguage()).execute();
                 switch (response.code()) {
                     case HTTP_OK:
                         remoteViews.setViewVisibility(R.id.linearlayout_loadfailed, View.GONE);

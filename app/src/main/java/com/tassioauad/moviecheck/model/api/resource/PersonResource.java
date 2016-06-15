@@ -13,10 +13,10 @@ import retrofit.http.Query;
 public interface PersonResource {
 
     @GET("person/{id}")
-    Call<Person> findById(@Path("id") Long personId, @Query("api_key") String apiKey);
+    Call<Person> findById(@Path("id") Long personId, @Query("api_key") String apiKey, @Query("language") String language);
 
     @GET("search/person")
-    Call<List<Person>> listByName(@Query("api_key") String apiKey, @Query("query") String query, @Query("page") int page);
+    Call<List<Person>> listByName(@Query("api_key") String apiKey, @Query("query") String query, @Query("page") int page, @Query("language") String language);
 
 
 }

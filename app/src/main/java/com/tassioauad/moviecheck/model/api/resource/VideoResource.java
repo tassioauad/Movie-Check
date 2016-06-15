@@ -13,6 +13,6 @@ import retrofit.http.Query;
 public interface VideoResource {
 
     @GET("movie/{id}/videos")
-    Call<List<Video>> listAllByMovie(@Path("id") Long movieId, @Query("api_key") String apiKey);
+    Call<List<Video>> listAllByMovie(@Path("id") Long movieId, @Query("api_key") String apiKey, @Query("language") String language);
 
 }
