@@ -73,27 +73,12 @@ public class UpcomingMovieWidgetRemoteViewsService extends RemoteViewsService {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.general_date), Locale.getDefault());
                 final String posterUrl = getString(R.string.imagetmdb_baseurl) + movie.getPosterUrl();
 
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Picasso.with(getApplicationContext()).load(posterUrl).into(new Target() {
-                            @Override
-                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                remoteViews.setImageViewBitmap(R.id.imageview_poster, bitmap);
-                            }
-
-                            @Override
-                            public void onBitmapFailed(Drawable errorDrawable) {
-                                remoteViews.setImageViewResource(R.id.imageview_poster, R.drawable.noimage);
-                            }
-
-                            @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-                                remoteViews.setImageViewResource(R.id.imageview_poster, R.drawable.noimage);
-                            }
-                        });
-                    }
-                });
+                try {
+                    Bitmap bitmap = Picasso.with(getApplicationContext()).load(posterUrl).get();
+                    remoteViews.setImageViewBitmap(R.id.imageview_poster, bitmap);
+                } catch (IOException e) {
+                    remoteViews.setImageViewResource(R.id.imageview_poster, R.drawable.noimage);
+                }
 
                 remoteViews.setTextViewText(R.id.textview_releasedate, simpleDateFormat.format(movie.getReleaseDate()));
                 remoteViews.setTextViewText(R.id.textview_name, movie.getTitle());
