@@ -40,7 +40,7 @@
     <string name="moviedetailfragment_failedtoloadgenre">Ops! Falha ao carregar gêneros!</string>
     <string name="moviedetailfragment_movieremovedwatchlater">Filme removido da sua lista de interesses</string>
     <string name="moviedetailfragment_overview">Visão geral</string>
-    <string name="moviedetailfragment_releasedate">Estréia</string>
+    <string name="moviedetailfragment_releasedate">Estreia</string>
     <string name="moviedetailfragment_votecount">%1$d votos</string>
     <string name="moviedetailsfragment_addedaswatched">Filme adicionado a sua lista de filmes assistidos</string>
     <string name="moviedetailsfragment_addedtowatchlater">Filme adicionado a sua lista de interesse</string>
