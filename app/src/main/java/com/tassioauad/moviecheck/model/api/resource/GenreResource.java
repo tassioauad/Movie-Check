@@ -12,6 +12,6 @@ import retrofit.http.Query;
 public interface GenreResource {
 
     @GET("genre/movie/list")
-    Call<List<Genre>> listAllofMovie(@Query("api_key") String apiKey);
+    Call<List<Genre>> listAllOfMovie(@Query("api_key") String apiKey, @Query("language") String language);
 
 }

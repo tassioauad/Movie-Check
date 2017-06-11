@@ -86,7 +86,7 @@ public class MovieInterestListAdapter extends RecyclerView.Adapter<MovieInterest
             textViewMovieName = (TextView) itemView.findViewById(R.id.textview_moviename);
             textViewMovieReleaseDate = (TextView) itemView.findViewById(R.id.textview_moviereleasedate);
             textViewMovieVoteCount = (TextView) itemView.findViewById(R.id.textview_movievotecount);
-            ratingBarVote = (RatingBar) itemView.findViewById(R.id.ratingbar_vote);
+            ratingBarVote = (RatingBar) itemView.findViewById(R.id.ratingbar_criticclassification);
         }
     }
 

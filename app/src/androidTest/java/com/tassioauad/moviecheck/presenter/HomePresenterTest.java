@@ -3,10 +3,13 @@ package com.tassioauad.moviecheck.presenter;
 import android.test.AndroidTestCase;
 
 import com.tassioauad.moviecheck.entity.MovieBuilder;
+import com.tassioauad.moviecheck.entity.UserBuilder;
 import com.tassioauad.moviecheck.model.api.MovieApi;
 import com.tassioauad.moviecheck.model.api.asynctask.ApiResultListener;
 import com.tassioauad.moviecheck.model.api.asynctask.exception.BadRequestException;
+import com.tassioauad.moviecheck.model.dao.UserDao;
 import com.tassioauad.moviecheck.model.entity.Movie;
+import com.tassioauad.moviecheck.model.entity.User;
 import com.tassioauad.moviecheck.view.HomeView;
 
 import org.mockito.ArgumentCaptor;
@@ -15,30 +18,63 @@ import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class HomePresenterTest extends AndroidTestCase {
 
     HomeView view;
     HomePresenter presenter;
     MovieApi movieApi;
+    UserDao userDao;
     ArgumentCaptor<ApiResultListener> apiResultListenerArgumentCaptor;
 
     public void setUp() throws Exception {
         super.setUp();
         movieApi = mock(MovieApi.class);
         view = mock(HomeView.class);
+        userDao = mock(UserDao.class);
         apiResultListenerArgumentCaptor = ArgumentCaptor.forClass(ApiResultListener.class);
         presenter = new HomePresenter(view, movieApi, userDao);
     }
 
-    public void testInit() {
+    public void testInit_LoggedUser() {
+        User user = UserBuilder.aUser().build();
+        when(userDao.getLoggedUser()).thenReturn(user);
+
         presenter.init();
+
+        verify(view).showLoggedUser(user);
+    }
+
+    public void testInit_NotLoggedUser() {
+        when(userDao.getLoggedUser()).thenReturn(null);
+
+        presenter.init();
+
+        verify(view, never()).showLoggedUser(any(User.class));
+    }
+
+    public void testInit_UserHasReadTutorial() {
+        when(userDao.hasReadTutorial()).thenReturn(true);
+
+        presenter.init();
+
+        verify(view, never()).showTutorial();
+    }
+
+    public void testInit_UserHasNotReadTutorial() {
+        when(userDao.hasReadTutorial()).thenReturn(false);
+
+        presenter.init();
+
+        verify(view).showTutorial();
     }
 
     public void testListUpcomingMovies_Success() throws Exception {
@@ -60,9 +96,9 @@ public class HomePresenterTest extends AndroidTestCase {
 
         presenter.listUpcomingMovies();
 
-        verify(view, times(1)).showLoadingUpcomingMovies();
-        verify(view, times(1)).hideLoadingUpcomingMovies();
-        verify(view, times(1)).showUpcomingMovies(movieArrayList);
+        verify(view).showLoadingUpcomingMovies();
+        verify(view).hideLoadingUpcomingMovies();
+        verify(view).showUpcomingMovies(movieArrayList);
         verify(view, never()).warnAnyUpcomingMovieFounded();
         verify(view, never()).warnFailedToLoadUpcomingMovies();
     }
@@ -85,9 +121,9 @@ public class HomePresenterTest extends AndroidTestCase {
 
         presenter.listUpcomingMovies();
 
-        verify(view, times(1)).showLoadingUpcomingMovies();
-        verify(view, times(1)).hideLoadingUpcomingMovies();
-        verify(view, times(1)).warnAnyUpcomingMovieFounded();
+        verify(view).showLoadingUpcomingMovies();
+        verify(view).hideLoadingUpcomingMovies();
+        verify(view).warnAnyUpcomingMovieFounded();
         verify(view, never()).warnFailedToLoadUpcomingMovies();
         verify(view, never()).warnFailedToLoadUpcomingMovies();
     }
@@ -109,9 +145,9 @@ public class HomePresenterTest extends AndroidTestCase {
 
         presenter.listUpcomingMovies();
 
-        verify(view, times(1)).showLoadingUpcomingMovies();
-        verify(view, times(1)).hideLoadingUpcomingMovies();
-        verify(view, times(1)).warnFailedToLoadUpcomingMovies();
+        verify(view).showLoadingUpcomingMovies();
+        verify(view).hideLoadingUpcomingMovies();
+        verify(view).warnFailedToLoadUpcomingMovies();
         verify(view, never()).showUpcomingMovies(anyListOf(Movie.class));
         verify(view, never()).warnAnyUpcomingMovieFounded();
     }
@@ -135,9 +171,9 @@ public class HomePresenterTest extends AndroidTestCase {
 
         presenter.listPopularMovies();
 
-        verify(view, times(1)).showLoadingPopularMovies();
-        verify(view, times(1)).hideLoadingPopularMovies();
-        verify(view, times(1)).showPopularMovies(movieArrayList);
+        verify(view).showLoadingPopularMovies();
+        verify(view).hideLoadingPopularMovies();
+        verify(view).showPopularMovies(movieArrayList);
         verify(view, never()).warnAnyPopularMovieFounded();
         verify(view, never()).warnFailedToLoadPopularMovies();
     }
@@ -160,9 +196,9 @@ public class HomePresenterTest extends AndroidTestCase {
 
         presenter.listPopularMovies();
 
-        verify(view, times(1)).showLoadingPopularMovies();
-        verify(view, times(1)).hideLoadingPopularMovies();
-        verify(view, times(1)).warnAnyPopularMovieFounded();
+        verify(view).showLoadingPopularMovies();
+        verify(view).hideLoadingPopularMovies();
+        verify(view).warnAnyPopularMovieFounded();
         verify(view, never()).warnFailedToLoadPopularMovies();
         verify(view, never()).warnFailedToLoadPopularMovies();
     }
@@ -184,9 +220,9 @@ public class HomePresenterTest extends AndroidTestCase {
 
         presenter.listPopularMovies();
 
-        verify(view, times(1)).showLoadingPopularMovies();
-        verify(view, times(1)).hideLoadingPopularMovies();
-        verify(view, times(1)).warnFailedToLoadPopularMovies();
+        verify(view).showLoadingPopularMovies();
+        verify(view).hideLoadingPopularMovies();
+        verify(view).warnFailedToLoadPopularMovies();
         verify(view, never()).showPopularMovies(anyListOf(Movie.class));
         verify(view, never()).warnAnyPopularMovieFounded();
     }
@@ -210,9 +246,9 @@ public class HomePresenterTest extends AndroidTestCase {
 
         presenter.listTopRatedMovies();
 
-        verify(view, times(1)).showLoadingTopRatedMovies();
-        verify(view, times(1)).hideLoadingTopRatedMovies();
-        verify(view, times(1)).showTopRatedMovies(movieArrayList);
+        verify(view).showLoadingTopRatedMovies();
+        verify(view).hideLoadingTopRatedMovies();
+        verify(view).showTopRatedMovies(movieArrayList);
         verify(view, never()).warnAnyTopRatedMovieFounded();
         verify(view, never()).warnFailedToLoadTopRatedMovies();
     }
@@ -235,9 +271,9 @@ public class HomePresenterTest extends AndroidTestCase {
 
         presenter.listTopRatedMovies();
 
-        verify(view, times(1)).showLoadingTopRatedMovies();
-        verify(view, times(1)).hideLoadingTopRatedMovies();
-        verify(view, times(1)).warnAnyTopRatedMovieFounded();
+        verify(view).showLoadingTopRatedMovies();
+        verify(view).hideLoadingTopRatedMovies();
+        verify(view).warnAnyTopRatedMovieFounded();
         verify(view, never()).warnFailedToLoadTopRatedMovies();
         verify(view, never()).warnFailedToLoadTopRatedMovies();
     }
@@ -259,9 +295,9 @@ public class HomePresenterTest extends AndroidTestCase {
 
         presenter.listTopRatedMovies();
 
-        verify(view, times(1)).showLoadingTopRatedMovies();
-        verify(view, times(1)).hideLoadingTopRatedMovies();
-        verify(view, times(1)).warnFailedToLoadTopRatedMovies();
+        verify(view).showLoadingTopRatedMovies();
+        verify(view).hideLoadingTopRatedMovies();
+        verify(view).warnFailedToLoadTopRatedMovies();
         verify(view, never()).showTopRatedMovies(anyListOf(Movie.class));
         verify(view, never()).warnAnyTopRatedMovieFounded();
     }
@@ -285,9 +321,9 @@ public class HomePresenterTest extends AndroidTestCase {
 
         presenter.listNowPlayingMovies();
 
-        verify(view, times(1)).showLoadingNowPlayingMovies();
-        verify(view, times(1)).hideLoadingNowPlayingMovies();
-        verify(view, times(1)).showNowPlayingMovies(movieArrayList);
+        verify(view).showLoadingNowPlayingMovies();
+        verify(view).hideLoadingNowPlayingMovies();
+        verify(view).showNowPlayingMovies(movieArrayList);
         verify(view, never()).warnAnyNowPlayingMovieFounded();
         verify(view, never()).warnFailedToLoadNowPlayingMovies();
     }
@@ -310,9 +346,9 @@ public class HomePresenterTest extends AndroidTestCase {
 
         presenter.listNowPlayingMovies();
 
-        verify(view, times(1)).showLoadingNowPlayingMovies();
-        verify(view, times(1)).hideLoadingNowPlayingMovies();
-        verify(view, times(1)).warnAnyNowPlayingMovieFounded();
+        verify(view).showLoadingNowPlayingMovies();
+        verify(view).hideLoadingNowPlayingMovies();
+        verify(view).warnAnyNowPlayingMovieFounded();
         verify(view, never()).warnFailedToLoadNowPlayingMovies();
         verify(view, never()).warnFailedToLoadNowPlayingMovies();
     }
@@ -334,10 +370,40 @@ public class HomePresenterTest extends AndroidTestCase {
 
         presenter.listNowPlayingMovies();
 
-        verify(view, times(1)).showLoadingNowPlayingMovies();
-        verify(view, times(1)).hideLoadingNowPlayingMovies();
-        verify(view, times(1)).warnFailedToLoadNowPlayingMovies();
+        verify(view).showLoadingNowPlayingMovies();
+        verify(view).hideLoadingNowPlayingMovies();
+        verify(view).warnFailedToLoadNowPlayingMovies();
         verify(view, never()).showNowPlayingMovies(anyListOf(Movie.class));
         verify(view, never()).warnAnyNowPlayingMovieFounded();
     }
+
+    public void testLogin() {
+        User user = UserBuilder.aUser().build();
+        
+        presenter.login(user);
+
+        verify(userDao).login(user);
+        verify(view).showLoggedUser(user);
+    }
+
+    public void stop() {
+        presenter.stop();
+
+        verify(movieApi).cancelAllServices();
+    }
+
+    public void logout() {
+        presenter.logout();
+
+        verify(userDao).logout();
+        verify(view).warnUserDesconnected();
+    }
+
+    public void informUserHasReadTutorial() {
+        presenter.informUserHasReadTutorial();
+
+        verify(userDao).informHasReadTutorial();
+    }
+
+
 }

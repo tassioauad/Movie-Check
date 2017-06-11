@@ -12,4 +12,6 @@
     <dimen name="poster_height">150dp</dimen>
     <dimen name="smallposter_width">100dp</dimen>
     <dimen name="smallposter_height">150dp</dimen>
+    <dimen name="smallicon_width">25dp</dimen>
+    <dimen name="smallicon_height">25dp</dimen>
 </resources>

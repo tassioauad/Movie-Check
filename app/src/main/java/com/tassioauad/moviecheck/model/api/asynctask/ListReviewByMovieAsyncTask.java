@@ -4,11 +4,11 @@ import android.content.Context;
 
 import com.tassioauad.moviecheck.model.api.asynctask.exception.BadRequestException;
 import com.tassioauad.moviecheck.model.api.resource.ReviewResource;
-import com.tassioauad.moviecheck.model.entity.Genre;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.model.entity.Review;
 
 import java.util.List;
+import java.util.Locale;
 
 import retrofit.Response;
 
@@ -30,7 +30,7 @@ public class ListReviewByMovieAsyncTask extends GenericAsyncTask<Void, Void, Lis
     @Override
     protected AsyncTaskResult<List<Review>> doInBackground(Void... params) {
         try {
-            Response<List<Review>> response = reviewResource.listByMovie(movie.getId(), getApiKey(), page).execute();
+            Response<List<Review>> response = reviewResource.listByMovie(movie.getId(), getApiKey(), page, Locale.getDefault().getLanguage()).execute();
             switch (response.code()) {
                 case HTTP_OK:
                     return new AsyncTaskResult<>(response.body());

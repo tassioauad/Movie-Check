@@ -13,7 +13,7 @@ public class Movie implements Parcelable {
 
     private Long id;
 
-    @SerializedName("original_title")
+    @SerializedName("title")
     private String title;
 
     @SerializedName("release_date")

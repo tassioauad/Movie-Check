@@ -7,6 +7,7 @@ import com.tassioauad.moviecheck.model.api.resource.PersonResource;
 import com.tassioauad.moviecheck.model.entity.Person;
 
 import java.util.List;
+import java.util.Locale;
 
 import retrofit.Response;
 
@@ -29,7 +30,7 @@ public class ListPersonByNameAsyncTask extends GenericAsyncTask<Void, Void, List
     protected AsyncTaskResult<List<Person>> doInBackground(Void... params) {
 
         try {
-            Response<List<Person>> response = personResource.listByName(getApiKey(), name, page).execute();
+            Response<List<Person>> response = personResource.listByName(getApiKey(), name, page, Locale.getDefault().getLanguage()).execute();
             switch (response.code()) {
                 case HTTP_OK:
                     return new AsyncTaskResult<>(response.body());

@@ -2,14 +2,14 @@
 
     <!--General-->
     <string name="app_name">Movie Check</string>
-    <string name="sharedpreferences">sharedpreferences_moviecheck</string>
-    <string name="sharedpreferences_loggeduser">sharedpreferences_loggeduser_moviecheck</string>
-    <string name="sharedpreferences_hasreadtutorial">sharedpreferences_hasreadtutorial_moviecheck</string>
-    <string name="themoviedbapi_baseurl">http://api.themoviedb.org/3/</string>
-    <string name="imagetmdb_baseurl">http://image.tmdb.org/t/p/w500</string>
-    <string name="themoviedbapi_key">b4537e21984eb259d2c2b093b7980570</string>
-    <string name="youtube_credential">AIzaSyCLcunU7LR5CrNKPVnPixFYrmId5lF2KlE</string>
-    <string name="youtube_image_url">https://img.youtube.com/vi/%1$s/0.jpg</string>
+    <string name="sharedpreferences" translatable="false">sharedpreferences_moviecheck</string>
+    <string name="sharedpreferences_loggeduser" translatable="false">sharedpreferences_loggeduser_moviecheck</string>
+    <string name="sharedpreferences_hasreadtutorial" translatable="false">sharedpreferences_hasreadtutorial_moviecheck</string>
+    <string name="themoviedbapi_baseurl" translatable="false">http://api.themoviedb.org/3/</string>
+    <string name="imagetmdb_baseurl" translatable="false">http://image.tmdb.org/t/p/w500</string>
+    <string name="themoviedbapi_key" translatable="false">b4537e21984eb259d2c2b093b7980570</string>
+    <string name="youtube_credential" translatable="false">AIzaSyCLcunU7LR5CrNKPVnPixFYrmId5lF2KlE</string>
+    <string name="youtube_image_url" translatable="false">https://img.youtube.com/vi/%1$s/0.jpg</string>
     <string name="general_nowplaying">Now Playing Movies</string>
     <string name="general_upcoming">Upcoming Movies</string>
     <string name="general_popular">Popular Movies</string>
@@ -19,8 +19,8 @@
     <string name="general_failedtoload">Ops! Failed to Load! :´( \n Touch to try again</string>
     <string name="general_anyfounded">Ops! Any founded! :´(</string>
     <string name="general_loading">Loading…</string>
-    <string name="generic_opendrawer">Open Drawer</string>
-    <string name="generic_closedrawer">Close Drawer</string>
+    <string name="generic_opendrawer">Open Bar</string>
+    <string name="generic_closedrawer">Close Bar</string>
     <string name="generic_movies">Movies</string>
     <string name="generic_ok">OK!</string>
 
@@ -57,10 +57,10 @@
     <string name="moviedetailfragment_releasedate">Release Date:</string>
     <string name="moviedetailfragment_votecount">%1$d votes</string>
     <string name="moviedetailfragment_failedtoloadgenre">Ops! Failed to load genres!</string>
-    <string name="moviedetailsfragment_removedfromwatched">Movie removed from \'Watched List\'</string>
-    <string name="moviedetailsfragment_addedaswatched">Movied added as watched!</string>
-    <string name="moviedetailsfragment_addedtowatchlater">Movie added to watch later!</string>
-    <string name="moviedetailfragment_movieremovedwatchlater">Movie removed from \'To Watch List\'</string>
+    <string name="moviedetailsfragment_removedfromwatched">Movie removed from your list of watched movies</string>
+    <string name="moviedetailsfragment_addedaswatched">Movie added your list of watched movies!</string>
+    <string name="moviedetailsfragment_addedtowatchlater">Movie added to your interest list!</string>
+    <string name="moviedetailfragment_movieremovedwatchlater">Movie removed from your interest list</string>
 
     <!--CastCrewFragment-->
     <string name="castcrewfragment_cast">Cast</string>
@@ -105,11 +105,11 @@
 
     <!--ListMovieWatchedFragment-->
     <string name="listmoviewatchedfragment_remove">Remove</string>
-    <string name="listmoviewatchedfragment_movieremoved">%1$s removed from \'Watched List\'</string>
+    <string name="listmoviewatchedfragment_movieremoved">%1$s removed from your list of watched movies</string>
 
     <!--ListMovieInterestFragment-->
     <string name="listmovieinterestfragment_remove">Remove</string>
-    <string name="listmovieinterestfragment_movieremoved">%1$s removed from \'To Watch List\'</string>
+    <string name="listmovieinterestfragment_movieremoved">%1$s removed from your interest list</string>
 
     <!--UserDetailFragment-->
     <string name="userdetailfragment_watchedgenres">Most Watched Genres</string>

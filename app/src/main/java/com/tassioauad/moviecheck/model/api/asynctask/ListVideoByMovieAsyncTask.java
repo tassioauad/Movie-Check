@@ -3,12 +3,12 @@ package com.tassioauad.moviecheck.model.api.asynctask;
 import android.content.Context;
 
 import com.tassioauad.moviecheck.model.api.asynctask.exception.BadRequestException;
-import com.tassioauad.moviecheck.model.api.resource.CastResource;
 import com.tassioauad.moviecheck.model.api.resource.VideoResource;
 import com.tassioauad.moviecheck.model.entity.Movie;
 import com.tassioauad.moviecheck.model.entity.Video;
 
 import java.util.List;
+import java.util.Locale;
 
 import retrofit.Response;
 
@@ -29,7 +29,7 @@ public class ListVideoByMovieAsyncTask extends GenericAsyncTask<Void, Void, List
     protected AsyncTaskResult<List<Video>> doInBackground(Void... params) {
 
         try {
-            Response<List<Video>> response = videoResource.listAllByMovie(movie.getId(), getApiKey()).execute();
+            Response<List<Video>> response = videoResource.listAllByMovie(movie.getId(), getApiKey(), Locale.getDefault().getLanguage()).execute();
             switch (response.code()) {
                 case HTTP_OK:
                     return new AsyncTaskResult<>(response.body());

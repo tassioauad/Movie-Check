@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,10 +20,10 @@
                 android:id="@+id/imageview_backdrop"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/poster_height"
-                android:background="@drawable/scrim"
                 android:adjustViewBounds="true"
-                android:transitionName="movieBackdrop"
-                android:scaleType="centerCrop" />
+                android:background="@drawable/scrim"
+                android:scaleType="centerCrop"
+                android:transitionName="movieBackdrop" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,10 +40,10 @@
                     android:id="@+id/imageview_poster"
                     android:layout_width="@dimen/poster_width"
                     android:layout_height="@dimen/poster_height"
-                    android:transitionName="moviePoster"
                     android:adjustViewBounds="true"
                     android:background="@drawable/scrim"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:transitionName="moviePoster" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -51,20 +51,40 @@
                     android:orientation="vertical">
 
                     <RatingBar
-                        android:id="@+id/ratingbar_vote"
+                        android:id="@+id/ratingbar_userclassification"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:theme="@style/RatingBarRed"
+                        android:layout_gravity="end"
                         android:numStars="5"
-                        android:isIndicator="true"
-                        android:layout_gravity="end" />
+                        android:visibility="invisible"/>
 
-                    <TextView
-                        android:id="@+id/textview_votecount"
-                        style="@style/TextNormal"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:text="@string/moviedetailfragment_votecount" />
+                        android:layout_gravity="end">
+
+                        <RatingBar
+                            android:id="@+id/ratingbar_criticclassification"
+                            android:theme="@style/RatingBarAccent"
+                            style="?android:attr/ratingBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:isIndicator="true"
+                            android:layout_gravity="end"
+                            android:numStars="5" />
+
+
+                        <TextView
+                            android:id="@+id/textview_votecount"
+                            style="@style/TextNormal"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/moviedetailfragment_votecount" />
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -75,9 +95,9 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
                             android:layout_gravity="center"
                             android:layout_marginBottom="10dp"
+                            android:gravity="center"
                             android:orientation="horizontal">
 
                             <TextView
@@ -152,14 +172,14 @@
         android:id="@+id/fab_interest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        app:backgroundTint="@color/gray"
-        app:borderWidth="0dp"
-        android:elevation="8dp"
-        android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
+        android:elevation="8dp"
         android:src="@drawable/towatch"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:backgroundTint="@color/gray"
+        app:borderWidth="0dp" />
 
 </RelativeLayout>

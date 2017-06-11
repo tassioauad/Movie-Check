@@ -7,6 +7,7 @@ import com.tassioauad.moviecheck.model.api.resource.GenreResource;
 import com.tassioauad.moviecheck.model.entity.Genre;
 
 import java.util.List;
+import java.util.Locale;
 
 import retrofit.Response;
 
@@ -25,7 +26,7 @@ public class ListAllMovieGenreAsyncTask extends GenericAsyncTask<Void, Void, Lis
     protected AsyncTaskResult<List<Genre>> doInBackground(Void... params) {
 
         try {
-            Response<List<Genre>> response = genreResource.listAllofMovie(getApiKey()).execute();
+            Response<List<Genre>> response = genreResource.listAllOfMovie(getApiKey(), Locale.getDefault().getLanguage()).execute();
             switch (response.code()) {
                 case HTTP_OK:
                     return new AsyncTaskResult<>(response.body());
