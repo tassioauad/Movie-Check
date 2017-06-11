@@ -25,7 +25,7 @@ public class ListUpComingMovieAsyncTaskTest extends AndroidTestCase {
         super.setUp();
 
         Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(new ItemTypeAdapterFactory(rootName))
+                .registerTypeAdapterFactory(new ItemTypeAdapterFactory())
                 .setDateFormat("yyyy'-'MM'-'dd")
                 .create();
 

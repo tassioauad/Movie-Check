@@ -24,7 +24,7 @@ public class MovieApiImplTest extends AndroidTestCase {
     public void setUp() throws Exception {
         super.setUp();
         Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(new ItemTypeAdapterFactory(rootName))
+                .registerTypeAdapterFactory(new ItemTypeAdapterFactory())
                 .setDateFormat("yyyy'-'MM'-'dd")
                 .create();
 
